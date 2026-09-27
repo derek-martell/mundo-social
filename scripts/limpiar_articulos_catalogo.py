@@ -32,9 +32,9 @@ for item in articulos:
         
         # Corrección de nombres mal cortados
         if a_clean == "Anjal" or a_clean == "Arcos Huaman" or a_clean == "Daniela" or a_clean == "Daniela Arcos Huaman":
-            a_clean = "Anjali Daniela Arcos Huamán"
-        elif a_clean == "Anjal, Daniela Arcos Huaman":
-            a_clean = "Anjali Daniela Arcos Huamán"
+            a_clean = "Anjaly Daniela Arcos Huamán"
+        elif a_clean == "Anjal, Daniela Arcos Huaman" or "anjali" in a_clean.lower():
+            a_clean = a_clean.replace("Anjali", "Anjaly")
         elif a_clean == "Mendoza Cruz Kat":
             a_clean = "Katia Mendoza Cruz"
         elif a_clean == "a Isabel" or a_clean == "a Isabel &":

@@ -269,7 +269,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
-      "Anjali Daniela Arcos Huamán"
+      "Anjaly Daniela Arcos Huamán"
     ],
     "tags": [
       "Econometría"
@@ -407,7 +407,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "junio 7, 2",
     "authors": [
-      "Anjali Daniela Arcos Huamán"
+      "Anjaly Daniela Arcos Huamán"
     ],
     "tags": [
       "Econometría"
@@ -741,7 +741,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
-      "Anjali Daniela Arcos Huamán"
+      "Anjaly Daniela Arcos Huamán"
     ],
     "tags": [
       "UNMSM"
@@ -809,7 +809,7 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "enero 21, ",
     "authors": [
-      "Anjali Daniela Arcos Huamán"
+      "Anjaly Daniela Arcos Huamán"
     ],
     "tags": [
       "Papers & Modelos"
@@ -826,7 +826,7 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "enero 21, ",
     "authors": [
-      "Anjali Daniela Arcos Huamán"
+      "Anjaly Daniela Arcos Huamán"
     ],
     "tags": [
       "Papers & Modelos",
@@ -844,7 +844,7 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "enero 21, ",
     "authors": [
-      "Anjali Daniela Arcos Huamán"
+      "Anjaly Daniela Arcos Huamán"
     ],
     "tags": [
       "Papers & Modelos"
@@ -1116,7 +1116,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "agosto 11,",
     "authors": [
-      "Anjali Daniela Arcos Huamán"
+      "Anjaly Daniela Arcos Huamán"
     ],
     "tags": [
       "Macroeconomía"
