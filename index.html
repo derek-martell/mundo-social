@@ -173,19 +173,19 @@
       <!-- Pestañas de Categoría Principal -->
       <div class="category-tabs" role="tablist" aria-label="Secciones del archivo">
         <button class="cat-tab active" data-category="Todos" role="tab">
-          Todos los recursos <span class="cat-badge-count">96</span>
+          <span class="cat-tab-full">Todos los recursos</span><span class="cat-tab-short">Todos</span> <span class="cat-badge-count">96</span>
         </button>
         <button class="cat-tab" data-category="Coyuntura" role="tab">
-          Notas de Coyuntura <span class="cat-badge-count">33</span>
+          <span class="cat-tab-full">Notas de Coyuntura</span><span class="cat-tab-short">Coyuntura</span> <span class="cat-badge-count">33</span>
         </button>
         <button class="cat-tab" data-category="Docencia" role="tab">
-          Apuntes & Exámenes UNMSM/MIT <span class="cat-badge-count">29</span>
+          <span class="cat-tab-full">Apuntes &amp; Exámenes UNMSM/MIT</span><span class="cat-tab-short">Docencia</span> <span class="cat-badge-count">29</span>
         </button>
         <button class="cat-tab" data-category="Investigación" role="tab">
-          Investigaciones & Papers <span class="cat-badge-count">6</span>
+          <span class="cat-tab-full">Investigaciones &amp; Papers</span><span class="cat-tab-short">Investigación</span> <span class="cat-badge-count">6</span>
         </button>
         <button class="cat-tab" data-category="Análisis" role="tab">
-          Artículos y Columnas <span class="cat-badge-count">28</span>
+          <span class="cat-tab-full">Artículos y Columnas</span><span class="cat-tab-short">Análisis</span> <span class="cat-badge-count">28</span>
         </button>
       </div>
 
@@ -264,7 +264,7 @@
         <div class="modal-toolbar-actions">
           <button id="modal-share-btn" type="button" class="modal-tool-btn" title="Copiar enlace al artículo">
             <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            Copiar enlace
+            <span class="modal-tool-btn-label">Copiar enlace</span>
           </button>
           <button id="modal-close" class="modal-close" aria-label="Cerrar ventana">✕</button>
         </div>
@@ -288,20 +288,22 @@
       <div class="modal-actions">
         <a id="modal-pdf-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary-action">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-          Descargar / Abrir Documento PDF
+          Descargar PDF
         </a>
-        <a id="modal-original-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn-secondary-action">
-          Ver enlace original
-        </a>
-        <button id="modal-preview-btn" type="button" class="btn-secondary-action" aria-expanded="false" aria-controls="modal-pdf-viewer">
-          Previsualizar PDF
-        </button>
-        <button id="modal-cite-btn" type="button" class="btn-secondary-action">
-          Copiar cita APA
-        </button>
+        <div class="modal-actions-secondary">
+          <a id="modal-original-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn-secondary-action">
+            Ver enlace original
+          </a>
+          <button id="modal-preview-btn" type="button" class="btn-secondary-action" aria-expanded="false" aria-controls="modal-pdf-viewer">
+            Vista previa
+          </button>
+          <button id="modal-cite-btn" type="button" class="btn-secondary-action" aria-expanded="false" aria-controls="modal-cite">
+            Copiar cita APA
+          </button>
+        </div>
       </div>
 
-      <div id="modal-cite" class="modal-cite">
+      <div id="modal-cite" class="modal-cite" hidden>
         <span class="modal-cite-label">Cita sugerida (APA 7)</span>
         <p id="modal-cite-text" class="modal-cite-text"></p>
         <span id="modal-cite-status" class="modal-cite-status" role="status" aria-live="polite"></span>

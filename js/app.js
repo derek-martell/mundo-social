@@ -44,6 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalPreviewBtn = document.getElementById("modal-preview-btn");
   const modalCiteBtn = document.getElementById("modal-cite-btn");
   const modalShareBtn = document.getElementById("modal-share-btn");
+  const modalShareLabel = modalShareBtn?.querySelector(".modal-tool-btn-label");
+  const modalCite = document.getElementById("modal-cite");
   const modalCiteText = document.getElementById("modal-cite-text");
   const modalCiteStatus = document.getElementById("modal-cite-status");
   const modalPdfViewer = document.getElementById("modal-pdf-viewer");
@@ -590,6 +592,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (modalCiteText) modalCiteText.textContent = formatAPA(item);
     if (modalCiteStatus) modalCiteStatus.textContent = "";
+    if (modalCite) modalCite.hidden = true;
+    modalCiteBtn?.setAttribute("aria-expanded", "false");
 
     modalOverlay.classList.add("active");
     document.body.style.overflow = "hidden";
@@ -613,7 +617,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalPdfViewer.hidden = true;
     modalPdfFrame?.removeAttribute("src");
     modalPreviewBtn?.setAttribute("aria-expanded", "false");
-    if (modalPreviewBtn) modalPreviewBtn.textContent = "Previsualizar PDF";
+    if (modalPreviewBtn) modalPreviewBtn.textContent = "Vista previa";
   }
 
   modalPreviewBtn?.addEventListener("click", () => {
@@ -632,21 +636,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!activeModalItem) return;
     const cite = formatAPA(activeModalItem);
     const ok = await copyText(cite);
+    if (modalCite) modalCite.hidden = false;
+    modalCiteBtn.setAttribute("aria-expanded", "true");
     if (modalCiteStatus) {
       modalCiteStatus.textContent = ok
         ? "Cita copiada al portapapeles."
         : "No pudimos copiar automáticamente. Selecciona la cita de arriba y cópiala.";
     }
+    const original = modalCiteBtn.textContent;
+    modalCiteBtn.textContent = ok ? "Copiada" : "Ver cita";
+    setTimeout(() => { modalCiteBtn.textContent = original; }, 1800);
   });
 
   modalShareBtn?.addEventListener("click", async () => {
     if (!activeModalItem) return;
     const link = articleUrl(activeModalItem);
     const ok = await copyText(link);
-    if (modalCiteStatus) {
-      modalCiteStatus.textContent = ok
-        ? "Enlace al artículo copiado al portapapeles."
-        : `No pudimos copiar automáticamente. Copia este enlace: ${link}`;
+    if (modalShareLabel) {
+      const original = modalShareLabel.textContent;
+      modalShareLabel.textContent = ok ? "¡Enlace copiado!" : "No se pudo copiar";
+      setTimeout(() => { modalShareLabel.textContent = original; }, 1800);
     }
   });
 
