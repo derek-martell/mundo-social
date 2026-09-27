@@ -643,7 +643,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     hidePdfViewer();
 
-    if (modalCiteText) modalCiteText.textContent = formatAPA(item);
+    try {
+      if (modalCiteText) modalCiteText.textContent = formatAPA(item);
+    } catch (citeErr) {
+      console.error("Error al generar cita APA:", citeErr);
+      if (modalCiteText) modalCiteText.textContent = item.title || "";
+    }
     if (modalCiteStatus) modalCiteStatus.textContent = "";
     if (modalCite) modalCite.hidden = true;
     modalCiteBtn?.setAttribute("aria-expanded", "false");
@@ -858,6 +863,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const t = isoTime(item.date);
     const year = t !== null ? item.date.slice(0, 4) : "s. f.";
+    const rawTitle = (item.title || "").trim();
+    const title = /[.?!]$/.test(rawTitle) ? rawTitle : `${rawTitle}.`;
     const url = item.pdf || `${window.location.origin}${window.location.pathname}#articulo-${item.id}`;
     const authorsPart = /\.$/.test(authors) ? authors : `${authors}.`;
     return `${authorsPart} (${year}). ${title} Mundo Social.${url ? ` ${url}` : ""}`;

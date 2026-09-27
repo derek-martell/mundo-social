@@ -141,16 +141,17 @@ function onFormSubmit(e) {
 // 3. VALIDACIÓN DE ENLACES (defensa contra "javascript:" y esquemas raros)
 // ============================================================================
 function esUrlHttpValida(url) {
-  return /^https?:\/\/[^\s<>"']+$/i.test(String(url || "").trim());
+  const clean = String(url || "").trim();
+  return clean.startsWith("http://") || clean.startsWith("https://");
 }
 
 function escapeHtmlSeguro(str) {
   return String(str == null ? "" : str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .split("&").join("&amp;")
+    .split("<").join("&lt;")
+    .split(">").join("&gt;")
+    .split('"').join("&quot;")
+    .split("'").join("&#039;");
 }
 
 // ============================================================================
