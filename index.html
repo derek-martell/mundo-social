@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/styles.css?v=20260927_2">
+  <link rel="stylesheet" href="css/styles.css?v=20260927_3">
   
   <link rel="icon" type="image/png" href="imagenes/logo-emblem.png">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f4c3a'/%3E%3Ctext x='32' y='41' font-size='26' font-family='Georgia, serif' font-weight='700' text-anchor='middle' fill='%23f3eee0'%3EMS%3C/text%3E%3Crect x='20' y='48' width='24' height='3' rx='1.5' fill='%23c9a24a'/%3E%3C/svg%3E">
@@ -31,86 +31,108 @@
 <body>
 
   <!-- ==========================================================================
-       BARRA DE NAVEGACIÓN PRINCIPAL
+       CABECERA Y MANCHETA EDITORIAL (ESTILO THE NEW YORK TIMES + ECONÓMICA)
        ========================================================================== -->
-  <header class="navbar">
-    <div class="wrap nav-container">
-      <a href="index.html" class="brand" aria-label="Mundo Social Inicio">
-        <div class="brand-logo-wrap">
-          <img src="imagenes/logo-transparent.png" alt="Logotipo Mundo Social" class="brand-logo-img logo-light">
-          <img src="imagenes/logo-dark-mode.png" alt="Logotipo Mundo Social" class="brand-logo-img logo-dark">
+  <header class="site-header">
+    <!-- Franja Superior de Utilidades & Fecha (NYTimes Top Bar) -->
+    <div class="top-utility-bar">
+      <div class="wrap top-utility-inner">
+        <div class="top-utility-left">
+          <time id="hero-date" class="top-date"></time>
+          <span class="top-sep">&bull;</span>
+          <span class="top-edition">Edición Digital</span>
+          <span class="top-sep">&bull;</span>
+          <span class="top-inst">FCE &bull; UNMSM</span>
         </div>
-        <div class="brand-text">
-          <span class="brand-title">Mundo Social</span>
-          <span class="brand-sub">Economía & Sociedad</span>
+        <div class="top-utility-right">
+          <div class="top-social-links">
+            <a href="https://www.linkedin.com/company/mundo-social-2023/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            </a>
+            <a href="https://instagram.com/mundosocial_2023" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+          </div>
+          <button id="theme-toggle" class="theme-toggle" type="button" title="Alternar entre modo claro y oscuro" aria-label="Cambiar tema">
+            <!-- Luna (Modo Oscuro) -->
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <!-- Sol (Modo Claro) -->
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+          <a href="admin/index.html" class="btn-admin" title="Panel de Redacción y Publicación">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            Redacción
+          </a>
         </div>
-      </a>
+      </div>
+    </div>
 
-      <nav aria-label="Navegación principal">
-        <ul class="nav-menu">
-          <li><a href="#articulos" class="nav-link active" data-category="Todos">Publicaciones</a></li>
-          <li><a href="#articulos" class="nav-link" data-category="Coyuntura">Coyuntura</a></li>
-          <li><a href="#articulos" class="nav-link" data-category="Docencia">Docencia & UNMSM</a></li>
-          <li><a href="#articulos" class="nav-link" data-category="Investigación">Investigación</a></li>
-          <li><a href="#nosotros" class="nav-link" data-category="Nosotros">Nosotros</a></li>
-        </ul>
-      </nav>
-
-      <div class="nav-actions">
-        <button id="theme-toggle" class="theme-toggle" type="button" title="Alternar entre modo claro y oscuro" aria-label="Cambiar tema">
-          <!-- Luna (Modo Oscuro) -->
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-          <!-- Sol (Modo Claro) -->
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-        </button>
-
-        <a href="admin/index.html" class="btn-admin" title="Panel de Redacción y Publicación">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          Editor
+    <!-- Gran Mancheta Central (Masthead Broadsheet) -->
+    <div class="masthead-main">
+      <div class="wrap masthead-center-block">
+        <a href="index.html" class="masthead-brand" aria-label="Mundo Social - Inicio">
+          <div class="masthead-logo-wrap">
+            <img src="imagenes/logo-transparent.png" alt="Logotipo Mundo Social" class="masthead-logo-img logo-light">
+            <img src="imagenes/logo-dark-mode.png" alt="Logotipo Mundo Social" class="masthead-logo-img logo-dark">
+          </div>
+          <div class="masthead-titles">
+            <span class="masthead-title">MUNDO SOCIAL</span>
+            <span class="masthead-tagline">Revista de Economía Política, Investigación Aplicada &amp; Repositorio Académico</span>
+            <span class="masthead-sub-tagline">Facultad de Ciencias Económicas &bull; Universidad Nacional Mayor de San Marcos &bull; Lima, Perú</span>
+          </div>
         </a>
       </div>
     </div>
+
+    <!-- Cinta de Navegación por Secciones (Sticky Ribbon con doble filete fino) -->
+    <nav class="navbar" aria-label="Navegación principal">
+      <div class="wrap nav-container">
+        <ul class="nav-menu">
+          <li><a href="#articulos" class="nav-link active" data-category="Todos">Portada &amp; Archivo</a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Coyuntura">Coyuntura <span class="nav-badge-pill" data-stat="Coyuntura">33</span></a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Docencia">Docencia &amp; UNMSM <span class="nav-badge-pill" data-stat="Docencia">28</span></a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Investigación">Investigación <span class="nav-badge-pill" data-stat="Investigación">4</span></a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Análisis">Análisis <span class="nav-badge-pill" data-stat="Análisis">31</span></a></li>
+          <li><a href="#hub-apuntes" class="nav-link" data-category="Docencia">Hub de Exámenes</a></li>
+          <li><a href="#nosotros" class="nav-link" data-category="Nosotros">Manifiesto</a></li>
+        </ul>
+      </div>
+    </nav>
   </header>
 
   <!-- ==========================================================================
-       HERO PRINCIPAL
+       HERO PRINCIPAL / PORTADILLA EDITORIAL
        ========================================================================== -->
   <section class="hero">
     <div class="wrap">
-      <div class="masthead-line">
-        <time id="hero-date" class="masthead-date"></time>
-        <span class="hero-archive-badge">Archivo Digital de Economía Política &amp; Sociedad</span>
-        <span class="masthead-place">Lima, Perú</span>
+      <div class="hero-editorial-lead">
+        <div class="hero-kicker-strip">
+          <span class="hero-kicker-badge">PENSAMIENTO ECONÓMICO &bull; PERÚ</span>
+          <span class="hero-motto">"El rigor técnico de la teoría al servicio del debate público"</span>
+        </div>
+        <h1 class="hero-title">
+          Análisis económico riguroso, <em>investigación aplicada</em> y docencia universitaria.
+        </h1>
+        <p class="hero-desc">
+          Un espacio fundado en la Facultad de Ciencias Económicas (UNMSM) para tender puentes entre la modelación teórica, la coyuntura del país y el debate académico internacional.
+        </p>
       </div>
 
-      <div class="hero-meta">
-        <span class="hero-meta-dot"></span>
-        <span>Portal de Divulgación Económica & Repositorio Académico</span>
-      </div>
-
-      <h1 class="hero-title">
-        Análisis económico riguroso, <em>investigación aplicada</em> y docencia universitaria.
-      </h1>
-
-      <p class="hero-desc">
-        Un espacio fundado en la Facultad de Ciencias Económicas (UNMSM) para tender puentes entre la teoría económica, la coyuntura del Perú y el debate internacional.
-      </p>
-
-      <!-- Buscador en tiempo real -->
+      <!-- Buscador en tiempo real estilo NYTimes / Económica -->
       <div class="search-box-wrap">
-        <label for="search-input" class="search-label">Buscar en el archivo</label>
+        <label for="search-input" class="search-label">Buscar en el archivo (96 publicaciones)</label>
         <div class="search-box">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <input type="search" id="search-input" class="search-input" placeholder="Buscar por tema, autor, curso o palabra clave (ej. MIT, BCRP, Solow, Deuda)..." autocomplete="off">
@@ -119,7 +141,7 @@
         </div>
       </div>
 
-      <!-- Métricas del acervo -->
+      <!-- Métricas del acervo estilo Broadsheet -->
       <div class="hero-stats">
         <div class="stat-item">
           <span class="stat-num" data-stat="total">96</span>
@@ -131,11 +153,11 @@
         </div>
         <div class="stat-item">
           <span class="stat-num" data-stat="Docencia">28</span>
-          <span class="stat-label">Apuntes & Exámenes</span>
+          <span class="stat-label">Apuntes &amp; Solucionarios</span>
         </div>
         <div class="stat-item">
           <span class="stat-num" data-stat="pdf">76</span>
-          <span class="stat-label">Informes en PDF</span>
+          <span class="stat-label">Documentos en PDF</span>
         </div>
       </div>
     </div>
@@ -355,7 +377,7 @@
   </footer>
 
   <!-- Datos y Lógica de la Aplicación -->
-  <script src="js/articulos-data.js?v=20260927_2"></script>
-  <script src="js/app.js?v=20260927_2"></script>
+  <script src="js/articulos-data.js?v=20260927_3"></script>
+  <script src="js/app.js?v=20260927_3"></script>
 </body>
 </html>

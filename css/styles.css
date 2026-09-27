@@ -157,49 +157,124 @@ button {
   padding: 0 1.5rem;
 }
 
-/* 03. NAVEGACIÓN ========================================================== */
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--bg);
+/* 03. CABECERA & MANCHETA BROADSHEET (ESTILO THE NEW YORK TIMES + ECONÓMICA) === */
+.site-header {
+  background-color: var(--bg);
+  background-image: var(--paper);
   border-bottom: 1px solid var(--ink);
   transition: background-color var(--trans), border-color var(--trans);
 }
 
-.nav-container {
+/* Franja superior de utilidades (Top Bar) */
+.top-utility-bar {
+  border-bottom: var(--hairline);
+  background: rgba(0, 0, 0, 0.015);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--mute);
+}
+[data-theme="dark"] .top-utility-bar {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.top-utility-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  height: 2.3rem;
   gap: 1rem;
 }
 
-.brand {
+.top-utility-left {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  gap: 0.5rem;
+  white-space: nowrap;
+  font-weight: 500;
 }
 
-.brand-logo-wrap {
+.top-date {
+  color: var(--ink);
+  font-weight: 600;
+}
+.top-date::first-letter {
+  text-transform: uppercase;
+}
+
+.top-sep {
+  color: var(--line-strong);
+}
+
+.top-edition, .top-inst {
+  color: var(--mute);
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+}
+
+.top-utility-right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.top-social-links {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--mute);
+}
+
+.top-social-links a {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  color: var(--mute);
+  transition: color var(--trans);
 }
 
-.brand-logo-img {
-  height: 2.7rem;
+.top-social-links a:hover {
+  color: var(--verde);
+}
+
+/* Gran Mancheta Central (Masthead) */
+.masthead-main {
+  padding: 1.6rem 0 1.25rem;
+  border-bottom: 3px double var(--ink);
+  text-align: center;
+}
+
+.masthead-center-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.masthead-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.masthead-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.masthead-logo-img {
+  height: 3.8rem;
   width: auto;
-  max-width: 140px;
+  max-width: 220px;
   object-fit: contain;
   transition: transform var(--trans);
 }
 
-.brand:hover .brand-logo-img {
-  transform: scale(1.04);
+.masthead-brand:hover .masthead-logo-img {
+  transform: scale(1.02);
 }
 
 /* Visibilidad de logotipos según el tema claro / oscuro */
@@ -221,6 +296,169 @@ button {
   display: block !important;
 }
 
+.masthead-titles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.masthead-title {
+  font-family: var(--serif);
+  font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.masthead-tagline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-secondary);
+  max-width: 65ch;
+  line-height: 1.35;
+}
+
+.masthead-sub-tagline {
+  font-family: var(--display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--mute);
+  margin-top: 0.2rem;
+}
+
+/* Cinta de Navegación Pegajosa (Sticky Section Ribbon) */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bg);
+  background-image: var(--paper);
+  border-bottom: 1px solid var(--ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.85rem;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.8rem;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+  width: 100%;
+}
+.nav-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-link {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-secondary);
+  position: relative;
+  padding: 0.6rem 0.2rem;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color var(--trans);
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--verde);
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background: var(--verde);
+}
+
+.nav-badge-pill {
+  font-size: 0.62rem;
+  font-variant-numeric: tabular-nums;
+  background: var(--verde-suave);
+  color: var(--verde);
+  padding: 0.1rem 0.38rem;
+  border-radius: var(--radio-pill);
+  font-weight: 700;
+  line-height: 1;
+}
+
+[data-theme="dark"] .nav-badge-pill {
+  background: rgba(96, 201, 154, 0.15);
+  color: var(--verde);
+}
+
+/* Botones de acción y temas */
+.theme-toggle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radio-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  transition: color var(--trans), border-color var(--trans), background var(--trans);
+}
+
+.theme-toggle:hover {
+  color: var(--verde);
+  border-color: var(--verde);
+  background: var(--panel);
+}
+
+.theme-toggle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+[data-theme="light"] .icon-sun,
+[data-theme="dark"] .icon-moon {
+  display: none;
+}
+
+.btn-admin {
+  min-height: 2rem;
+  padding: 0 0.75rem;
+  border-radius: var(--radio-sm);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--verde);
+  border: 1px solid var(--verde);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: background-color var(--trans), color var(--trans);
+}
+
+.btn-admin:hover {
+  background: var(--verde);
+  color: #fff;
+}
+
 .footer-brand-col {
   display: flex;
   flex-direction: column;
@@ -239,187 +477,52 @@ button {
   object-fit: contain;
 }
 
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.brand-title {
-  font-family: var(--serif);
-  color: var(--ink);
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.brand-sub {
-  font-size: 0.66rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--mute);
-}
-
-.nav-menu {
-  display: flex;
-  align-items: center;
-  gap: 1.6rem;
-  list-style: none;
-}
-
-.nav-link {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ink-secondary);
-  position: relative;
-  padding: 0.4rem 0;
-  transition: color var(--trans);
-}
-
-.nav-link:hover, .nav-link.active {
-  color: var(--verde);
-}
-
-.nav-link.active::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--laton);
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.theme-toggle {
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: var(--radio-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--line-strong);
-  color: var(--ink);
-  transition: color var(--trans), border-color var(--trans);
-}
-
-.theme-toggle:hover {
-  color: var(--verde);
-  border-color: var(--verde);
-}
-
-.theme-toggle svg {
-  width: 1.1rem;
-  height: 1.1rem;
-}
-
-[data-theme="light"] .icon-sun,
-[data-theme="dark"] .icon-moon {
-  display: none;
-}
-
-.btn-admin {
-  min-height: 2.4rem;
-  padding: 0 0.9rem;
-  border-radius: var(--radio-sm);
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--verde);
-  border: 1px solid var(--verde);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: background-color var(--trans), color var(--trans);
-}
-
-.btn-admin:hover {
-  background: var(--verde);
-  color: var(--bg);
-}
-
-/* 04. HERO / PORTADILLA =================================================== */
+/* 04. HERO / PORTADILLA EDITORIAL ========================================= */
 .hero {
-  padding: 3rem 0 0;
+  padding: 2.5rem 0 1rem;
   background-image: var(--paper);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1.5rem;
 }
 
-/* Filete de cabecera: fecha de edición, sello del archivo y plaza (doble filete fino) */
-.masthead-line {
+.hero-editorial-lead {
+  margin-bottom: 1.8rem;
+}
+
+.hero-kicker-strip {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: baseline;
   flex-wrap: wrap;
-  gap: 0.4rem 1.5rem;
-  padding: 0.5rem 0;
-  margin-bottom: 1.75rem;
-  border-top: 1px solid var(--line-strong);
-  border-bottom: 1px solid var(--line-strong);
-  outline: 1px solid var(--line);
-  outline-offset: 3px;
-  clip-path: inset(-4px 0);
-  font: var(--folio-font);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--mute);
-}
-
-.masthead-date::first-letter {
-  text-transform: uppercase;
-}
-
-.hero-archive-badge {
-  color: var(--verde);
-  font-weight: 600;
-  padding: 0.15rem 0.6rem;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radio-sm);
-}
-
-.hero-meta {
-  display: flex;
-  align-items: center;
   gap: 0.75rem;
-  font: var(--folio-font);
-  font-size: 0.72rem;
-  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.hero-kicker-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
   letter-spacing: 0.12em;
+  color: var(--verde);
+  text-transform: uppercase;
+  border-left: 3px solid var(--verde);
+  padding-left: 0.5rem;
+}
+
+.hero-motto {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.9rem;
   color: var(--mute);
-  margin-bottom: 1.4rem;
-}
-
-.hero-meta::after {
-  content: "";
-  flex: 1;
-  border-top: var(--hairline);
-}
-
-.hero-meta-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--laton);
-  transform: rotate(45deg);
-  flex-shrink: 0;
 }
 
 .hero-title {
   font-family: var(--serif);
-  font-size: clamp(2rem, 4.4vw, 3.5rem);
-  font-weight: 600;
-  line-height: 1.12;
+  font-size: clamp(2rem, 3.8vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.14;
   letter-spacing: -0.02em;
   color: var(--ink);
-  max-width: 20ch;
-  margin-bottom: 1.2rem;
+  max-width: 22ch;
+  margin-bottom: 1rem;
   text-wrap: balance;
 }
 
@@ -431,10 +534,9 @@ button {
 
 .hero-desc {
   font-family: var(--serif);
-  font-size: 1.12rem;
+  font-size: 1.1rem;
   color: var(--ink-secondary);
-  max-width: 60ch;
-  margin-bottom: 2rem;
+  max-width: 68ch;
   line-height: 1.6;
 }
 
