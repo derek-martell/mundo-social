@@ -64,7 +64,12 @@
   /* Textura de papel (ruido muy tenue) */
   --paper: url("data:image/svg+xml,%3Csvg xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 
-  --trans: 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Curvas y tiempos de interacción (Emil Kowalski Design Engineering) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --trans: 180ms var(--ease-out);
+  --trans-fast: 120ms var(--ease-out);
+  --trans-spring: 220ms var(--ease-spring);
   --max-w: 1200px;
 
   --display: "Schibsted Grotesk", system-ui, -apple-system, sans-serif;
@@ -146,8 +151,37 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--verde);
+  outline: 2px solid var(--laton-oscuro);
   outline-offset: 2px;
+}
+
+/* Browser surfaces (Impeccable Craft Floor: selección, scrollbar y caret) */
+::selection {
+  background-color: var(--verde);
+  color: #ffffff;
+}
+
+[data-theme="dark"] ::selection {
+  background-color: var(--laton);
+  color: var(--bg);
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: var(--radio-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mute);
 }
 
 .wrap {
@@ -270,11 +304,6 @@ button {
   width: auto;
   max-width: 320px;
   object-fit: contain;
-  transition: transform var(--trans);
-}
-
-.masthead-brand:hover .masthead-logo-img {
-  transform: scale(1.02);
 }
 
 /* Visibilidad de logotipos según el tema claro / oscuro */
@@ -442,13 +471,17 @@ button {
   justify-content: center;
   border: 1px solid var(--line);
   color: var(--ink);
-  transition: color var(--trans), border-color var(--trans), background var(--trans);
+  transition: transform 140ms var(--ease-out), color var(--trans), border-color var(--trans), background var(--trans);
 }
 
 .theme-toggle:hover {
   color: var(--verde);
   border-color: var(--verde);
   background: var(--panel);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
 }
 
 .theme-toggle svg {
@@ -474,12 +507,16 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  transition: background-color var(--trans), color var(--trans);
+  transition: transform 140ms var(--ease-out), background-color var(--trans), color var(--trans);
 }
 
 .btn-admin:hover {
   background: var(--verde);
   color: #fff;
+}
+
+.btn-admin:active {
+  transform: scale(0.96);
 }
 
 .footer-brand-col {
@@ -635,6 +672,7 @@ button {
   font-size: 1rem;
   font-family: inherit;
   color: var(--ink);
+  caret-color: var(--verde);
 }
 
 .search-input::placeholder {
@@ -652,10 +690,15 @@ button {
   font-size: 0.85rem;
   border-radius: var(--radio-sm);
   display: none;
+  transition: transform 140ms var(--ease-out), color var(--trans);
 }
 
 .search-clear:hover {
   color: var(--ink);
+}
+
+.search-clear:active {
+  transform: scale(0.92);
 }
 
 /* Métricas del acervo: tira con filetes */
@@ -727,7 +770,11 @@ button {
   border-right: var(--hairline);
   border-bottom: 3px solid transparent;
   margin-bottom: -1px;
-  transition: color var(--trans), border-color var(--trans), background-color var(--trans);
+  transition: transform 140ms var(--ease-out), color var(--trans), border-color var(--trans), background-color var(--trans);
+}
+
+.cat-tab:active {
+  transform: scale(0.97);
 }
 
 .cat-tab:first-child {
@@ -774,7 +821,11 @@ button {
   background: var(--panel);
   border: 1px solid var(--line);
   border-left: 3px solid var(--line-strong);
-  transition: border-color var(--trans), background-color var(--trans), color var(--trans);
+  transition: transform 140ms var(--ease-out), border-color var(--trans), background-color var(--trans), color var(--trans);
+}
+
+.tag-chip:active {
+  transform: scale(0.96);
 }
 
 .tag-chip:hover {
@@ -881,6 +932,7 @@ button {
 
 /* Titulares enlazados: subrayado editorial en hover */
 .lead-title, .secondary-title, .brief-title, .dossier-title, .card-title {
+  text-wrap: balance;
   text-decoration: underline;
   text-decoration-color: transparent;
   text-decoration-thickness: 1px;
@@ -925,12 +977,13 @@ button {
   border: var(--hairline);
   border-top: 4px solid var(--verde);
   border-radius: var(--radio-sm);
-  transition: border-color var(--trans);
+  transition: border-color var(--trans), box-shadow var(--trans), transform var(--trans);
 }
 
 .card--lead:hover {
   border-color: var(--line-strong);
   border-top-color: var(--verde);
+  box-shadow: var(--sombra);
 }
 
 .lead-title {
@@ -1062,11 +1115,16 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  transition: transform 140ms var(--ease-out), color var(--trans);
 }
 
 .gaceta-more:hover {
   text-decoration: underline;
   text-underline-offset: 0.2em;
+}
+
+.gaceta-more:active {
+  transform: scale(0.97);
 }
 
 /* 08. HUB DE APUNTES Y EXÁMENES =========================================== */
@@ -1108,7 +1166,7 @@ button {
   border: 1px solid var(--line-strong);
   border-radius: var(--radio-sm);
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
-  transition: border-color var(--trans), transform var(--trans);
+  transition: border-color var(--trans), transform var(--trans), box-shadow var(--trans);
 }
 
 .dossier-card::after {
@@ -1123,6 +1181,8 @@ button {
 
 .dossier-card:hover {
   border-color: var(--laton);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra);
 }
 
 /* El clip-path recorta el contorno exterior: foco hacia dentro */
@@ -1217,7 +1277,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: border-color var(--trans), background-color var(--trans);
+  transition: border-color var(--trans), background-color var(--trans), box-shadow var(--trans), transform var(--trans);
   position: relative;
   border-top: 2px solid var(--line-strong);
 }
@@ -1225,6 +1285,8 @@ button {
 .card:hover {
   border-color: var(--line-strong);
   background-color: var(--panel-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra);
 }
 
 /* Género editorial: filete superior y folio de ficha según el tipo */
@@ -1349,7 +1411,11 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  transition: gap var(--trans);
+  transition: transform 140ms var(--ease-out), gap var(--trans), color var(--trans);
+}
+
+.btn-read:active {
+  transform: scale(0.96);
 }
 
 [data-open-id]:hover .btn-read {
@@ -1369,13 +1435,17 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  transition: background-color var(--trans), color var(--trans), border-color var(--trans);
+  transition: transform 140ms var(--ease-out), background-color var(--trans), color var(--trans), border-color var(--trans);
 }
 
 .btn-pdf:hover {
   background: var(--verde);
   border-color: var(--verde);
   color: var(--bg);
+}
+
+.btn-pdf:active {
+  transform: scale(0.96);
 }
 
 .btn-pdf svg {
@@ -1400,13 +1470,17 @@ button {
   padding: 0 0.55rem;
   border: 1px dashed var(--line-strong);
   border-radius: var(--radio-sm);
-  transition: color var(--trans), border-color var(--trans);
+  transition: transform 140ms var(--ease-out), color var(--trans), border-color var(--trans), background-color var(--trans);
 }
 
 .btn-cite-mini:hover {
   color: var(--laton-oscuro);
   border-color: var(--laton);
   border-style: solid;
+}
+
+.btn-cite-mini:active {
+  transform: scale(0.94);
 }
 
 .btn-cite-mini.is-done {
@@ -1444,20 +1518,28 @@ button {
   font-size: 0.95rem;
 }
 
-/* 11. MODAL =============================================================== */
+/* 11. MODAL (Emil Kowalski Interruptible Entrance & Backdrop Blur) ========== */
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(12, 17, 16, 0.72);
   z-index: 1000;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  transition: opacity 180ms var(--ease-out), visibility 180ms var(--ease-out);
 }
 
 .modal-overlay.active {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .modal-card {
@@ -1473,12 +1555,15 @@ button {
   box-shadow: var(--sombra-lg);
   padding: 2.25rem 2.25rem 2rem;
   position: relative;
-  animation: modalIn 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: scale(0.96);
+  opacity: 0;
+  transform-origin: center;
+  transition: transform 220ms var(--ease-spring), opacity 180ms var(--ease-out);
 }
 
-@keyframes modalIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+.modal-overlay.active .modal-card {
+  transform: scale(1);
+  opacity: 1;
 }
 
 /* Atril de lectura: barra superior fija con acciones */
@@ -1526,13 +1611,17 @@ button {
   color: var(--panel);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radio-sm);
-  transition: color var(--trans), border-color var(--trans), background-color var(--trans);
+  transition: transform 140ms var(--ease-out), color var(--trans), border-color var(--trans), background-color var(--trans);
 }
 
 .modal-tool-btn:hover {
   color: var(--panel);
   border-color: var(--panel);
   background-color: rgba(255, 255, 255, 0.12);
+}
+
+.modal-tool-btn:active {
+  transform: scale(0.96);
 }
 
 .modal-close {
@@ -1544,12 +1633,17 @@ button {
   justify-content: center;
   color: var(--panel);
   border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: transform 140ms var(--ease-out), color var(--trans), border-color var(--trans), background-color var(--trans);
 }
 
 .modal-close:hover {
   color: var(--panel);
   border-color: var(--panel);
   background-color: rgba(255, 255, 255, 0.12);
+}
+
+.modal-close:active {
+  transform: scale(0.95);
 }
 
 .modal-meta {
@@ -1569,6 +1663,7 @@ button {
   overflow-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
+  text-wrap: balance;
 }
 
 .modal-authors-box {
@@ -1593,6 +1688,7 @@ button {
   font-size: 1.08rem;
   line-height: 1.7;
   color: var(--ink-secondary);
+  max-width: 68ch;
   margin-bottom: 1.75rem;
 }
 
@@ -1620,7 +1716,12 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: background-color var(--trans), border-color var(--trans), color var(--trans);
+  transition: transform 140ms var(--ease-out), background-color var(--trans), border-color var(--trans), color var(--trans), box-shadow var(--trans);
+}
+
+.btn-primary-action:active,
+.btn-secondary-action:active {
+  transform: scale(0.98);
 }
 
 .btn-primary-action {
@@ -2012,7 +2113,23 @@ button {
     transition-duration: 0.01ms !important;
   }
   .card:hover,
+  .card--lead:hover,
   .dossier-card:hover {
+    transform: none;
+  }
+  .btn-primary-action:active,
+  .btn-secondary-action:active,
+  .btn-read:active,
+  .btn-pdf:active,
+  .btn-cite-mini:active,
+  .modal-tool-btn:active,
+  .modal-close:active,
+  .cat-tab:active,
+  .tag-chip:active,
+  .theme-toggle:active,
+  .btn-admin:active,
+  .gaceta-more:active,
+  .search-clear:active {
     transform: none;
   }
 }
