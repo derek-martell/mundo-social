@@ -162,14 +162,13 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "marzo 7, 2",
     "authors": [
-      "Mendoza Cruz Kat",
-      "a Isabel &"
+      "Mendoza Cruz Katia Isabel"
     ],
     "tags": [
       "Finanzas",
       "Matemáticas"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Mendoza Cruz Kat, a Isabel & para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Mendoza Cruz Katia Isabel para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/03/PEREDO-MENDOZA-MATE-FINANCIERA.pdf",
     "url_original": "https://mundo-social.com/apuntes/matematica-financiera-inversiones-valoracion-de-bonos-sistemas-de-amortizacion-y-anualidades/"
   },
@@ -233,13 +232,12 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
-      "Fabbiana Marcala",
-      "a Leiva"
+      "Fabbiana Marcalaya Leiva"
     ],
     "tags": [
       "Microeconomía"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Fabbiana Marcala, a Leiva para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Fabbiana Marcalaya Leiva para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/03/Fabbiana-Marcalaya-1.pdf",
     "url_original": "https://mundo-social.com/apuntes/competencia-imperfecta-y-discriminacion-de-precios-un-enfoque-teorico-del-dumping/"
   },
@@ -268,13 +266,12 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
-      "Anjal",
-      "Arcos Huaman"
+      "Anjali Arcos Huaman"
     ],
     "tags": [
       "Econometría"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Anjal, Arcos Huaman para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Anjali Arcos Huaman para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/03/Nota_academica_Econometria-2-2.pdf",
     "url_original": "https://mundo-social.com/apuntes/violaciones-de-supuestos-econometricos-causas-consecuencias-y-solucione/"
   },
@@ -373,13 +370,12 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "junio 8, 2",
     "authors": [
-      "Mendoza Cruz Kat",
-      "a Isabel"
+      "Mendoza Cruz Katia Isabel"
     ],
     "tags": [
       "Economía"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Mendoza Cruz Kat, a Isabel para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Mendoza Cruz Katia Isabel para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/06/Guia-didactica-para-leer-estados-financieros.pdf",
     "url_original": "https://mundo-social.com/apuntes/guia-didactica-para-leer-estados-financieros/"
   },
@@ -408,13 +404,12 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "junio 7, 2",
     "authors": [
-      "Anjal",
-      "Arcos Huaman"
+      "Anjali Arcos Huaman"
     ],
     "tags": [
       "Econometría"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Anjal, Arcos Huaman para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Anjali Arcos Huaman para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/06/Nota_academica_Econometria_II-1.pdf",
     "url_original": "https://mundo-social.com/apuntes/modelos-no-lineales-en-econometria/"
   },
@@ -892,13 +887,12 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "agosto 9, ",
     "authors": [
-      "Joseph Irvin Jherem",
-      "es Falla"
+      "Joseph Irvin Jheremes Falla"
     ],
     "tags": [
       "Microeconomía"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Joseph Irvin Jherem, es Falla para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Joseph Irvin Jheremes Falla para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/08/Introduccion_a_las_distorsiones.pdf",
     "url_original": "https://mundo-social.com/apuntes/introduccion-a-las-distorsiones-o-imperfecciones-de-mercado-la-eficiencia-de-pareto-el-bienestar-de-mercado-y-taxonomia-de-distorsiones/"
   },

@@ -1468,6 +1468,8 @@ button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .modal-toolbar-actions {
@@ -1855,10 +1857,7 @@ button {
     padding: 0.5rem 0.75rem 0.5rem 1.25rem;
   }
   .modal-toolbar-label {
-    display: none;
-  }
-  .modal-toolbar {
-    justify-content: flex-end;
+    font-size: 0.7rem;
   }
   .search-matches {
     display: none;
