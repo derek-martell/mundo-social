@@ -183,23 +183,60 @@ button {
   letter-spacing: -0.02em;
 }
 
-.brand-icon {
-  width: 2.3rem;
-  height: 2.3rem;
-  border-radius: var(--radio-sm);
-  background: var(--verde);
-  color: #f3eee0;
+.brand-logo-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--serif);
-  font-weight: 700;
-  font-size: 1rem;
-  border-bottom: 3px solid var(--laton);
+  flex-shrink: 0;
 }
-[data-theme="dark"] .brand-icon {
-  background: var(--verde-oscuro);
-  color: var(--laton);
+
+.brand-logo-img {
+  height: 2.7rem;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  transition: transform var(--trans);
+}
+
+.brand:hover .brand-logo-img {
+  transform: scale(1.04);
+}
+
+/* Visibilidad de logotipos según el tema claro / oscuro */
+[data-theme="light"] .logo-dark,
+:root:not([data-theme="dark"]) .logo-dark {
+  display: none !important;
+}
+
+[data-theme="light"] .logo-light,
+:root:not([data-theme="dark"]) .logo-light {
+  display: block !important;
+}
+
+[data-theme="dark"] .logo-light {
+  display: none !important;
+}
+
+[data-theme="dark"] .logo-dark {
+  display: block !important;
+}
+
+.footer-brand-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-logo-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.footer-logo-img {
+  height: 2.3rem;
+  width: auto;
+  object-fit: contain;
 }
 
 .brand-text {
