@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentTag = "";
   let searchQuery = "";
   let activeModalItem = null;
+  let lastFocused = null;
 
   // Elementos del DOM
   const grid = document.getElementById("articles-grid");
@@ -18,9 +19,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const categoryTabs = document.querySelectorAll(".cat-tab");
   const tagChips = document.querySelectorAll(".tag-chip");
   const themeToggle = document.getElementById("theme-toggle");
-  
+
+  // Portada editorial
+  const editorialLayout = document.getElementById("editorial-layout");
+  const leadSlot = document.getElementById("lead-slot");
+  const secondaryGrid = document.getElementById("secondary-grid");
+  const gacetaList = document.getElementById("gaceta-list");
+  const hubApuntes = document.getElementById("hub-apuntes");
+  const hubGrid = document.getElementById("hub-grid");
+  const archiveHeading = document.getElementById("archive-heading");
+
   // Modal
   const modalOverlay = document.getElementById("modal-overlay");
+  const modalCard = modalOverlay?.querySelector(".modal-card");
   const modalClose = document.getElementById("modal-close");
   const modalTitle = document.getElementById("modal-title");
   const modalBadge = document.getElementById("modal-badge");
@@ -29,11 +40,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalResumen = document.getElementById("modal-resumen");
   const modalPdfBtn = document.getElementById("modal-pdf-btn");
   const modalOriginalBtn = document.getElementById("modal-original-btn");
+  const modalPreviewBtn = document.getElementById("modal-preview-btn");
+  const modalCiteBtn = document.getElementById("modal-cite-btn");
+  const modalCiteText = document.getElementById("modal-cite-text");
+  const modalCiteStatus = document.getElementById("modal-cite-status");
+  const modalPdfViewer = document.getElementById("modal-pdf-viewer");
+  const modalPdfFrame = document.getElementById("modal-pdf-frame");
+  const modalPdfFallback = document.getElementById("modal-pdf-fallback");
+
+  const MESES_CORTOS = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"];
+  const MESES_LARGOS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  const INSTITUCIONES = { "UNMSM": "UNMSM", "MIT": "MIT" };
+  const CURSOS = ["Macroeconomía", "Microeconomía", "Econometría", "Matemáticas", "Finanzas"];
+  const ICON_PDF = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>`;
 
   // ==========================================================================
   // 1. TEMA CLARO / OSCURO (Sincronizado y persistente)
   // ==========================================================================
-  const savedTheme = localStorage.getItem("mundo-social-theme") || 
+  const savedTheme = localStorage.getItem("mundo-social-theme") ||
     (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   document.documentElement.setAttribute("data-theme", savedTheme);
 
@@ -45,10 +69,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================================================
-  // 2. RENDERIZADO DE TARJETAS
+  // 2. RENDERIZADO
   // ==========================================================================
   function render() {
     if (!grid) return;
+
+    const q = searchQuery.toLowerCase().trim();
 
     // Filtrar publicaciones
     const filtered = ARTICULOS_DATA.filter(item => {
@@ -59,8 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const matchesTag = !currentTag || (item.tags && item.tags.includes(currentTag));
 
       // Filtro de Búsqueda de Texto
-      const q = searchQuery.toLowerCase().trim();
-      const matchesSearch = !q || 
+      const matchesSearch = !q ||
         item.title.toLowerCase().includes(q) ||
         item.authors.some(a => a.toLowerCase().includes(q)) ||
         (item.tags && item.tags.some(t => t.toLowerCase().includes(q))) ||
@@ -69,9 +94,21 @@ document.addEventListener("DOMContentLoaded", () => {
       return matchesCategory && matchesTag && matchesSearch;
     });
 
+    // Portada editorial solo en el estado "sin filtros"
+    const editorialActive = currentCategory === "Todos" && !currentTag && !q;
+    toggleEditorialView(editorialActive);
+
+    let gridItems = filtered;
+    if (editorialActive) {
+      const shownIds = renderEditorialLayout(filtered);
+      gridItems = filtered.filter(item => !shownIds.has(item.id));
+    }
+
     // Actualizar contador
     if (resultsCount) {
-      resultsCount.innerHTML = `Mostrando <strong>${filtered.length}</strong> de ${ARTICULOS_DATA.length} publicaciones`;
+      resultsCount.innerHTML = editorialActive
+        ? `Archivo de <strong>${ARTICULOS_DATA.length}</strong> publicaciones &middot; portada, gaceta, fichero y archivo completo`
+        : `Mostrando <strong>${filtered.length}</strong> de ${ARTICULOS_DATA.length} publicaciones`;
     }
 
     // Manejar estado vacío
@@ -83,66 +120,196 @@ document.addEventListener("DOMContentLoaded", () => {
       if (emptyState) emptyState.style.display = "none";
     }
 
-    // Generar HTML de las tarjetas
-    grid.innerHTML = filtered.map(item => {
-      // Clase según tipo
-      let badgeClass = "badge-articulo";
-      if (item.type === "Nota Informativa") badgeClass = "badge-nota";
-      else if (item.type === "Apunte Académico") badgeClass = "badge-apunte";
-      else if (item.type === "Investigación") badgeClass = "badge-investigacion";
-      else if (item.type === "Columna de Opinión") badgeClass = "badge-columna";
+    grid.innerHTML = gridItems.map(cardHtml).join("");
+  }
 
-      // Formato fecha
-      const dateFormatted = formatDate(item.date);
+  function toggleEditorialView(active) {
+    if (editorialLayout) editorialLayout.style.display = active ? "" : "none";
+    if (hubApuntes) hubApuntes.style.display = active ? "" : "none";
+    if (archiveHeading) archiveHeading.style.display = active ? "" : "none";
+  }
 
-      // Autores
-      const authorsStr = item.authors && item.authors.length > 0 
-        ? item.authors.join(", ") 
-        : "Equipo Editorial";
+  // Arma lead / secundarias / gaceta / hub y devuelve los ids ya mostrados
+  function renderEditorialLayout(data) {
+    const shown = new Set();
 
-      // Tags
-      const tagsHtml = (item.tags || []).slice(0, 3)
-        .map(t => `<span class="mini-tag">${escapeHtml(t)}</span>`)
-        .join("");
+    const pool = sortByRecency(data.filter(item =>
+      (item.category === "Investigación" || item.category === "Análisis") &&
+      item.type !== "Página Temática"
+    ));
+    const lead = pool[0];
+    if (lead) shown.add(lead.id);
 
-      // Botón PDF
-      const pdfBtnHtml = item.pdf 
-        ? `<a href="${item.pdf}" target="_blank" rel="noopener noreferrer" class="btn-pdf" title="Descargar o ver documento PDF" onclick="event.stopPropagation()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-            PDF
-           </a>`
-        : "";
+    const secondary = [
+      ...pool.filter(item => item.category === "Investigación" && !shown.has(item.id)),
+      ...pool.filter(item => item.category !== "Investigación" && !shown.has(item.id))
+    ].slice(0, 2);
+    secondary.forEach(item => shown.add(item.id));
 
-      return `
-        <article class="card" onclick="openModal(${item.id})">
-          <div>
-            <div class="card-top">
-              <span class="card-badge ${badgeClass}">${escapeHtml(item.type)}</span>
-              <time class="card-date">${dateFormatted}</time>
-            </div>
-            <h3 class="card-title">${escapeHtml(item.title)}</h3>
-            <div class="card-authors">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <span>${escapeHtml(authorsStr)}</span>
-            </div>
-            <div class="card-tags">
-              ${tagsHtml}
-            </div>
-          </div>
-          <div class="card-footer">
-            <span class="btn-read">
-              Ver detalle 
-              <span aria-hidden="true">&rarr;</span>
-            </span>
-            ${pdfBtnHtml}
-          </div>
-        </article>
-      `;
-    }).join("");
+    const gaceta = data.filter(item => item.category === "Coyuntura").slice(0, 7);
+    gaceta.forEach(item => shown.add(item.id));
+
+    if (leadSlot) leadSlot.innerHTML = lead ? leadHtml(lead) : "";
+    if (secondaryGrid) secondaryGrid.innerHTML = secondary.map(secondaryHtml).join("");
+    if (gacetaList) gacetaList.innerHTML = gaceta.map(briefHtml).join("");
+
+    renderHubApuntes(data).forEach(id => shown.add(id));
+    return shown;
+  }
+
+  function renderHubApuntes(data) {
+    const apuntes = data.filter(item => item.category === "Apuntes y Exámenes");
+    if (hubGrid) hubGrid.innerHTML = apuntes.map(dossierHtml).join("");
+    return apuntes.map(item => item.id);
   }
 
   // ==========================================================================
-  // 3. CONTROLADORES DE BÚSQUEDA Y FILTROS
+  // 3. PLANTILLAS DE TARJETA
+  // ==========================================================================
+  function badgeClassFor(type) {
+    if (type === "Nota Informativa") return "badge-nota";
+    if (type === "Apunte Académico") return "badge-apunte";
+    if (type === "Investigación") return "badge-investigacion";
+    if (type === "Columna de Opinión") return "badge-columna";
+    return "badge-articulo";
+  }
+
+  function authorsOf(item) {
+    return item.authors && item.authors.length > 0 ? item.authors.join(", ") : "Equipo Editorial";
+  }
+
+  function metaStrip(item, extra = []) {
+    const institution = getInstitution(item.tags);
+    const parts = [
+      `N.º ${getFolio(item.id)}`,
+      institution,
+      ...extra,
+      `${getReadingTime(item.resumen)} min de lectura`
+    ].filter(Boolean);
+    return `<div class="card-meta-strip">${parts.map(p => `<span>${escapeHtml(p)}</span>`).join("")}</div>`;
+  }
+
+  function pdfLink(item, label = "PDF") {
+    return item.pdf
+      ? `<a href="${escapeHtml(item.pdf)}" target="_blank" rel="noopener noreferrer" class="btn-pdf" title="Descargar o ver documento PDF">${ICON_PDF}${label}</a>`
+      : "";
+  }
+
+  function openAttrs(item) {
+    return `data-open-id="${item.id}" tabindex="0" aria-label="Ver ficha: ${escapeHtml(item.title)}"`;
+  }
+
+  function cardHtml(item) {
+    const tagsHtml = (item.tags || []).slice(0, 3)
+      .map(t => `<span class="mini-tag">${escapeHtml(t)}</span>`)
+      .join("");
+    const dateFormatted = formatDate(item.date);
+
+    return `
+      <article class="card" ${openAttrs(item)}>
+        <div>
+          <div class="card-top">
+            <span class="card-badge ${badgeClassFor(item.type)}">${escapeHtml(item.type)}</span>
+            ${dateFormatted ? `<time class="card-date">${dateFormatted}</time>` : ""}
+          </div>
+          <h3 class="card-title">${escapeHtml(item.title)}</h3>
+          <p class="card-authors">Por <strong>${escapeHtml(authorsOf(item))}</strong></p>
+          ${metaStrip(item)}
+          <div class="card-tags">${tagsHtml}</div>
+        </div>
+        <div class="card-footer">
+          <span class="btn-read">Ver ficha <span aria-hidden="true">&rarr;</span></span>
+          ${pdfLink(item)}
+        </div>
+      </article>
+    `;
+  }
+
+  function leadHtml(item) {
+    const institution = getInstitution(item.tags);
+    const dateFormatted = formatDate(item.date);
+    return `
+      <article class="card--lead" ${openAttrs(item)}>
+        <p class="kicker"><span class="card-badge ${badgeClassFor(item.type)}">${escapeHtml(item.type)}</span>${dateFormatted ? `<time>${dateFormatted}</time>` : ""}</p>
+        <h3 class="lead-title">${escapeHtml(item.title)}</h3>
+        <p class="lead-dek">${escapeHtml(item.resumen)}</p>
+        <p class="byline">Por <strong>${escapeHtml(authorsOf(item))}</strong>${institution ? ` &mdash; ${escapeHtml(institution)}` : ""}</p>
+        ${metaStrip(item)}
+        <div class="lead-actions">
+          <span class="btn-read">Leer ficha completa <span aria-hidden="true">&rarr;</span></span>
+          ${pdfLink(item, "Documento PDF")}
+        </div>
+      </article>
+    `;
+  }
+
+  function secondaryHtml(item) {
+    return `
+      <article class="card--secondary" ${openAttrs(item)}>
+        <span class="secondary-folio" aria-hidden="true">${getFolio(item.id)}</span>
+        <div class="secondary-body">
+          <p class="kicker"><span class="card-badge ${badgeClassFor(item.type)}">${escapeHtml(item.type)}</span></p>
+          <h3 class="secondary-title">${escapeHtml(item.title)}</h3>
+          <p class="secondary-dek">${escapeHtml(item.resumen)}</p>
+          <p class="byline">Por <strong>${escapeHtml(authorsOf(item))}</strong></p>
+          ${metaStrip(item)}
+        </div>
+      </article>
+    `;
+  }
+
+  function briefHtml(item) {
+    const dateFormatted = formatDate(item.date);
+    return `
+      <li class="card--brief" ${openAttrs(item)}>
+        <span class="brief-folio">${getFolio(item.id)}</span>
+        <div>
+          <h3 class="brief-title">${escapeHtml(item.title)}</h3>
+          <p class="brief-meta">${escapeHtml(authorsOf(item))}${dateFormatted ? ` &middot; <time>${dateFormatted}</time>` : ""}</p>
+        </div>
+      </li>
+    `;
+  }
+
+  function dossierHtml(item) {
+    const institution = getInstitution(item.tags);
+    const course = getCourse(item.tags);
+    const dateFormatted = formatDate(item.date);
+    return `
+      <article class="dossier-card" ${openAttrs(item)}>
+        <header class="dossier-head">
+          <span class="dossier-folio">Ficha N.º ${getFolio(item.id)}</span>
+          ${institution ? `<span class="dossier-seal">${escapeHtml(institution)}</span>` : ""}
+        </header>
+        ${course ? `<p class="dossier-course">${escapeHtml(course)}</p>` : ""}
+        <h3 class="dossier-title">${escapeHtml(item.title)}</h3>
+        <p class="dossier-authors">${escapeHtml(authorsOf(item))}</p>
+        <footer class="dossier-foot">
+          <span>${dateFormatted ? `<time>${dateFormatted}</time> &middot; ` : ""}${getReadingTime(item.resumen)} min</span>
+          ${pdfLink(item)}
+        </footer>
+      </article>
+    `;
+  }
+
+  // Apertura de fichas por clic o teclado (delegado)
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("a, button")) return;
+    const el = e.target.closest("[data-open-id]");
+    if (el) window.openModal(Number(el.dataset.openId));
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const el = e.target.closest?.("[data-open-id]");
+    if (el && e.target === el) {
+      e.preventDefault();
+      window.openModal(Number(el.dataset.openId));
+    }
+  });
+
+  // ==========================================================================
+  // 4. CONTROLADORES DE BÚSQUEDA Y FILTROS
   // ==========================================================================
   searchInput?.addEventListener("input", (e) => {
     searchQuery = e.target.value;
@@ -161,23 +328,34 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   categoryTabs.forEach(tab => {
+    tab.setAttribute("aria-selected", tab.classList.contains("active") ? "true" : "false");
     tab.addEventListener("click", () => {
-      categoryTabs.forEach(t => t.classList.remove("active"));
+      categoryTabs.forEach(t => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
       tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
       currentCategory = tab.dataset.category || "Todos";
       render();
     });
   });
 
   tagChips.forEach(chip => {
+    chip.setAttribute("aria-pressed", "false");
     chip.addEventListener("click", () => {
       const tagVal = chip.dataset.tag || "";
       if (currentTag === tagVal) {
         currentTag = "";
         chip.classList.remove("active");
+        chip.setAttribute("aria-pressed", "false");
       } else {
-        tagChips.forEach(c => c.classList.remove("active"));
+        tagChips.forEach(c => {
+          c.classList.remove("active");
+          c.setAttribute("aria-pressed", "false");
+        });
         chip.classList.add("active");
+        chip.setAttribute("aria-pressed", "true");
         currentTag = tagVal;
       }
       render();
@@ -185,15 +363,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================================================
-  // 4. MODAL DE LECTURA Y DESCARGA
+  // 5. MODAL DE LECTURA, CITA Y VISOR PDF
   // ==========================================================================
   window.openModal = function(id) {
     const item = ARTICULOS_DATA.find(x => x.id === id);
     if (!item || !modalOverlay) return;
 
     activeModalItem = item;
+    lastFocused = document.activeElement;
     modalTitle.textContent = item.title;
     modalBadge.textContent = item.type;
+    modalBadge.className = `card-badge ${badgeClassFor(item.type)}`;
     modalDate.textContent = formatDate(item.date);
     modalAuthors.innerHTML = `<strong>Autores:</strong> ${escapeHtml(item.authors.join(", "))}`;
     modalResumen.textContent = item.resumen;
@@ -201,9 +381,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (item.pdf) {
       modalPdfBtn.style.display = "inline-flex";
       modalPdfBtn.href = item.pdf;
+      modalPreviewBtn.style.display = "inline-flex";
+      modalPdfFallback.href = item.pdf;
     } else {
       modalPdfBtn.style.display = "none";
+      modalPreviewBtn.style.display = "none";
     }
+    hidePdfViewer();
 
     if (item.url_original) {
       modalOriginalBtn.style.display = "inline-flex";
@@ -212,16 +396,53 @@ document.addEventListener("DOMContentLoaded", () => {
       modalOriginalBtn.style.display = "none";
     }
 
+    if (modalCiteText) modalCiteText.textContent = formatAPA(item);
+    if (modalCiteStatus) modalCiteStatus.textContent = "";
+
     modalOverlay.classList.add("active");
     document.body.style.overflow = "hidden";
+    modalClose?.focus();
   };
 
   function closeModal() {
     if (!modalOverlay) return;
     modalOverlay.classList.remove("active");
     document.body.style.overflow = "";
+    hidePdfViewer();
     activeModalItem = null;
+    lastFocused?.focus?.();
   }
+
+  function hidePdfViewer() {
+    if (!modalPdfViewer) return;
+    modalPdfViewer.hidden = true;
+    modalPdfFrame?.removeAttribute("src");
+    modalPreviewBtn?.setAttribute("aria-expanded", "false");
+    if (modalPreviewBtn) modalPreviewBtn.textContent = "Previsualizar PDF";
+  }
+
+  modalPreviewBtn?.addEventListener("click", () => {
+    if (!activeModalItem?.pdf || !modalPdfViewer) return;
+    if (modalPdfViewer.hidden) {
+      modalPdfFrame.src = activeModalItem.pdf;
+      modalPdfViewer.hidden = false;
+      modalPreviewBtn.setAttribute("aria-expanded", "true");
+      modalPreviewBtn.textContent = "Ocultar vista previa";
+    } else {
+      hidePdfViewer();
+    }
+  });
+
+  modalCiteBtn?.addEventListener("click", async () => {
+    if (!activeModalItem) return;
+    const cite = formatAPA(activeModalItem);
+    const ok = await copyText(cite);
+    if (modalCiteStatus) {
+      modalCiteStatus.textContent = ok
+        ? "Cita copiada al portapapeles."
+        : "No pudimos copiar automáticamente. Selecciona la cita de arriba y cópiala.";
+    }
+  });
 
   modalClose?.addEventListener("click", closeModal);
   modalOverlay?.addEventListener("click", (e) => {
@@ -229,22 +450,65 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modalOverlay?.classList.contains("active")) {
+    if (!modalOverlay?.classList.contains("active")) return;
+    if (e.key === "Escape") {
       closeModal();
+    } else if (e.key === "Tab" && modalCard) {
+      // Mantener el foco dentro del diálogo
+      const focusables = [...modalCard.querySelectorAll("a[href], button, iframe, [tabindex]:not([tabindex='-1'])")]
+        .filter(el => el.offsetParent !== null);
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
   });
 
+  async function copyText(text) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch { /* se intenta el método alternativo */ }
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      ta.remove();
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+
   // ==========================================================================
-  // 5. HELPERS DE FORMATO
+  // 6. HELPERS DE FORMATO Y DATOS DERIVADOS
   // ==========================================================================
   function formatDate(isoStr) {
     if (!isoStr) return "";
     try {
       const parts = isoStr.split("-");
       if (parts.length >= 3) {
-        const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"];
         const mesIndex = parseInt(parts[1], 10) - 1;
-        return `${parts[2]} ${meses[mesIndex] || ""} ${parts[0]}`;
+        return `${parts[2]} ${MESES_CORTOS[mesIndex] || ""} ${parts[0]}`;
+      }
+      // Fechas textuales del catálogo ("marzo 9, 2…", "septiembre"): mes y día, sin inventar año
+      const m = isoStr.trim().toLowerCase().match(/^([a-záéíóú]+)\s*(\d{1,2})?/);
+      const mesIndex = m ? MESES_LARGOS.indexOf(m[1]) : -1;
+      if (mesIndex >= 0) {
+        return m[2] ? `${m[2]} ${MESES_CORTOS[mesIndex]}` : MESES_CORTOS[mesIndex];
       }
       return isoStr;
     } catch {
@@ -252,9 +516,77 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function isoTime(dateStr) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr || "")) return null;
+    const t = Date.parse(dateStr);
+    return Number.isNaN(t) ? null : t;
+  }
+
+  // Fechas ISO primero (más recientes arriba); el resto conserva el orden del catálogo
+  function sortByRecency(items) {
+    return items
+      .map((item, index) => ({ item, index, t: isoTime(item.date) }))
+      .sort((a, b) => {
+        if (a.t !== null && b.t !== null) return b.t - a.t;
+        if (a.t !== null) return -1;
+        if (b.t !== null) return 1;
+        return a.index - b.index;
+      })
+      .map(x => x.item);
+  }
+
+  function getReadingTime(resumen) {
+    const words = (resumen || "").trim().split(/\s+/).filter(Boolean).length;
+    return Math.max(2, Math.round(words / 45));
+  }
+
+  function getInstitution(tags) {
+    const match = (tags || []).find(t => INSTITUCIONES[t]);
+    return match ? INSTITUCIONES[match] : "";
+  }
+
+  function getCourse(tags) {
+    return CURSOS.find(c => (tags || []).includes(c)) || "";
+  }
+
+  function getFolio(id) {
+    return String(id).padStart(3, "0");
+  }
+
+  // Nombre de persona plausible: 2 a 4 palabras, sin signos de titular ni autoría colectiva
+  function isPersonName(name) {
+    const tokens = name.trim().split(/\s+/);
+    return tokens.length <= 4 && !/[:¿?!,]/.test(name) && !/^equipo\b/i.test(name);
+  }
+
+  // Convención hispana: con 3+ palabras se asumen dos apellidos al final
+  function apaAuthor(name) {
+    const tokens = name.replace(/\(.*?\)/g, "").trim().split(/\s+/).filter(Boolean);
+    if (tokens.length < 2) return tokens.join("");
+    const surnameCount = tokens.length >= 3 ? 2 : 1;
+    const surnames = tokens.slice(-surnameCount).join(" ");
+    const initials = tokens.slice(0, -surnameCount).map(t => `${t.charAt(0).toUpperCase()}.`).join(" ");
+    return `${surnames}, ${initials}`;
+  }
+
+  function formatAPA(item) {
+    const names = (item.authors || []).filter(a => a && isPersonName(a)).map(apaAuthor);
+    let authors = "Mundo Social";
+    if (names.length === 1) authors = names[0];
+    else if (names.length === 2) authors = `${names[0]}, & ${names[1]}`;
+    else if (names.length > 2) authors = `${names.slice(0, -1).join(", ")}, & ${names[names.length - 1]}`;
+
+    const t = isoTime(item.date);
+    const year = t !== null ? item.date.slice(0, 4) : "s. f.";
+    const title = /[.?!]$/.test(item.title.trim()) ? item.title.trim() : `${item.title.trim()}.`;
+    const url = item.url_original || item.pdf || "";
+    const authorsPart = /\.$/.test(authors) ? authors : `${authors}.`;
+    return `${authorsPart} (${year}). ${title} Mundo Social.${url ? ` ${url}` : ""}`;
+  }
+
   function escapeHtml(str) {
     if (!str) return "";
-    return str.replace(/&/g, "&amp;")
+    return String(str).replace(/&/g, "&amp;")
               .replace(/</g, "&lt;")
               .replace(/>/g, "&gt;")
               .replace(/"/g, "&quot;")
