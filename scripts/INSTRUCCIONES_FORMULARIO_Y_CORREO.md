@@ -14,13 +14,13 @@ Por motivos de privacidad y seguridad, **Google no permite que ninguna IA acceda
 
 Por eso, el único paso que requiere tu cuenta es activar el script en Google:
 
-1. Entra a: [**https://script.google.com/home/start**](https://script.google.com/home/start) (con tu cuenta `derekmartell99@gmail.com`).
+1. Entra a: [**https://script.google.com/home/start**](https://script.google.com/home/start) (con tu cuenta `7073248@gmail.com`).
 2. Haz clic en el botón superior izquierdo: **"Nuevo proyecto"** (puedes ponerle de nombre `Mundo Social Bot`).
 3. Borra el código vacío que aparece en pantalla y **pega todo el contenido de este archivo**:
    👉 [`scripts/google_apps_script_automatizacion.js`](file:///C:/mundo-social/scripts/google_apps_script_automatizacion.js)
 4. Haz clic en el botón azul superior **Implementar** (Deploy) ➔ **Nueva implementación**:
    - En el engranaje tipo, selecciona: **Aplicación web**.
-   - Ejecutar como: **Yo (derekmartell99@gmail.com)**.
+   - Ejecutar como: **Yo (7073248@gmail.com)**.
    - Quién tiene acceso: **Cualquier persona** *(esto permite que el formulario de la web y los botones del correo funcionen)*.
    - Haz clic en **Implementar** y dale "Autorizar acceso" (Google te pedirá confirmar que eres tú).
 5. Copia la **URL de la aplicación web** que te entrega (empieza con `https://script.google.com/macros/s/...`).
@@ -31,7 +31,7 @@ Por eso, el único paso que requiere tu cuenta es activar el script en Google:
 ## 📬 ¿Cómo funciona en el día a día?
 
 1. Un profesor o alumno entra a `https://derek-martell.github.io/mundo-social/enviar.html` y llena los campos.
-2. A los 2 segundos te llega un correo a `derekmartell99@gmail.com` con:
+2. A los 2 segundos te llega un correo a `7073248@gmail.com` con:
    - Título, autores, resumen y enlace al PDF.
    - Botón verde: **[✓ APROBAR Y PUBLICAR AHORA]**
    - Botón rojo: **[✕ RECHAZAR]**

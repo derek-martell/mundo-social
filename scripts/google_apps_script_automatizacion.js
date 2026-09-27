@@ -16,7 +16,7 @@
 // ============================================================================
 // CONFIGURACIÓN EDITABLE
 // ============================================================================
-const DEREK_EMAIL = "derekmartell99@gmail.com";
+const DEREK_EMAIL = "7073248@gmail.com";
 const GITHUB_REPO = "derek-martell/mundo-social";
 // Pega aquí tu token de GitHub (lo obtienes ejecutando 'gh auth token' en tu terminal):
 const GITHUB_TOKEN = "PEGA_AQUI_TU_GITHUB_TOKEN"; 
