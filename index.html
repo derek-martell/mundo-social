@@ -45,11 +45,11 @@
 
       <nav aria-label="Navegación principal">
         <ul class="nav-menu">
-          <li><a href="#articulos" class="nav-link active">Publicaciones</a></li>
-          <li><a href="#coyuntura" class="nav-link" onclick="setCategory('Coyuntura')">Coyuntura</a></li>
-          <li><a href="#apuntes" class="nav-link" onclick="setCategory('Apuntes y Exámenes')">Docencia & UNMSM</a></li>
-          <li><a href="#investigacion" class="nav-link" onclick="setCategory('Investigación')">Investigación</a></li>
-          <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+          <li><a href="#articulos" class="nav-link active" data-category="Todos">Publicaciones</a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Coyuntura">Coyuntura</a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Docencia">Docencia & UNMSM</a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Investigación">Investigación</a></li>
+          <li><a href="#nosotros" class="nav-link" data-category="Nosotros">Nosotros</a></li>
         </ul>
       </nav>
 
@@ -144,14 +144,14 @@
         <button class="cat-tab" data-category="Coyuntura" role="tab">
           Notas de Coyuntura <span class="cat-badge-count">33</span>
         </button>
-        <button class="cat-tab" data-category="Apuntes y Exámenes" role="tab">
-          Apuntes & Exámenes UNMSM/MIT <span class="cat-badge-count">28</span>
+        <button class="cat-tab" data-category="Docencia" role="tab">
+          Apuntes & Exámenes UNMSM/MIT <span class="cat-badge-count">29</span>
         </button>
         <button class="cat-tab" data-category="Investigación" role="tab">
-          Investigaciones & Papers <span class="cat-badge-count">5</span>
+          Investigaciones & Papers <span class="cat-badge-count">6</span>
         </button>
         <button class="cat-tab" data-category="Análisis" role="tab">
-          Artículos y Columnas <span class="cat-badge-count">19</span>
+          Artículos y Columnas <span class="cat-badge-count">28</span>
         </button>
       </div>
 
@@ -329,13 +329,5 @@
   <!-- Datos y Lógica de la Aplicación -->
   <script src="js/articulos-data.js"></script>
   <script src="js/app.js"></script>
-
-  <script>
-    // Atajo para pestañas desde el menú superior
-    function setCategory(cat) {
-      const tab = document.querySelector(`.cat-tab[data-category="${cat}"]`);
-      if (tab) tab.click();
-    }
-  </script>
 </body>
 </html>

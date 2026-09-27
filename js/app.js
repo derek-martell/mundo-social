@@ -78,8 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Filtrar publicaciones
     const filtered = ARTICULOS_DATA.filter(item => {
-      // Filtro de Categoría
-      const matchesCategory = currentCategory === "Todos" || item.category === currentCategory;
+      // Normalización de categoría para coincidencia perfecta
+      const normCat = s => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      const targetCat = normCat(currentCategory);
+      const itemCat = normCat(item.category);
+
+      const matchesCategory = targetCat === "todos" ||
+        itemCat === targetCat ||
+        (targetCat === "docencia" && (itemCat.includes("docencia") || itemCat.includes("apunte"))) ||
+        (targetCat.includes("apunte") && (itemCat.includes("docencia") || itemCat.includes("apunte")));
 
       // Filtro de Etiqueta Secundaria
       const matchesTag = !currentTag || (item.tags && item.tags.includes(currentTag));
@@ -95,8 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Portada editorial solo en el estado "sin filtros"
-    const editorialActive = currentCategory === "Todos" && !currentTag && !q;
-    toggleEditorialView(editorialActive);
+    const editorialActive = (currentCategory === "Todos" || currentCategory === "") && !currentTag && !q;
+    toggleEditorialView(editorialActive, filtered.length);
 
     let gridItems = filtered;
     if (editorialActive) {
@@ -108,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (resultsCount) {
       resultsCount.innerHTML = editorialActive
         ? `Archivo de <strong>${ARTICULOS_DATA.length}</strong> publicaciones &middot; portada, gaceta, fichero y archivo completo`
-        : `Mostrando <strong>${filtered.length}</strong> de ${ARTICULOS_DATA.length} publicaciones`;
+        : `Mostrando <strong>${filtered.length}</strong> de ${ARTICULOS_DATA.length} publicaciones en <em>${escapeHtml(currentCategory)}</em>`;
     }
 
     // Manejar estado vacío
@@ -123,10 +130,23 @@ document.addEventListener("DOMContentLoaded", () => {
     grid.innerHTML = gridItems.map(cardHtml).join("");
   }
 
-  function toggleEditorialView(active) {
+  function toggleEditorialView(active, count) {
     if (editorialLayout) editorialLayout.style.display = active ? "" : "none";
     if (hubApuntes) hubApuntes.style.display = active ? "" : "none";
-    if (archiveHeading) archiveHeading.style.display = active ? "" : "none";
+    if (archiveHeading) {
+      archiveHeading.style.display = "";
+      if (active) {
+        archiveHeading.textContent = "Archivo completo de publicaciones";
+      } else {
+        const labels = {
+          "Coyuntura": "Notas de Coyuntura Económica",
+          "Docencia": "Hub de Apuntes y Exámenes UNMSM · MIT",
+          "Investigación": "Investigaciones y Papers Académicos",
+          "Análisis": "Artículos y Columnas de Opinión"
+        };
+        archiveHeading.textContent = (labels[currentCategory] || `Publicaciones: ${currentCategory}`) + ` (${count})`;
+      }
+    }
   }
 
   // Arma lead / secundarias / gaceta / hub y devuelve los ids ya mostrados
@@ -158,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderHubApuntes(data) {
-    const apuntes = data.filter(item => item.category === "Apuntes y Exámenes");
+    const apuntes = data.filter(item => item.category === "Docencia" || item.category === "Apuntes y Exámenes");
     if (hubGrid) hubGrid.innerHTML = apuntes.map(dossierHtml).join("");
     return apuntes.map(item => item.id);
   }
@@ -327,6 +347,85 @@ document.addEventListener("DOMContentLoaded", () => {
     render();
   });
 
+  // Sincronización del menú superior (.nav-link)
+  function updateNavActive(catName) {
+    const norm = s => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const target = norm(catName);
+
+    document.querySelectorAll(".nav-link").forEach(link => {
+      const navCat = norm(link.dataset.category || link.textContent);
+      if (navCat === target ||
+          (target === "todos" && (navCat === "todos" || navCat.includes("publicacion"))) ||
+          (target.includes("docencia") && navCat.includes("docencia")) ||
+          (target.includes("apunte") && navCat.includes("docencia"))) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+  }
+
+  // Función global para seleccionar categoría desde cualquier parte (navbar, botones, enlaces)
+  window.setCategory = function(catName, shouldScroll = true) {
+    if (!catName) return;
+
+    // Caso especial: "Nosotros"
+    if (catName.toLowerCase().includes("nosotros")) {
+      const nosotrosSection = document.getElementById("nosotros");
+      if (nosotrosSection) {
+        nosotrosSection.scrollIntoView({ behavior: "smooth" });
+      }
+      updateNavActive("Nosotros");
+      return;
+    }
+
+    const norm = s => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const target = norm(catName);
+
+    let foundTab = null;
+    categoryTabs.forEach(t => {
+      const c = norm(t.dataset.category || "");
+      if (c === target ||
+          (target.includes("docencia") && (c.includes("docencia") || c.includes("apunte"))) ||
+          (target.includes("apunte") && (c.includes("docencia") || c.includes("apunte"))) ||
+          (target.includes("coyuntura") && c.includes("coyuntura")) ||
+          (target.includes("investig") && c.includes("investig"))) {
+        foundTab = t;
+      }
+    });
+
+    if (foundTab) {
+      categoryTabs.forEach(t => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
+      foundTab.classList.add("active");
+      foundTab.setAttribute("aria-selected", "true");
+      currentCategory = foundTab.dataset.category || "Todos";
+      updateNavActive(currentCategory);
+      render();
+
+      if (shouldScroll) {
+        const articulosEl = document.getElementById("articulos");
+        if (articulosEl) {
+          articulosEl.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
+
+  // Escuchar clics en los enlaces del menú superior
+  document.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", (e) => {
+      const cat = link.dataset.category || link.getAttribute("href")?.replace("#", "");
+      if (cat) {
+        e.preventDefault();
+        window.setCategory(cat, true);
+      }
+    });
+  });
+
+  // Escuchar clics en las pestañas de categorías principales
   categoryTabs.forEach(tab => {
     tab.setAttribute("aria-selected", tab.classList.contains("active") ? "true" : "false");
     tab.addEventListener("click", () => {
@@ -337,6 +436,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tab.classList.add("active");
       tab.setAttribute("aria-selected", "true");
       currentCategory = tab.dataset.category || "Todos";
+      updateNavActive(currentCategory);
       render();
     });
   });

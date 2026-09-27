@@ -159,7 +159,7 @@ const ARTICULOS_DATA = [
     "slug": "matematica-financiera-inversiones-valoracion-de-bonos-sistemas-de-amortizacion-y-anualidades",
     "title": "Matemática Financiera: Inversiones, valoración de bonos, sistemas de amortización y anualidades ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "marzo 7, 2",
     "authors": [
       "Mendoza Cruz Kat",
@@ -230,7 +230,7 @@ const ARTICULOS_DATA = [
     "slug": "competencia-imperfecta-y-discriminacion-de-precios-un-enfoque-teorico-del-dumping",
     "title": "Competencia imperfecta y discriminación de precios: un enfoque teórico del dumping ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
       "Fabbiana Marcala",
@@ -248,7 +248,7 @@ const ARTICULOS_DATA = [
     "slug": "modelos-de-consumo-en-condiciones-deincertidumbre",
     "title": "Modelos de consumo en condiciones deincertidumbre ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
       "Benjamin Cano Aviles"
@@ -265,7 +265,7 @@ const ARTICULOS_DATA = [
     "slug": "violaciones-de-supuestos-econometricos-causas-consecuencias-y-solucione",
     "title": "Violaciones de supuestos econométricos: Causas, consecuencias y solucione ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
       "Anjal",
@@ -283,7 +283,7 @@ const ARTICULOS_DATA = [
     "slug": "modelo-de-regresion-lineal-clasico",
     "title": "Modelo de Regresión Lineal Clásico ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
       "Jiampier Asis Villanueva Mas"
@@ -300,7 +300,7 @@ const ARTICULOS_DATA = [
     "slug": "modelos-de-equilibrio-general-computable",
     "title": "Modelos de Equilibrio General Computable ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
       "Cabrera Guerrero",
@@ -334,7 +334,7 @@ const ARTICULOS_DATA = [
     "id": 59,
     "slug": "privatizacion-de-telefonica-del-peru",
     "title": "Privatización de Telefónica del Perú: Modernización y Transformación del Sector de Telecomunicaciones",
-    "type": "Columna de Opinión",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "junio 9, 2",
     "authors": [
@@ -353,7 +353,7 @@ const ARTICULOS_DATA = [
     "slug": "el-caso-de-reinfo",
     "title": "El caso de REINFO en la minería informal del Perú: ¿Solución o fracaso?",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "junio 9, 2",
     "authors": [
       "El caso de REINFO en la minería informal del Perú: ¿Solución o fracaso?"
@@ -370,7 +370,7 @@ const ARTICULOS_DATA = [
     "slug": "guia-didactica-para-leer-estados-financieros",
     "title": "Guía didáctica para leer estados financieros ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "junio 8, 2",
     "authors": [
       "Mendoza Cruz Kat",
@@ -388,7 +388,7 @@ const ARTICULOS_DATA = [
     "slug": "teoria-de-la-eleccion-dinamica",
     "title": "Teoría de la Elección Dinámica ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "junio 7, 2",
     "authors": [
       "Benjamin Cano Aviles"
@@ -405,7 +405,7 @@ const ARTICULOS_DATA = [
     "slug": "modelos-no-lineales-en-econometria",
     "title": "Modelos No Lineales en Econometría ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "junio 7, 2",
     "authors": [
       "Anjal",
@@ -423,7 +423,7 @@ const ARTICULOS_DATA = [
     "slug": "solucion-matefi-marlene-barrera",
     "title": "Solución de Exámenes de Matemática Financiera ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "junio 30, ",
     "authors": [
       "Arelis Gara"
@@ -600,13 +600,14 @@ const ARTICULOS_DATA = [
     "slug": "solucion-examen-parcial-mateco-i-prof-factor-risco",
     "title": "Solución Examen Parcial Matemática Para Economistas I (Prof. Factor Risco) ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "julio 7, 2",
     "authors": [
       "Luis Vilcapoma Ramos"
     ],
     "tags": [
-      "Matemáticas"
+      "Matemáticas",
+      "UNMSM"
     ],
     "resumen": "Material de estudio y resolución académica elaborado por Luis Vilcapoma Ramos para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/mateco-finalizadp.pdf",
@@ -617,7 +618,7 @@ const ARTICULOS_DATA = [
     "slug": "ejercicios-de-micro-i-prof-macines-y-sandro",
     "title": "Ejercicios de Microeconomía I (Prof. Macines y Prof. Sandro Huamaní, FCE, UNMSM) ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "julio 7, 2",
     "authors": [
       "Margoth Aguirre López"
@@ -635,7 +636,7 @@ const ARTICULOS_DATA = [
     "slug": "solucion-econometria-i-prof-marvin-padilla",
     "title": "Solución Examen Parcial Econometria I (Prof. Marvin Padilla, FCE, UNMSM) ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
       "Victor Calle Rios"
@@ -653,7 +654,7 @@ const ARTICULOS_DATA = [
     "slug": "solucion-pc-mateco-iii",
     "title": "Solución PC Matemática para Economistas III (Prof. Suazo Zárate, FCE, UNMSM) ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
       "Victor Calle Rios"
@@ -671,7 +672,7 @@ const ARTICULOS_DATA = [
     "slug": "solucion-examen-final-mateco-iii",
     "title": "Solución Examen Final Matemática para Economistas III (Prof. Suazo Zárate, FCE, UNMSM) ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
       "Victor Calle Rios"
@@ -689,14 +690,15 @@ const ARTICULOS_DATA = [
     "slug": "resolucion-test-n3-principios-de-macroeconomia-mit",
     "title": "Resolución Test N°3 – Macroeconomía (Prof. Ricardo Caballero, MIT) ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
       "James Huamani"
     ],
     "tags": [
       "Macroeconomía",
-      "MIT"
+      "MIT",
+      "UNMSM"
     ],
     "resumen": "Material de estudio y resolución académica elaborado por James Huamani para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/Test-N°3-Mundo-Social1.pdf",
@@ -707,14 +709,15 @@ const ARTICULOS_DATA = [
     "slug": "resolucion-test-n1-principios-de-macroeconomia-mit",
     "title": "Resolución Test N°1 – Macroeconomía (Prof. Ricardo Caballero, MIT) ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
       "James Huamani"
     ],
     "tags": [
       "Macroeconomía",
-      "MIT"
+      "MIT",
+      "UNMSM"
     ],
     "resumen": "Material de estudio y resolución académica elaborado por James Huamani para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/Test-N°1-Mundo-Social1.pdf",
@@ -725,14 +728,15 @@ const ARTICULOS_DATA = [
     "slug": "resolucion-test-n2-principios-de-macroeconomia-mit",
     "title": "Resolución Test N°2 – Macroeconomía (Prof. Ricardo Caballero, MIT) ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
       "James Huamani"
     ],
     "tags": [
       "Macroeconomía",
-      "MIT"
+      "MIT",
+      "UNMSM"
     ],
     "resumen": "Material de estudio y resolución académica elaborado por James Huamani para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/Test-N°2-Mundo-Social1.pdf",
@@ -743,7 +747,7 @@ const ARTICULOS_DATA = [
     "slug": "solucion-de-examen-parcial-economia-1-hugo-sanchez",
     "title": "Solución de Examen Parcial Economía I (Profesor Hugo Sánchez, FCE, UNMSM) ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
       "Anjal",
@@ -868,7 +872,7 @@ const ARTICULOS_DATA = [
     "slug": "modelo-renta-gasto",
     "title": "Modelo Renta Gasto ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "diciembre ",
     "authors": [
       "Anibal Cajachagua Pereda Y"
@@ -885,7 +889,7 @@ const ARTICULOS_DATA = [
     "slug": "introduccion-a-las-distorsiones-o-imperfecciones-de-mercado-la-eficiencia-de-pareto-el-bienestar-de-mercado-y-taxonomia-de-distorsiones",
     "title": "Introducción a las distorsiones o imperfecciones de mercado: La eficiencia de Pareto, el bienestar de mercado y taxonomía de distorsiones ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "agosto 9, ",
     "authors": [
       "Joseph Irvin Jherem",
@@ -903,7 +907,7 @@ const ARTICULOS_DATA = [
     "slug": "reduciendo-la-pobreza-con-evidencia-unaintroduccion-al-enfoque-de-los-nobel-deeconomia-2019",
     "title": "Reduciendo la pobreza con evidencia: una introducción al enfoque de los Nobel de Economía 2019 ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "agosto 9, ",
     "authors": [
       "Huamani"
@@ -920,7 +924,7 @@ const ARTICULOS_DATA = [
     "slug": "apuntes-de-derivados-financieros",
     "title": "Apuntes de Derivados Financieros ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "agosto 7, ",
     "authors": [
       "Álvaro Paul Gálvez Matos"
@@ -937,7 +941,7 @@ const ARTICULOS_DATA = [
     "slug": "mundell-fleming",
     "title": "Notas académicas sobre Macroeconomía I : Modelo Mundell Fleming ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "agosto 7, ",
     "authors": [
       "Margoth Aguirre Lopez"
@@ -1090,7 +1094,7 @@ const ARTICULOS_DATA = [
     "slug": "aprendiendo-a-usar-r",
     "title": "No te olvides descargar la base de datosBase de datos para el documento Aprendiendo a usar R",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "agosto 13,",
     "authors": [
       "Joaquin Cabrera"
@@ -1107,7 +1111,7 @@ const ARTICULOS_DATA = [
     "slug": "apunte-academico-de-anualidades",
     "title": "Apunte académico de Anualidades ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "agosto 11,",
     "authors": [
       "Arelis Gara"
@@ -1124,7 +1128,7 @@ const ARTICULOS_DATA = [
     "slug": "nota-academica-modelo-solow-swam",
     "title": "Nota académica Modelo Solow Swan ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "agosto 11,",
     "authors": [
       "Anjal",
@@ -1142,7 +1146,7 @@ const ARTICULOS_DATA = [
     "slug": "intervalos-de-confianza-y-prueba-de-hipotesis",
     "title": "Apunte académico de Intervalos de Confianza y Prueba de Hipótesis ›",
     "type": "Apunte Académico",
-    "category": "Apuntes y Exámenes",
+    "category": "Docencia",
     "date": "agosto 11,",
     "authors": [
       "Victor Sebastian Smith Calle Rios"
@@ -1158,15 +1162,15 @@ const ARTICULOS_DATA = [
     "id": 1,
     "slug": "el-fenomeno-del-nino-enciende-las-alarmas-en-el-peru",
     "title": "El Fenómeno del Niño enciende las alarmas en el Perú",
-    "type": "Artículo",
-    "category": "Análisis",
+    "type": "Nota Informativa",
+    "category": "Coyuntura",
     "date": "2026-07-11",
     "authors": [
       "Erick Salgado",
       "Nicole Grandez"
     ],
     "tags": [
-      "Análisis Económico"
+      "Economía Peruana"
     ],
     "resumen": "Análisis de coyuntura económica sobre el fenómeno del niño enciende las alarmas en el perú y sus implicancias en el mercado peruano e internacional.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/07/Noticia_1semJulio_2026.pdf",
@@ -1180,7 +1184,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "2026-06-08",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1214,7 +1218,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "2026-01-08",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1231,7 +1235,7 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "2025-07-17",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Papers & Modelos"
@@ -1265,7 +1269,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "2025-06-18",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1282,7 +1286,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "2025-06-16",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1299,7 +1303,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1316,7 +1320,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1333,7 +1337,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1350,7 +1354,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1367,7 +1371,7 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Papers & Modelos"
@@ -1380,11 +1384,11 @@ const ARTICULOS_DATA = [
     "id": 14,
     "slug": "macroeconomia",
     "title": "Macroeconomía",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1401,7 +1405,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1414,11 +1418,11 @@ const ARTICULOS_DATA = [
     "id": 16,
     "slug": "ejercicios-para-microeconomia",
     "title": "Ejercicios para Microeconomía",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1431,11 +1435,11 @@ const ARTICULOS_DATA = [
     "id": 17,
     "slug": "econometria",
     "title": "Econometría",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1448,11 +1452,11 @@ const ARTICULOS_DATA = [
     "id": 18,
     "slug": "ejercicios-de-econometria",
     "title": "Ejercicios de Econometría",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1465,11 +1469,11 @@ const ARTICULOS_DATA = [
     "id": 19,
     "slug": "ejercicios-de-macroeconomia",
     "title": "Ejercicios de Macroeconomía",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1482,11 +1486,11 @@ const ARTICULOS_DATA = [
     "id": 20,
     "slug": "microeconomia",
     "title": "Microeconomía",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1499,11 +1503,11 @@ const ARTICULOS_DATA = [
     "id": 21,
     "slug": "matematicas",
     "title": "Matemáticas",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1516,11 +1520,11 @@ const ARTICULOS_DATA = [
     "id": 22,
     "slug": "ejercicios-de-matematicas-para-economistas",
     "title": "Ejercicios de matemáticas para economistas",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1533,11 +1537,11 @@ const ARTICULOS_DATA = [
     "id": 23,
     "slug": "finanzas",
     "title": "Finanzas",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1550,11 +1554,11 @@ const ARTICULOS_DATA = [
     "id": 24,
     "slug": "ejercicios-de-finanzas",
     "title": "Ejercicios de Finanzas",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1571,7 +1575,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1588,7 +1592,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1601,11 +1605,11 @@ const ARTICULOS_DATA = [
     "id": 27,
     "slug": "estadistica",
     "title": "Estadística",
-    "type": "Página Temática",
+    "type": "Artículo",
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1622,7 +1626,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1639,7 +1643,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -1656,7 +1660,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "",
     "authors": [
-      "Equipo Mundo Social"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
