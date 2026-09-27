@@ -266,9 +266,9 @@ button {
 }
 
 .masthead-logo-img {
-  height: 3.8rem;
+  height: clamp(4.2rem, 7.5vw, 5.8rem);
   width: auto;
-  max-width: 220px;
+  max-width: 320px;
   object-fit: contain;
   transition: transform var(--trans);
 }
@@ -300,36 +300,27 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
-}
-
-.masthead-title {
-  font-family: var(--serif);
-  font-size: clamp(2.1rem, 4.6vw, 3.4rem);
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  line-height: 1;
-  color: var(--ink);
-  text-transform: uppercase;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
 }
 
 .masthead-tagline {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 0.95rem;
+  font-size: 1.04rem;
   color: var(--ink-secondary);
-  max-width: 65ch;
-  line-height: 1.35;
+  max-width: 68ch;
+  line-height: 1.4;
 }
 
 .masthead-sub-tagline {
   font-family: var(--display);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--mute);
-  margin-top: 0.2rem;
+  margin-top: 0.15rem;
 }
 
 /* Cinta de Navegación Pegajosa (Sticky Section Ribbon) */
