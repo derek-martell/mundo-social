@@ -1,4 +1,5 @@
-// Catálogo oficial de publicaciones de Mundo Social
+// Catálogo oficial de publicaciones de Mundo Social (UNMSM)
+// Generado automáticamente - No editar manualmente
 const ARTICULOS_DATA = [
   {
     "id": 70,
@@ -128,7 +129,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "octubre 4,",
     "authors": [
-      "Rosa Angela"
+      "Rosa Ángela"
     ],
     "tags": [
       "Política Monetaria"
@@ -162,13 +163,14 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "marzo 7, 2",
     "authors": [
-      "Mendoza Cruz Katia Isabel"
+      "Katia Mendoza Cruz",
+      "María Isabel"
     ],
     "tags": [
       "Finanzas",
       "Matemáticas"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Mendoza Cruz Katia Isabel para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Mendoza Cruz Kat, a Isabel & para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/03/PEREDO-MENDOZA-MATE-FINANCIERA.pdf",
     "url_original": "https://mundo-social.com/apuntes/matematica-financiera-inversiones-valoracion-de-bonos-sistemas-de-amortizacion-y-anualidades/"
   },
@@ -232,12 +234,13 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
-      "Fabbiana Marcalaya Leiva"
+      "Fabbiana Marcela",
+      "María Leiva"
     ],
     "tags": [
       "Microeconomía"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Fabbiana Marcalaya Leiva para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Fabbiana Marcala, a Leiva para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/03/Fabbiana-Marcalaya-1.pdf",
     "url_original": "https://mundo-social.com/apuntes/competencia-imperfecta-y-discriminacion-de-precios-un-enfoque-teorico-del-dumping/"
   },
@@ -266,12 +269,12 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "marzo 18, ",
     "authors": [
-      "Anjali Arcos Huaman"
+      "Anjali Daniela Arcos Huamán"
     ],
     "tags": [
       "Econometría"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Anjali Arcos Huaman para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Anjal, Arcos Huaman para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/03/Nota_academica_Econometria-2-2.pdf",
     "url_original": "https://mundo-social.com/apuntes/violaciones-de-supuestos-econometricos-causas-consecuencias-y-solucione/"
   },
@@ -335,8 +338,7 @@ const ARTICULOS_DATA = [
     "category": "Análisis",
     "date": "junio 9, 2",
     "authors": [
-      "Privatización de Telefónica del Perú: Modernización",
-      "Transformación del Sector de Telecomunicaciones"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Análisis Económico"
@@ -349,11 +351,11 @@ const ARTICULOS_DATA = [
     "id": 90,
     "slug": "el-caso-de-reinfo",
     "title": "El caso de REINFO en la minería informal del Perú: ¿Solución o fracaso?",
-    "type": "Apunte Académico",
-    "category": "Docencia",
+    "type": "Artículo",
+    "category": "Análisis",
     "date": "junio 9, 2",
     "authors": [
-      "El caso de REINFO en la minería informal del Perú: ¿Solución o fracaso?"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Economía"
@@ -370,12 +372,13 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "junio 8, 2",
     "authors": [
-      "Mendoza Cruz Katia Isabel"
+      "Katia Mendoza Cruz",
+      "María Isabel"
     ],
     "tags": [
       "Economía"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Mendoza Cruz Katia Isabel para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Mendoza Cruz Kat, a Isabel para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/06/Guia-didactica-para-leer-estados-financieros.pdf",
     "url_original": "https://mundo-social.com/apuntes/guia-didactica-para-leer-estados-financieros/"
   },
@@ -404,12 +407,12 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "junio 7, 2",
     "authors": [
-      "Anjali Arcos Huaman"
+      "Anjali Daniela Arcos Huamán"
     ],
     "tags": [
       "Econometría"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Anjali Arcos Huaman para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Anjal, Arcos Huaman para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2026/06/Nota_academica_Econometria_II-1.pdf",
     "url_original": "https://mundo-social.com/apuntes/modelos-no-lineales-en-econometria/"
   },
@@ -421,7 +424,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "junio 30, ",
     "authors": [
-      "Arelis Gara"
+      "Arelis Garay"
     ],
     "tags": [
       "Matemáticas"
@@ -438,7 +441,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "junio 29, ",
     "authors": [
-      "¿Estamos preparados para el impacto económico de un gran sismo en la capital?"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Economía"
@@ -455,9 +458,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "junio 24, ",
     "authors": [
-      "Política monetaria del BCRP: qué decidió",
-      "por qué",
-      "cómo te afecta"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Política Monetaria"
@@ -474,8 +475,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "junio 21, ",
     "authors": [
-      "Santander Consumer se consolida como Banco",
-      "redefine el segmento de consumo en Perú"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Mercados & Finanzas"
@@ -492,7 +492,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "junio 18, ",
     "authors": [
-      "Políticas económicas bajo la primera administración de Trump"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Economía"
@@ -509,9 +509,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "junio 18, ",
     "authors": [
-      "Análisis económico peruano 2025: Desempeño",
-      "perspectivas",
-      "riesgos en lo que va del año"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Economía"
@@ -528,8 +526,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "junio 18, ",
     "authors": [
-      "Producción eléctrica en Perú: Entre la desaceleración actual",
-      "el potencial por aprovechar"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Economía"
@@ -546,7 +543,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "junio 15, ",
     "authors": [
-      "¿Más dinero para los municipios o más riesgo fiscal para el Perú?"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Economía"
@@ -563,8 +560,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "junio 15, ",
     "authors": [
-      "Primer cuatrimestre 2025: Logros",
-      "desafíos de las exportaciones peruanas"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Comercio & Minería"
@@ -581,7 +577,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "junio 11, ",
     "authors": [
-      "¿Sabes quiénes controlan la economía del Perú?"
+      "Equipo Editorial Mundo Social"
     ],
     "tags": [
       "Economía"
@@ -634,7 +630,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
-      "Victor Calle Rios"
+      "Víctor Calle Ríos"
     ],
     "tags": [
       "Econometría",
@@ -652,7 +648,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
-      "Victor Calle Rios"
+      "Víctor Calle Ríos"
     ],
     "tags": [
       "Matemáticas",
@@ -670,7 +666,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
-      "Victor Calle Rios"
+      "Víctor Calle Ríos"
     ],
     "tags": [
       "Matemáticas",
@@ -745,13 +741,12 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
-      "Anjali Arcos Huaman",
-      "Daniela Arcos Huaman"
+      "Anjali Daniela Arcos Huamán"
     ],
     "tags": [
       "UNMSM"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Anjali Arcos Huaman y Daniela Arcos Huaman para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Anjal, Arcos Huaman para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/ExamenesHugoSanchezAlphaBeta1.pdf",
     "url_original": "https://mundo-social.com/apuntes/solucion-de-examen-parcial-economia-1-hugo-sanchez/"
   },
@@ -814,8 +809,7 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "enero 21, ",
     "authors": [
-      "Anjali Arcos Huaman",
-      "Daniela Arcos Huaman"
+      "Anjali Daniela Arcos Huamán"
     ],
     "tags": [
       "Papers & Modelos"
@@ -832,8 +826,7 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "enero 21, ",
     "authors": [
-      "Anjali Arcos Huaman",
-      "Daniela Arcos Huaman"
+      "Anjali Daniela Arcos Huamán"
     ],
     "tags": [
       "Papers & Modelos",
@@ -851,8 +844,7 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "enero 21, ",
     "authors": [
-      "Anjali Arcos Huaman",
-      "Daniela Arcos Huaman"
+      "Anjali Daniela Arcos Huamán"
     ],
     "tags": [
       "Papers & Modelos"
@@ -869,7 +861,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "diciembre ",
     "authors": [
-      "Anibal Cajachagua Pereda Y"
+      "Aníbal Cajachagua Pereda"
     ],
     "tags": [
       "Macroeconomía"
@@ -891,7 +883,7 @@ const ARTICULOS_DATA = [
     "tags": [
       "Microeconomía"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Joseph Irvin Jheremes Falla para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Joseph Irvin Jherem, es Falla para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/08/Introduccion_a_las_distorsiones.pdf",
     "url_original": "https://mundo-social.com/apuntes/introduccion-a-las-distorsiones-o-imperfecciones-de-mercado-la-eficiencia-de-pareto-el-bienestar-de-mercado-y-taxonomia-de-distorsiones/"
   },
@@ -903,7 +895,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "agosto 9, ",
     "authors": [
-      "Huamani"
+      "James Huamaní"
     ],
     "tags": [
       "Economía"
@@ -937,7 +929,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "agosto 7, ",
     "authors": [
-      "Margoth Aguirre Lopez"
+      "Margoth Aguirre López"
     ],
     "tags": [
       "Macroeconomía"
@@ -954,7 +946,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "agosto 4, ",
     "authors": [
-      "Sebastian Calle"
+      "Sebastián Calle"
     ],
     "tags": [
       "Economía"
@@ -1039,7 +1031,7 @@ const ARTICULOS_DATA = [
     "category": "Coyuntura",
     "date": "agosto 24,",
     "authors": [
-      "Sebastian Calle"
+      "Sebastián Calle"
     ],
     "tags": [
       "Economía"
@@ -1107,7 +1099,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "agosto 11,",
     "authors": [
-      "Arelis Gara"
+      "Arelis Garay"
     ],
     "tags": [
       "Finanzas"
@@ -1124,13 +1116,12 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "agosto 11,",
     "authors": [
-      "Anjali Arcos Huaman",
-      "Daniela Arcos Huaman"
+      "Anjali Daniela Arcos Huamán"
     ],
     "tags": [
       "Macroeconomía"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Anjali Arcos Huaman y Daniela Arcos Huaman para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Anjal, Arcos Huaman para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/08/Nota_academica_FELIX_final.pdf",
     "url_original": "https://mundo-social.com/apuntes/nota-academica-modelo-solow-swam/"
   },
@@ -1142,7 +1133,7 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "agosto 11,",
     "authors": [
-      "Victor Sebastian Smith Calle Rios"
+      "Víctor Sebastián Smith Calle Ríos"
     ],
     "tags": [
       "Economía"
@@ -1411,14 +1402,15 @@ const ARTICULOS_DATA = [
     "id": 16,
     "slug": "ejercicios-para-microeconomia",
     "title": "Ejercicios para Microeconomía",
-    "type": "Artículo",
-    "category": "Análisis",
+    "type": "Apunte Académico",
+    "category": "Docencia",
     "date": "",
     "authors": [
       "Equipo Editorial Mundo Social"
     ],
     "tags": [
-      "Análisis Económico"
+      "Microeconomía",
+      "UNMSM"
     ],
     "resumen": "Análisis de coyuntura económica sobre ejercicios para microeconomía y sus implicancias en el mercado peruano e internacional.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/Examenes_Micro_I-5.pdf",
@@ -1445,14 +1437,15 @@ const ARTICULOS_DATA = [
     "id": 18,
     "slug": "ejercicios-de-econometria",
     "title": "Ejercicios de Econometría",
-    "type": "Artículo",
-    "category": "Análisis",
+    "type": "Apunte Académico",
+    "category": "Docencia",
     "date": "",
     "authors": [
       "Equipo Editorial Mundo Social"
     ],
     "tags": [
-      "Análisis Económico"
+      "Econometría",
+      "UNMSM"
     ],
     "resumen": "Análisis de coyuntura económica sobre ejercicios de econometría y sus implicancias en el mercado peruano e internacional.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/SOLUCIONARIO_actu1.pdf",
@@ -1462,14 +1455,15 @@ const ARTICULOS_DATA = [
     "id": 19,
     "slug": "ejercicios-de-macroeconomia",
     "title": "Ejercicios de Macroeconomía",
-    "type": "Artículo",
-    "category": "Análisis",
+    "type": "Apunte Académico",
+    "category": "Docencia",
     "date": "",
     "authors": [
       "Equipo Editorial Mundo Social"
     ],
     "tags": [
-      "Análisis Económico"
+      "Macroeconomía",
+      "UNMSM"
     ],
     "resumen": "Análisis de coyuntura económica sobre ejercicios de macroeconomía y sus implicancias en el mercado peruano e internacional.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/Test-N%C2%B01-Mundo-Social1.pdf",
@@ -1513,14 +1507,15 @@ const ARTICULOS_DATA = [
     "id": 22,
     "slug": "ejercicios-de-matematicas-para-economistas",
     "title": "Ejercicios de matemáticas para economistas",
-    "type": "Artículo",
-    "category": "Análisis",
+    "type": "Apunte Académico",
+    "category": "Docencia",
     "date": "",
     "authors": [
       "Equipo Editorial Mundo Social"
     ],
     "tags": [
-      "Análisis Económico"
+      "Matemáticas",
+      "UNMSM"
     ],
     "resumen": "Análisis de coyuntura económica sobre ejercicios de matemáticas para economistas y sus implicancias en el mercado peruano e internacional.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/mateco-finalizadp.pdf",
