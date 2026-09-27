@@ -484,8 +484,38 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         window.setCategory(cat, true);
       }
+      closeNavMenu();
     });
   });
+
+  // Menú hamburguesa para navegación en móvil
+  const navToggle = document.querySelector(".nav-toggle");
+  const navMenu = document.getElementById("nav-menu");
+
+  function closeNavMenu() {
+    if (!navToggle || !navMenu) return;
+    navToggle.setAttribute("aria-expanded", "false");
+    navMenu.classList.remove("is-open");
+  }
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+      const isOpen = navMenu.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    document.addEventListener("click", (e) => {
+      if (navMenu.classList.contains("is-open") &&
+          !navMenu.contains(e.target) &&
+          !navToggle.contains(e.target)) {
+        closeNavMenu();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeNavMenu();
+    });
+  }
 
   // Escuchar clics en las pestañas de categorías principales
   categoryTabs.forEach(tab => {

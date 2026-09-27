@@ -98,7 +98,10 @@
     <!-- Cinta de Navegación por Secciones (Sticky Ribbon con doble filete fino) -->
     <nav class="navbar" aria-label="Navegación principal">
       <div class="wrap nav-container">
-        <ul class="nav-menu">
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menú de navegación">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu" id="nav-menu">
           <li><a href="#articulos" class="nav-link active" data-category="Todos">Portada &amp; Archivo</a></li>
           <li><a href="#articulos" class="nav-link" data-category="Coyuntura">Coyuntura <span class="nav-badge-pill" data-stat="Coyuntura">33</span></a></li>
           <li><a href="#articulos" class="nav-link" data-category="Docencia">Docencia &amp; UNMSM <span class="nav-badge-pill" data-stat="Docencia">28</span></a></li>
