@@ -777,8 +777,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(str).replace(/&/g, "&amp;")
               .replace(/</g, "&lt;")
               .replace(/>/g, "&gt;")
-              .replace(/"/g, "&quot;")
-              .replace(/'/g, "&#039;");
+              .replaceAll('"', "&quot;")
+              .replaceAll("'", "&#039;");
   }
 
   // Render inicial
