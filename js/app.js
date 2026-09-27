@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalAuthors = document.getElementById("modal-authors");
   const modalResumen = document.getElementById("modal-resumen");
   const modalPdfBtn = document.getElementById("modal-pdf-btn");
-  const modalOriginalBtn = document.getElementById("modal-original-btn");
   const modalPreviewBtn = document.getElementById("modal-preview-btn");
   const modalCiteBtn = document.getElementById("modal-cite-btn");
   const modalShareBtn = document.getElementById("modal-share-btn");
@@ -583,19 +582,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     hidePdfViewer();
 
-    if (item.url_original) {
-      modalOriginalBtn.style.display = "inline-flex";
-      modalOriginalBtn.href = item.url_original;
-    } else {
-      modalOriginalBtn.style.display = "none";
-    }
-
     if (modalCiteText) modalCiteText.textContent = formatAPA(item);
     if (modalCiteStatus) modalCiteStatus.textContent = "";
     if (modalCite) modalCite.hidden = true;
     modalCiteBtn?.setAttribute("aria-expanded", "false");
 
     modalOverlay.classList.add("active");
+    if (modalCard) modalCard.scrollTop = 0;
     document.body.style.overflow = "hidden";
     modalClose?.focus();
   };
@@ -804,8 +797,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const t = isoTime(item.date);
     const year = t !== null ? item.date.slice(0, 4) : "s. f.";
-    const title = /[.?!]$/.test(item.title.trim()) ? item.title.trim() : `${item.title.trim()}.`;
-    const url = item.url_original || item.pdf || "";
+    const url = item.pdf || `${window.location.origin}${window.location.pathname}#articulo-${item.id}`;
     const authorsPart = /\.$/.test(authors) ? authors : `${authors}.`;
     return `${authorsPart} (${year}). ${title} Mundo Social.${url ? ` ${url}` : ""}`;
   }

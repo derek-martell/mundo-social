@@ -250,6 +250,7 @@ button {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  margin-left: auto;
 }
 
 .top-social-links {
@@ -1553,7 +1554,7 @@ button {
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: var(--sombra-lg);
-  padding: 2.25rem 2.25rem 2rem;
+  padding: 0;
   position: relative;
   transform: scale(0.96);
   opacity: 0;
@@ -1570,15 +1571,19 @@ button {
 .modal-toolbar {
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin: -2.25rem -2.25rem 1.5rem;
-  padding: 0.7rem 1rem 0.7rem 2.25rem;
+  margin: 0;
+  padding: 0.85rem 2rem;
   background: var(--verde);
   border-bottom: var(--hairline);
+}
+
+.modal-body {
+  padding: 1.75rem 2rem 2.25rem;
 }
 
 .modal-toolbar-label {
@@ -2084,11 +2089,14 @@ button {
     padding: 0.75rem;
   }
   .modal-card {
-    padding: 1.75rem 1.25rem 1.5rem;
+    padding: 0;
   }
   .modal-toolbar {
-    margin: -1.75rem -1.25rem 1.25rem;
-    padding: 0.5rem 0.75rem 0.5rem 1.25rem;
+    margin: 0;
+    padding: 0.65rem 1rem;
+  }
+  .modal-body {
+    padding: 1.25rem 1.25rem 1.75rem;
   }
   .modal-toolbar-label {
     font-size: 0.7rem;
