@@ -15,6 +15,37 @@ def clean_text(s):
     s = re.sub(r'\s+', ' ', s).strip()
     return s
 
+
+# Slugs de paginas de WordPress (menus, secciones, categorias, "Nosotros", etc.)
+# que el scraper capturo como si fueran articulos. Ver scripts/auditar_articulos.py.
+PAGINAS_NO_ARTICULO = {
+    'noticias-2', 'nosotros', 'educacion', 'nuestro-equipo', 'investigacion',
+    'macroeconomia', 'area-de-educacion', 'ejercicios-para-microeconomia',
+    'econometria', 'ejercicios-de-econometria', 'ejercicios-de-macroeconomia',
+    'microeconomia', 'matematicas', 'ejercicios-de-matematicas-para-economistas',
+    'finanzas', 'ejercicios-de-finanzas', 'crecimiento-economico',
+    'historia-economica', 'estadistica', 'columna-de-opinion', 'noticias',
+    'proyectos',
+}
+
+def es_pagina_no_articulo(url, title, date):
+    """Heuristica para descartar paginas de WordPress (menu/categoria/institucional)
+    que no son publicaciones reales, aunque el scraper las haya capturado."""
+    slug = url.strip('/').split('/')[-1]
+    if slug in PAGINAS_NO_ARTICULO:
+        return True
+    tiene_ruta_de_contenido = any(
+        seg in url for seg in ('/nota/', '/columna/', '/apuntes/', '/investigacion/')
+    )
+    if tiene_ruta_de_contenido:
+        return False
+    sin_fecha_real = not date or not re.match(r'^\d{4}-\d{2}-\d{2}$', str(date))
+    titulo_tipo_seccion = (
+        len(title.split()) <= 3
+        and not any(c in title for c in ':¿?«»–—')
+    )
+    return sin_fecha_real and titulo_tipo_seccion
+
 cleaned_items = []
 
 for it in raw_items:
@@ -24,6 +55,9 @@ for it in raw_items:
 
     title = clean_text(it.get('title', ''))
     if not title or len(title) < 3:
+        continue
+
+    if es_pagina_no_articulo(it['url'], title, it.get('date')):
         continue
 
     doc_type = it.get('type', 'Artículo')

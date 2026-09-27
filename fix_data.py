@@ -13,10 +13,47 @@ def clean(text):
     text = text.replace('&#8211;', '–').replace('&#8216;', "'").replace('&#8217;', "'").replace('&#8220;', '"').replace('&#8221;', '"')
     return re.sub(r'\s+', ' ', text).strip()
 
+
+# Slugs de páginas de WordPress (menús, secciones, categorías, "Nosotros", etc.)
+# que el scraper capturó como si fueran artículos. Confirmados manualmente el
+# 2026-09-27 al auditar el catálogo (ver scripts/auditar_articulos.py): ninguno
+# de estos vive bajo /nota/, /columna/, /apuntes/ o /investigacion/, no tiene
+# fecha de publicación real, y su "contenido" es solo el título de la sección.
+PAGINAS_NO_ARTICULO = {
+    'noticias-2', 'nosotros', 'educacion', 'nuestro-equipo', 'investigacion',
+    'macroeconomia', 'area-de-educacion', 'ejercicios-para-microeconomia',
+    'econometria', 'ejercicios-de-econometria', 'ejercicios-de-macroeconomia',
+    'microeconomia', 'matematicas', 'ejercicios-de-matematicas-para-economistas',
+    'finanzas', 'ejercicios-de-finanzas', 'crecimiento-economico',
+    'historia-economica', 'estadistica', 'columna-de-opinion', 'noticias',
+    'proyectos',
+}
+
+def es_pagina_no_articulo(url, title, date):
+    """Heuristica para descartar paginas de WordPress (menu/categoria/institucional)
+    que no son publicaciones reales, aunque el scraper las haya capturado."""
+    slug = url.strip('/').split('/')[-1]
+    if slug in PAGINAS_NO_ARTICULO:
+        return True
+    tiene_ruta_de_contenido = any(
+        seg in url for seg in ('/nota/', '/columna/', '/apuntes/', '/investigacion/')
+    )
+    if tiene_ruta_de_contenido:
+        return False
+    sin_fecha_real = not date or not re.match(r'^\d{4}-\d{2}-\d{2}$', str(date))
+    titulo_tipo_seccion = (
+        len(title.split()) <= 3
+        and not any(c in title for c in ':¿?«»–—')
+    )
+    return sin_fecha_real and titulo_tipo_seccion
+
 items = []
 for it in raw:
     title = clean(it.get('title', ''))
     if not title:
+        continue
+
+    if es_pagina_no_articulo(it.get('url', ''), title, it.get('date')):
         continue
     
     url = it.get('url', '')
