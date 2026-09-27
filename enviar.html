@@ -85,18 +85,6 @@
       grid-template-columns: 1fr 1fr;
       gap: 1.25rem;
     }
-    .editorial-notice-box {
-      background: var(--laton-suave);
-      border-left: 3px solid var(--laton);
-      padding: 1rem 1.25rem;
-      margin: 2rem 0;
-      font-size: 0.85rem;
-      line-height: 1.55;
-      color: var(--ink-secondary);
-    }
-    .editorial-notice-box strong {
-      color: var(--laton-oscuro);
-    }
     .status-box {
       display: none;
       padding: 1.25rem;
@@ -239,14 +227,8 @@
           <textarea id="f-resumen" name="resumen" class="form-textarea" placeholder="Describe brevemente el objetivo, los hallazgos principales y la metodología del documento (1 a 2 párrafos)..." required></textarea>
         </div>
 
-        <!-- Aviso Editorial -->
-        <div class="editorial-notice-box">
-          ⏱️ <strong>Proceso Editorial y Aprobación:</strong><br>
-          Al enviar esta propuesta, el Director Editorial (<strong>Derek Martell</strong>) recibe una alerta directa por correo para su verificación. Si es aprobada (o tras <strong>1 hora</strong> sin objeciones), el sistema incorporará automáticamente la publicación al catálogo oficial y se desplegará en la web.
-        </div>
-
         <!-- Botón de Envío -->
-        <button type="submit" id="submit-btn" class="btn-primary-action" style="cursor: pointer; width: 100%; font-size: 0.95rem;">
+        <button type="submit" id="submit-btn" class="btn-primary-action" style="cursor: pointer; width: 100%; font-size: 0.95rem; margin-top: 1.5rem;">
           Enviar publicación para revisión
         </button>
 
@@ -318,8 +300,7 @@
         statusBox.className = "status-box success";
         statusBox.innerHTML = `
           <strong>✓ ¡Propuesta enviada con éxito!</strong><br>
-          Se ha notificado al director editorial (Derek Martell) para su verificación.
-          Si es aprobada o transcurre 1 hora sin objeciones, aparecerá publicada automáticamente en Mundo Social.
+          Gracias por tu aporte. La propuesta ha sido recibida correctamente por el equipo editorial de Mundo Social.
         `;
         form.reset();
       } catch (err) {
