@@ -745,13 +745,13 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "julio 6, 2",
     "authors": [
-      "Anjal",
-      "Arcos Huaman"
+      "Anjali Arcos Huaman",
+      "Daniela Arcos Huaman"
     ],
     "tags": [
       "UNMSM"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Anjal, Arcos Huaman para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Anjali Arcos Huaman y Daniela Arcos Huaman para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/07/ExamenesHugoSanchezAlphaBeta1.pdf",
     "url_original": "https://mundo-social.com/apuntes/solucion-de-examen-parcial-economia-1-hugo-sanchez/"
   },
@@ -814,9 +814,8 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "enero 21, ",
     "authors": [
-      "Arcos Huaman",
-      "Anjal",
-      "Daniela"
+      "Anjali Arcos Huaman",
+      "Daniela Arcos Huaman"
     ],
     "tags": [
       "Papers & Modelos"
@@ -833,7 +832,7 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "enero 21, ",
     "authors": [
-      "Anjal",
+      "Anjali Arcos Huaman",
       "Daniela Arcos Huaman"
     ],
     "tags": [
@@ -852,8 +851,8 @@ const ARTICULOS_DATA = [
     "category": "Investigación",
     "date": "enero 21, ",
     "authors": [
-      "Anjal",
-      "Arcos Huaman"
+      "Anjali Arcos Huaman",
+      "Daniela Arcos Huaman"
     ],
     "tags": [
       "Papers & Modelos"
@@ -1125,13 +1124,13 @@ const ARTICULOS_DATA = [
     "category": "Docencia",
     "date": "agosto 11,",
     "authors": [
-      "Anjal",
-      "Arcos Huaman"
+      "Anjali Arcos Huaman",
+      "Daniela Arcos Huaman"
     ],
     "tags": [
       "Macroeconomía"
     ],
-    "resumen": "Material de estudio y resolución académica elaborado por Anjal, Arcos Huaman para estudiantes y docentes de economía.",
+    "resumen": "Material de estudio y resolución académica elaborado por Anjali Arcos Huaman y Daniela Arcos Huaman para estudiantes y docentes de economía.",
     "pdf": "https://mundo-social.com/wp-content/uploads/2025/08/Nota_academica_FELIX_final.pdf",
     "url_original": "https://mundo-social.com/apuntes/nota-academica-modelo-solow-swam/"
   },
