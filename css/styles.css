@@ -1491,8 +1491,8 @@ button {
   justify-content: space-between;
   gap: 1rem;
   margin: -2.25rem -2.25rem 1.5rem;
-  padding: 0.6rem 1rem 0.6rem 2.25rem;
-  background: var(--panel);
+  padding: 0.7rem 1rem 0.7rem 2.25rem;
+  background: var(--verde);
   border-bottom: var(--hairline);
 }
 
@@ -1500,7 +1500,7 @@ button {
   font: var(--folio-font);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--mute);
+  color: var(--panel);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1523,15 +1523,16 @@ button {
   padding: 0 0.8rem;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--ink-secondary);
-  border: 1px solid var(--line);
+  color: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radio-sm);
-  transition: color var(--trans), border-color var(--trans);
+  transition: color var(--trans), border-color var(--trans), background-color var(--trans);
 }
 
 .modal-tool-btn:hover {
-  color: var(--verde);
-  border-color: var(--verde);
+  color: var(--panel);
+  border-color: var(--panel);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .modal-close {
@@ -1541,13 +1542,14 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--mute);
-  border: 1px solid var(--line);
+  color: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .modal-close:hover {
-  color: var(--ink);
-  border-color: var(--line-strong);
+  color: var(--panel);
+  border-color: var(--panel);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .modal-meta {
@@ -1559,12 +1561,14 @@ button {
 
 .modal-title {
   font-family: var(--serif);
-  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
   font-weight: 700;
-  line-height: 1.22;
+  line-height: 1.32;
   letter-spacing: -0.01em;
   margin-bottom: 1rem;
-  text-wrap: balance;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .modal-authors-box {
