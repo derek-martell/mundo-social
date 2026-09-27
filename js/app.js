@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultsCount = document.getElementById("results-count");
   const searchMatches = document.getElementById("search-matches");
   const categoryTabs = document.querySelectorAll(".cat-tab");
-  const tagChips = document.querySelectorAll(".tag-chip");
+  const tagChipsContainer = document.querySelector(".tag-chips");
   const themeToggle = document.getElementById("theme-toggle");
 
   // Portada editorial
@@ -466,6 +466,7 @@ document.addEventListener("DOMContentLoaded", () => {
       foundTab.setAttribute("aria-selected", "true");
       currentCategory = foundTab.dataset.category || "Todos";
       updateNavActive(currentCategory);
+      renderTagChips(currentCategory);
       render();
 
       if (shouldScroll) {
@@ -518,6 +519,86 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Sistema Dinámico de Palabras Recomendadas / Filtros según Sección
+  const TAGS_BY_CATEGORY = {
+    "Todos": [
+      { label: "Macroeconomía", tag: "Macroeconomía" },
+      { label: "Microeconomía", tag: "Microeconomía" },
+      { label: "Econometría", tag: "Econometría" },
+      { label: "Finanzas y Mercados", tag: "Finanzas" },
+      { label: "Matemáticas", tag: "Matemáticas" },
+      { label: "Economía Peruana", tag: "Economía Peruana" },
+      { label: "BCRP y Fed", tag: "Política Monetaria" },
+      { label: "Minería y Exportaciones", tag: "Comercio & Minería" },
+      { label: "FCE San Marcos", tag: "UNMSM" },
+      { label: "Ricardo Caballero (MIT)", tag: "MIT" }
+    ],
+    "Coyuntura": [
+      { label: "Economía Peruana", tag: "Economía Peruana" },
+      { label: "Política Monetaria (BCRP/Fed)", tag: "Política Monetaria" },
+      { label: "Minería y Exportaciones", tag: "Comercio & Minería" },
+      { label: "Mercados y Finanzas", tag: "Mercados & Finanzas" },
+      { label: "Macroeconomía", tag: "Macroeconomía" }
+    ],
+    "Docencia": [
+      { label: "Macroeconomía", tag: "Macroeconomía" },
+      { label: "Microeconomía", tag: "Microeconomía" },
+      { label: "Econometría", tag: "Econometría" },
+      { label: "Matemáticas para Economistas", tag: "Matemáticas" },
+      { label: "Finanzas", tag: "Finanzas" },
+      { label: "FCE San Marcos", tag: "UNMSM" },
+      { label: "Ricardo Caballero (MIT)", tag: "MIT" }
+    ],
+    "Investigación": [
+      { label: "Papers & Modelos", tag: "Papers & Modelos" },
+      { label: "Tableros de Datos", tag: "Tablero de Datos" }
+    ],
+    "Análisis": [
+      { label: "Análisis Económico", tag: "Análisis Económico" },
+      { label: "Economía Peruana", tag: "Economía Peruana" },
+      { label: "Opinión", tag: "Opinión" }
+    ]
+  };
+
+  function renderTagChips(category = "Todos") {
+    if (!tagChipsContainer) return;
+    const catKey = TAGS_BY_CATEGORY[category] ? category : "Todos";
+    const tagsList = TAGS_BY_CATEGORY[catKey] || TAGS_BY_CATEGORY["Todos"];
+
+    if (currentTag && !tagsList.some(item => item.tag === currentTag)) {
+      currentTag = "";
+    }
+
+    tagChipsContainer.innerHTML = "";
+    tagsList.forEach(item => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = `tag-chip ${currentTag === item.tag ? "active" : ""}`;
+      btn.dataset.tag = item.tag;
+      btn.setAttribute("aria-pressed", currentTag === item.tag ? "true" : "false");
+      btn.textContent = item.label;
+
+      btn.addEventListener("click", () => {
+        if (currentTag === item.tag) {
+          currentTag = "";
+          btn.classList.remove("active");
+          btn.setAttribute("aria-pressed", "false");
+        } else {
+          tagChipsContainer.querySelectorAll(".tag-chip").forEach(c => {
+            c.classList.remove("active");
+            c.setAttribute("aria-pressed", "false");
+          });
+          btn.classList.add("active");
+          btn.setAttribute("aria-pressed", "true");
+          currentTag = item.tag;
+        }
+        render();
+      });
+
+      tagChipsContainer.appendChild(btn);
+    });
+  }
+
   // Escuchar clics en las pestañas de categorías principales
   categoryTabs.forEach(tab => {
     tab.setAttribute("aria-selected", tab.classList.contains("active") ? "true" : "false");
@@ -530,27 +611,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tab.setAttribute("aria-selected", "true");
       currentCategory = tab.dataset.category || "Todos";
       updateNavActive(currentCategory);
-      render();
-    });
-  });
-
-  tagChips.forEach(chip => {
-    chip.setAttribute("aria-pressed", "false");
-    chip.addEventListener("click", () => {
-      const tagVal = chip.dataset.tag || "";
-      if (currentTag === tagVal) {
-        currentTag = "";
-        chip.classList.remove("active");
-        chip.setAttribute("aria-pressed", "false");
-      } else {
-        tagChips.forEach(c => {
-          c.classList.remove("active");
-          c.setAttribute("aria-pressed", "false");
-        });
-        chip.classList.add("active");
-        chip.setAttribute("aria-pressed", "true");
-        currentTag = tagVal;
-      }
+      renderTagChips(currentCategory);
       render();
     });
   });
@@ -813,6 +874,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Render inicial
   renderCounts();
+  renderTagChips(currentCategory);
   render();
   openFromHash();
 });
