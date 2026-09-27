@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enviar Publicación | Mundo Social</title>
+  
+  <meta name="description" content="Envía tus artículos, notas de coyuntura o apuntes académicos para su publicación en Mundo Social (UNMSM).">
+  <link rel="canonical" href="https://mundo-social.com/enviar.html">
+  <meta name="theme-color" content="#0f4c3a">
+  
+  <!-- Tipografías de alta gama (Literata + Schibsted Grotesk) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css?v=20260927_9">
+  <link rel="icon" type="image/png" href="imagenes/logo-emblem.png">
+
+  <style>
+    .submit-hero {
+      padding: 3rem 0 2rem;
+      border-bottom: var(--hairline-strong);
+      margin-bottom: 2.5rem;
+    }
+    .submit-container {
+      max-width: 760px;
+      margin: 0 auto 5rem;
+    }
+    .form-card {
+      background-color: var(--panel);
+      background-image: var(--paper);
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--verde);
+      border-radius: var(--radio-sm);
+      padding: 2.5rem 2.5rem 2rem;
+      box-shadow: var(--sombra);
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-label {
+      display: block;
+      font: var(--folio-font);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .form-label span.req {
+      color: var(--rojo);
+    }
+    .form-hint {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--mute);
+      margin-top: 0.25rem;
+      line-height: 1.4;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radio-sm);
+      padding: 0.75rem 0.9rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--ink);
+      transition: border-color var(--trans), box-shadow var(--trans);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--verde);
+      box-shadow: 0 0 0 3px var(--verde-glow);
+    }
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .editorial-notice-box {
+      background: var(--laton-suave);
+      border-left: 3px solid var(--laton);
+      padding: 1rem 1.25rem;
+      margin: 2rem 0;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: var(--ink-secondary);
+    }
+    .editorial-notice-box strong {
+      color: var(--laton-oscuro);
+    }
+    .status-box {
+      display: none;
+      padding: 1.25rem;
+      border-radius: var(--radio-sm);
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .status-box.success {
+      display: block;
+      background: var(--verde-suave);
+      color: var(--verde-oscuro);
+      border: 1px solid var(--verde);
+    }
+    .status-box.error {
+      display: block;
+      background: var(--rojo-suave);
+      color: var(--rojo);
+      border: 1px solid var(--rojo);
+    }
+    @media (max-width: 640px) {
+      .form-row-2 {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .form-card {
+        padding: 1.75rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       CABECERA
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="top-utility-bar">
+      <div class="wrap top-utility-inner">
+        <div class="top-utility-left">
+          <a href="index.html" style="font-weight: 700; color: var(--ink); text-decoration: underline; text-underline-offset: 0.2em;">&larr; Volver a la Portada</a>
+          <span class="top-sep">&bull;</span>
+          <span class="top-edition">Mesa de Entradas</span>
+        </div>
+        <div class="top-utility-right">
+          <button id="theme-toggle" class="theme-toggle" type="button" title="Alternar tema" aria-label="Cambiar tema">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="masthead-main">
+      <div class="wrap masthead-center-block">
+        <a href="index.html" class="masthead-brand" aria-label="Mundo Social - Inicio">
+          <div class="masthead-logo-wrap">
+            <img src="imagenes/logo-transparent.png" alt="Logotipo Mundo Social" class="masthead-logo-img logo-light">
+            <img src="imagenes/logo-dark-mode.png" alt="Logotipo Mundo Social" class="masthead-logo-img logo-dark">
+          </div>
+          <div class="masthead-titles">
+            <span class="masthead-tagline">Formulario Oficial de Colaboraciones y Envíos Académicos</span>
+            <span class="masthead-sub-tagline">Facultad de Ciencias Económicas &bull; Universidad Nacional Mayor de San Marcos</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       HERO DEL FORMULARIO
+       ========================================================================== -->
+  <section class="submit-hero">
+    <div class="wrap" style="max-width: 760px;">
+      <h1 class="hero-title" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-bottom: 0.6rem;">
+        Envía tu propuesta de publicación
+      </h1>
+      <p class="hero-desc" style="font-size: 1.05rem;">
+        Recibimos notas de coyuntura, apuntes didácticos de cursos, solucionarios de exámenes y resúmenes de investigación de estudiantes, docentes y economistas comprometidos con el rigor técnico.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FORMULARIO
+       ========================================================================== -->
+  <main class="wrap submit-container">
+    <div class="form-card">
+      <form id="submission-form">
+        <!-- Título -->
+        <div class="form-group">
+          <label for="f-title" class="form-label">Título de la publicación <span class="req">*</span></label>
+          <input type="text" id="f-title" name="title" class="form-input" placeholder="Ej. Efectos del canon minero en la inversión subnacional" required>
+        </div>
+
+        <!-- Categoría y Tipo -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="f-category" class="form-label">Sección o Categoría <span class="req">*</span></label>
+            <select id="f-category" name="category" class="form-select" required>
+              <option value="Coyuntura">Notas de Coyuntura (Política monetaria, precios, empleo)</option>
+              <option value="Docencia">Docencia & Apuntes (Exámenes, solucionarios, guías)</option>
+              <option value="Investigación">Investigación & Papers (Modelos cuantitativos)</option>
+              <option value="Análisis">Artículos y Columnas de Opinión</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="f-tags" class="form-label">Curso o Área temática <span class="req">*</span></label>
+            <input type="text" id="f-tags" name="tags" class="form-input" placeholder="Ej. Macroeconomía, BCRP, UNMSM" required>
+            <span class="form-hint">Separa con comas si son varias áreas.</span>
+          </div>
+        </div>
+
+        <!-- Autores y Correo -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="f-authors" class="form-label">Autor(es) <span class="req">*</span></label>
+            <input type="text" id="f-authors" name="authors" class="form-input" placeholder="Ej. Juan Pérez, María Delgado" required>
+            <span class="form-hint">Escribe los nombres completos tal como deben citarse.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="f-email" class="form-label">Correo de contacto <span class="req">*</span></label>
+            <input type="email" id="f-email" name="email" class="form-input" placeholder="tu.correo@unmsm.edu.pe" required>
+            <span class="form-hint">Para notificarte de la publicación o coordinar correcciones.</span>
+          </div>
+        </div>
+
+        <!-- Documento PDF -->
+        <div class="form-group">
+          <label for="f-pdf" class="form-label">Enlace al Documento PDF <span class="req">*</span></label>
+          <input type="url" id="f-pdf" name="pdf" class="form-input" placeholder="https://drive.google.com/file/d/... o enlace público al PDF" required>
+          <span class="form-hint">Sube el documento a Google Drive, OneDrive o Dropbox y pega aquí el enlace con permisos de lectura abierta.</span>
+        </div>
+
+        <!-- Resumen / Abstract -->
+        <div class="form-group">
+          <label for="f-resumen" class="form-label">Resumen o Síntesis Ejecutiva <span class="req">*</span></label>
+          <textarea id="f-resumen" name="resumen" class="form-textarea" placeholder="Describe brevemente el objetivo, los hallazgos principales y la metodología del documento (1 a 2 párrafos)..." required></textarea>
+        </div>
+
+        <!-- Aviso Editorial -->
+        <div class="editorial-notice-box">
+          ⏱️ <strong>Proceso Editorial y Aprobación:</strong><br>
+          Al enviar esta propuesta, el Director Editorial (<strong>Derek Martell</strong>) recibe una alerta directa por correo para su verificación. Si es aprobada (o tras <strong>1 hora</strong> sin objeciones), el sistema incorporará automáticamente la publicación al catálogo oficial y se desplegará en la web.
+        </div>
+
+        <!-- Botón de Envío -->
+        <button type="submit" id="submit-btn" class="btn-primary-action" style="cursor: pointer; width: 100%; font-size: 0.95rem;">
+          Enviar publicación para revisión
+        </button>
+
+        <div id="status-box" class="status-box" role="alert"></div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-container">
+      <div class="footer-brand-col">
+        <p><strong>Mundo Social</strong> &copy; 2026. Todos los derechos reservados.</p>
+        <p style="font-size: 0.8rem; margin-top: 0.3rem;">Facultad de Ciencias Económicas &bull; Universidad Nacional Mayor de San Marcos.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="https://derek-martell.github.io/" target="_blank" rel="noopener noreferrer">Portafolio Derek Martell</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // Tema claro / oscuro sincronizado
+    const savedTheme = localStorage.getItem("mundo-social-theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    document.getElementById("theme-toggle")?.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("mundo-social-theme", next);
+    });
+
+    // Envío del formulario
+    const form = document.getElementById("submission-form");
+    const statusBox = document.getElementById("status-box");
+    const submitBtn = document.getElementById("submit-btn");
+
+    // URL de Apps Script Web App (configurar en scripts/google_apps_script_automatizacion.js)
+    const APPS_SCRIPT_URL = "URL_DE_TU_GOOGLE_APPS_SCRIPT_WEB_APP";
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando propuesta...";
+      statusBox.className = "status-box";
+      statusBox.style.display = "none";
+
+      const data = {
+        title: document.getElementById("f-title").value.trim(),
+        category: document.getElementById("f-category").value,
+        tags: document.getElementById("f-tags").value.trim(),
+        authors: document.getElementById("f-authors").value.trim(),
+        email: document.getElementById("f-email").value.trim(),
+        pdf: document.getElementById("f-pdf").value.trim(),
+        resumen: document.getElementById("f-resumen").value.trim(),
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes("URL_DE_TU")) {
+          await fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
+        }
+        
+        statusBox.className = "status-box success";
+        statusBox.innerHTML = `
+          <strong>✓ ¡Propuesta enviada con éxito!</strong><br>
+          Se ha notificado al director editorial (Derek Martell) para su verificación.
+          Si es aprobada o transcurre 1 hora sin objeciones, aparecerá publicada automáticamente en Mundo Social.
+        `;
+        form.reset();
+      } catch (err) {
+        statusBox.className = "status-box error";
+        statusBox.innerHTML = `<strong>Error al enviar:</strong> ${err.message}. Por favor intenta nuevamente o envía un correo directo a derekmartell99@gmail.com`;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar publicación para revisión";
+      }
+    });
+  </script>
+</body>
+</html>
