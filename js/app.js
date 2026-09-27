@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const searchClear = document.getElementById("search-clear");
   const resultsCount = document.getElementById("results-count");
+  const searchMatches = document.getElementById("search-matches");
   const categoryTabs = document.querySelectorAll(".cat-tab");
   const tagChips = document.querySelectorAll(".tag-chip");
   const themeToggle = document.getElementById("theme-toggle");
@@ -42,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalOriginalBtn = document.getElementById("modal-original-btn");
   const modalPreviewBtn = document.getElementById("modal-preview-btn");
   const modalCiteBtn = document.getElementById("modal-cite-btn");
+  const modalShareBtn = document.getElementById("modal-share-btn");
   const modalCiteText = document.getElementById("modal-cite-text");
   const modalCiteStatus = document.getElementById("modal-cite-status");
   const modalPdfViewer = document.getElementById("modal-pdf-viewer");
@@ -71,6 +73,41 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================================================
   // 2. RENDERIZADO
   // ==========================================================================
+  // Normalización sin tildes para coincidencia perfecta de categorías
+  function inCategory(item, catName) {
+    const normCat = s => (s || "").toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
+    const targetCat = normCat(catName);
+    const itemCat = normCat(item.category);
+    return targetCat === "todos" ||
+      itemCat === targetCat ||
+      (targetCat === "docencia" && (itemCat.includes("docencia") || itemCat.includes("apunte"))) ||
+      (targetCat.includes("apunte") && (itemCat.includes("docencia") || itemCat.includes("apunte")));
+  }
+
+  // Contadores reales en pestañas y tira de métricas (derivados del catálogo)
+  function renderCounts() {
+    categoryTabs.forEach(tab => {
+      const badge = tab.querySelector(".cat-badge-count");
+      if (badge) badge.textContent = ARTICULOS_DATA.filter(item => inCategory(item, tab.dataset.category)).length;
+    });
+    document.querySelectorAll("[data-stat]").forEach(el => {
+      const key = el.dataset.stat;
+      if (key === "total") el.textContent = ARTICULOS_DATA.length;
+      else if (key === "pdf") el.textContent = ARTICULOS_DATA.filter(item => item.pdf).length;
+      else el.textContent = ARTICULOS_DATA.filter(item => inCategory(item, key)).length;
+    });
+  }
+
+  // Fecha de la edición (generada en el cliente)
+  const heroDate = document.getElementById("hero-date");
+  if (heroDate) {
+    const today = new Date();
+    heroDate.dateTime = today.toISOString().slice(0, 10);
+    heroDate.textContent = "Edición del " + new Intl.DateTimeFormat("es-PE", {
+      weekday: "long", day: "numeric", month: "long", year: "numeric"
+    }).format(today);
+  }
+
   function render() {
     if (!grid) return;
 
@@ -78,15 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Filtrar publicaciones
     const filtered = ARTICULOS_DATA.filter(item => {
-      // Normalización de categoría para coincidencia perfecta
-      const normCat = s => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      const targetCat = normCat(currentCategory);
-      const itemCat = normCat(item.category);
-
-      const matchesCategory = targetCat === "todos" ||
-        itemCat === targetCat ||
-        (targetCat === "docencia" && (itemCat.includes("docencia") || itemCat.includes("apunte"))) ||
-        (targetCat.includes("apunte") && (itemCat.includes("docencia") || itemCat.includes("apunte")));
+      const matchesCategory = inCategory(item, currentCategory);
 
       // Filtro de Etiqueta Secundaria
       const matchesTag = !currentTag || (item.tags && item.tags.includes(currentTag));
@@ -116,6 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
       resultsCount.innerHTML = editorialActive
         ? `Archivo de <strong>${ARTICULOS_DATA.length}</strong> publicaciones &middot; portada, gaceta, fichero y archivo completo`
         : `Mostrando <strong>${filtered.length}</strong> de ${ARTICULOS_DATA.length} publicaciones en <em>${escapeHtml(currentCategory)}</em>`;
+      resultsCount.classList.remove("is-updating");
+      void resultsCount.offsetWidth; // reinicia la transición
+      resultsCount.classList.add("is-updating");
+    }
+    if (searchMatches) {
+      searchMatches.textContent = q
+        ? `${filtered.length} ${filtered.length === 1 ? "coincidencia" : "coincidencias"}`
+        : "";
     }
 
     // Manejar estado vacío
@@ -219,6 +256,18 @@ document.addEventListener("DOMContentLoaded", () => {
     return `data-open-id="${item.id}" tabindex="0" aria-label="Ver ficha: ${escapeHtml(item.title)}"`;
   }
 
+  // Tratamiento visual por género: apunte, coyuntura, investigación o columna
+  function kindClassFor(item) {
+    if (item.category === "Docencia" || item.category === "Apuntes y Exámenes" || item.type === "Apunte Académico") return "card--kind-apunte";
+    if (item.category === "Coyuntura") return "card--kind-coyuntura";
+    if (item.category === "Investigación" || item.type === "Investigación") return "card--kind-investigacion";
+    return "card--kind-analisis";
+  }
+
+  function citeButton(item) {
+    return `<button type="button" class="btn-cite-mini" data-cite-id="${item.id}" aria-label="Copiar cita APA: ${escapeHtml(item.title)}" title="Copiar cita bibliográfica (APA 7)">Citar</button>`;
+  }
+
   function cardHtml(item) {
     const tagsHtml = (item.tags || []).slice(0, 3)
       .map(t => `<span class="mini-tag">${escapeHtml(t)}</span>`)
@@ -226,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dateFormatted = formatDate(item.date);
 
     return `
-      <article class="card" ${openAttrs(item)}>
+      <article class="card ${kindClassFor(item)}${item.pdf ? " has-pdf" : ""}" ${openAttrs(item)}>
         <div>
           <div class="card-top">
             <span class="card-badge ${badgeClassFor(item.type)}">${escapeHtml(item.type)}</span>
@@ -239,7 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div class="card-footer">
           <span class="btn-read">Ver ficha <span aria-hidden="true">&rarr;</span></span>
-          ${pdfLink(item)}
+          <span class="card-actions">${citeButton(item)}${pdfLink(item)}</span>
         </div>
       </article>
     `;
@@ -306,14 +355,28 @@ document.addEventListener("DOMContentLoaded", () => {
         <p class="dossier-authors">${escapeHtml(authorsOf(item))}</p>
         <footer class="dossier-foot">
           <span>${dateFormatted ? `<time>${dateFormatted}</time> &middot; ` : ""}${getReadingTime(item.resumen)} min</span>
-          ${pdfLink(item)}
+          <span class="card-actions">${citeButton(item)}${pdfLink(item)}</span>
         </footer>
       </article>
     `;
   }
 
   // Apertura de fichas por clic o teclado (delegado)
-  document.addEventListener("click", (e) => {
+  document.addEventListener("click", async (e) => {
+    const citeBtn = e.target.closest(".btn-cite-mini");
+    if (citeBtn) {
+      e.stopPropagation();
+      const item = ARTICULOS_DATA.find(x => x.id === Number(citeBtn.dataset.citeId));
+      if (!item) return;
+      const ok = await copyText(formatAPA(item));
+      citeBtn.textContent = ok ? "Copiada" : "Sin copiar";
+      citeBtn.classList.toggle("is-done", ok);
+      setTimeout(() => {
+        citeBtn.textContent = "Citar";
+        citeBtn.classList.remove("is-done");
+      }, 1800);
+      return;
+    }
     if (e.target.closest("a, button")) return;
     const el = e.target.closest("[data-open-id]");
     if (el) window.openModal(Number(el.dataset.openId));
@@ -510,6 +573,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.style.overflow = "";
     hidePdfViewer();
     activeModalItem = null;
+    if (/^#articulo-\d+$/.test(location.hash)) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
     lastFocused?.focus?.();
   }
 
@@ -543,6 +609,28 @@ document.addEventListener("DOMContentLoaded", () => {
         : "No pudimos copiar automáticamente. Selecciona la cita de arriba y cópiala.";
     }
   });
+
+  modalShareBtn?.addEventListener("click", async () => {
+    if (!activeModalItem) return;
+    const link = articleUrl(activeModalItem);
+    const ok = await copyText(link);
+    if (modalCiteStatus) {
+      modalCiteStatus.textContent = ok
+        ? "Enlace al artículo copiado al portapapeles."
+        : `No pudimos copiar automáticamente. Copia este enlace: ${link}`;
+    }
+  });
+
+  function articleUrl(item) {
+    return `${location.origin}${location.pathname}#articulo-${item.id}`;
+  }
+
+  // Enlace directo: index.html#articulo-12 abre la ficha correspondiente
+  function openFromHash() {
+    const m = location.hash.match(/^#articulo-(\d+)$/);
+    if (m) window.openModal(Number(m[1]));
+  }
+  window.addEventListener("hashchange", openFromHash);
 
   modalClose?.addEventListener("click", closeModal);
   modalOverlay?.addEventListener("click", (e) => {
@@ -694,5 +782,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Render inicial
+  renderCounts();
   render();
+  openFromHash();
 });

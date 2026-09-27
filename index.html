@@ -89,6 +89,12 @@
        ========================================================================== -->
   <section class="hero">
     <div class="wrap">
+      <div class="masthead-line">
+        <time id="hero-date" class="masthead-date"></time>
+        <span class="hero-archive-badge">Archivo Digital de Economía Política &amp; Sociedad</span>
+        <span class="masthead-place">Lima, Perú</span>
+      </div>
+
       <div class="hero-meta">
         <span class="hero-meta-dot"></span>
         <span>Portal de Divulgación Económica & Repositorio Académico</span>
@@ -108,6 +114,7 @@
         <div class="search-box">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <input type="search" id="search-input" class="search-input" placeholder="Buscar por tema, autor, curso o palabra clave (ej. MIT, BCRP, Solow, Deuda)..." autocomplete="off">
+          <span id="search-matches" class="search-matches" aria-hidden="true"></span>
           <button id="search-clear" class="search-clear" type="button" aria-label="Limpiar búsqueda">✕</button>
         </div>
       </div>
@@ -115,19 +122,19 @@
       <!-- Métricas del acervo -->
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-num">96</span>
+          <span class="stat-num" data-stat="total">96</span>
           <span class="stat-label">Publicaciones Totales</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">33</span>
+          <span class="stat-num" data-stat="Coyuntura">33</span>
           <span class="stat-label">Notas de Coyuntura</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">28</span>
+          <span class="stat-num" data-stat="Docencia">28</span>
           <span class="stat-label">Apuntes & Exámenes</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">76</span>
+          <span class="stat-num" data-stat="pdf">76</span>
           <span class="stat-label">Informes en PDF</span>
         </div>
       </div>
@@ -228,8 +235,17 @@
        ========================================================================== -->
   <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-card">
-      <button id="modal-close" class="modal-close" aria-label="Cerrar ventana">✕</button>
-      
+      <div class="modal-toolbar">
+        <span class="modal-toolbar-label">Atril de lectura &middot; Mundo Social</span>
+        <div class="modal-toolbar-actions">
+          <button id="modal-share-btn" type="button" class="modal-tool-btn" title="Copiar enlace al artículo">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            Copiar enlace
+          </button>
+          <button id="modal-close" class="modal-close" aria-label="Cerrar ventana">✕</button>
+        </div>
+      </div>
+
       <div class="modal-meta">
         <span id="modal-badge" class="card-badge badge-nota">Nota Informativa</span>
         <time id="modal-date" class="card-date">23 Mar 2026</time>
@@ -280,13 +296,18 @@
   <section id="nosotros" class="about-section">
     <div class="wrap about-grid">
       <div>
+        <p class="about-kicker">Manifiesto editorial</p>
         <h2 class="about-title">Sobre Mundo Social</h2>
+        <p class="about-p about-lede">
+          <strong>Mundo Social</strong> es una iniciativa académica y de divulgación fundada por <strong>Derek Martell</strong> en la Facultad de Ciencias Económicas de la Universidad Nacional Mayor de San Marcos (UNMSM), junto a estudiantes y asistentes de cátedra comprometidos con el rigor técnico y la difusión accesible del conocimiento económico.
+        </p>
         <p class="about-p">
-          <strong>Mundo Social</strong> es una iniciativa académica y de divulgación fundada en la Universidad Nacional Mayor de San Marcos (UNMSM) por estudiantes y asistentes de cátedra comprometidos con el rigor técnico y la difusión accesible del conocimiento económico.
+          Nuestra misión es divulgar el pensamiento económico y social en el Perú: acercar la teoría a la coyuntura, explicar con datos oficiales lo que ocurre en la economía del país y sostener un debate público informado, plural e independiente.
         </p>
         <p class="about-p">
           Producimos notas de coyuntura sobre política monetaria, mercados financieros y desarrollo productivo, además de mantener un repositorio abierto de apuntes didácticos y soluciones de exámenes para la comunidad universitaria.
         </p>
+        <p class="about-signature">Derek Martell &mdash; Fundador y director editorial</p>
       </div>
 
       <div class="about-pillars">

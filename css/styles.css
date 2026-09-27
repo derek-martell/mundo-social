@@ -352,6 +352,39 @@ button {
   background-image: var(--paper);
 }
 
+/* Filete de cabecera: fecha de edición, sello del archivo y plaza (doble filete fino) */
+.masthead-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  padding: 0.5rem 0;
+  margin-bottom: 1.75rem;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  outline: 1px solid var(--line);
+  outline-offset: 3px;
+  clip-path: inset(-4px 0);
+  font: var(--folio-font);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.masthead-date::first-letter {
+  text-transform: uppercase;
+}
+
+.hero-archive-badge {
+  color: var(--verde);
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radio-sm);
+}
+
 .hero-meta {
   display: flex;
   align-items: center;
@@ -438,11 +471,35 @@ button {
 }
 
 .search-box svg {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1.1rem;
+  height: 1.1rem;
   color: var(--mute);
   margin-right: 0.75rem;
   flex-shrink: 0;
+  stroke-width: 1.75;
+  transition: color var(--trans);
+}
+
+.search-box:focus-within svg {
+  color: var(--verde);
+}
+
+/* Indicador vivo de coincidencias dentro del buscador */
+.search-matches {
+  flex-shrink: 0;
+  font: var(--folio-font);
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--laton-oscuro);
+  white-space: nowrap;
+  padding-left: 0.75rem;
+  margin-left: 0.5rem;
+  border-left: var(--hairline);
+}
+
+.search-matches:empty {
+  display: none;
 }
 
 .search-input {
@@ -613,6 +670,16 @@ button {
 
 .results-count strong {
   color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.results-count.is-updating {
+  animation: countIn 0.15s ease-out;
+}
+
+@keyframes countIn {
+  from { opacity: 0.35; }
+  to { opacity: 1; }
 }
 
 /* 06. ENCABEZADOS DE SECCIÓN Y FILETES ==================================== */
@@ -927,7 +994,6 @@ button {
 
 .dossier-card:hover {
   border-color: var(--laton);
-  transform: translateY(-2px);
 }
 
 /* El clip-path recorta el contorno exterior: foco hacia dentro */
@@ -1022,13 +1088,50 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: border-color var(--trans), transform var(--trans);
+  transition: border-color var(--trans), background-color var(--trans);
   position: relative;
+  border-top: 2px solid var(--line-strong);
 }
 
 .card:hover {
-  transform: translateY(-2px);
   border-color: var(--line-strong);
+  background-color: var(--panel-hover);
+}
+
+/* Género editorial: filete superior y folio de ficha según el tipo */
+.card--kind-coyuntura { border-top-color: var(--verde); }
+.card--kind-investigacion { border-top: 3px double var(--azul); }
+.card--kind-analisis { border-top-color: var(--rojo); }
+.card--kind-apunte {
+  border-top: 2px solid var(--laton);
+  border-left: 3px solid var(--ficha-rule);
+}
+.card--kind-apunte .card-title {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  letter-spacing: -0.005em;
+}
+.card--kind-investigacion .card-title {
+  font-size: 1.24rem;
+}
+
+/* PDF disponible: sello discreto en la esquina */
+.card.has-pdf .card-top::after {
+  content: "PDF";
+  font: var(--folio-font);
+  letter-spacing: 0.08em;
+  color: var(--verde);
+  border: 1px solid var(--line-strong);
+  padding: 0.15rem 0.35rem;
+  border-radius: var(--radio-sm);
+}
+
+.card.has-pdf .card-top {
+  justify-content: flex-start;
+}
+
+.card.has-pdf .card-top > .card-badge {
+  margin-right: auto;
 }
 
 .card-top {
@@ -1151,6 +1254,38 @@ button {
   height: 0.9rem;
 }
 
+.card-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Micro-botón de cita APA: tipográfico, sin relleno */
+.btn-cite-mini {
+  font: var(--folio-font);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mute);
+  min-height: 2rem;
+  padding: 0 0.55rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radio-sm);
+  transition: color var(--trans), border-color var(--trans);
+}
+
+.btn-cite-mini:hover {
+  color: var(--laton-oscuro);
+  border-color: var(--laton);
+  border-style: solid;
+}
+
+.btn-cite-mini.is-done {
+  color: var(--verde);
+  border-color: var(--verde);
+  border-style: solid;
+}
+
 /* 10. ESTADO VACÍO ======================================================== */
 .empty-state {
   text-align: center;
@@ -1217,10 +1352,58 @@ button {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Atril de lectura: barra superior fija con acciones */
+.modal-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: -2.25rem -2.25rem 1.5rem;
+  padding: 0.6rem 1rem 0.6rem 2.25rem;
+  background: var(--panel);
+  border-bottom: var(--hairline);
+}
+
+.modal-toolbar-label {
+  font: var(--folio-font);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.modal-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  padding: 0 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  border: 1px solid var(--line);
+  border-radius: var(--radio-sm);
+  transition: color var(--trans), border-color var(--trans);
+}
+
+.modal-tool-btn:hover {
+  color: var(--verde);
+  border-color: var(--verde);
+}
+
 .modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
   width: 2.25rem;
   height: 2.25rem;
   border-radius: var(--radio-sm);
@@ -1241,7 +1424,6 @@ button {
   align-items: baseline;
   gap: 0.8rem;
   margin-bottom: 0.75rem;
-  padding-right: 3rem;
 }
 
 .modal-title {
@@ -1392,6 +1574,34 @@ button {
   grid-template-columns: 1fr 1fr;
   gap: 3.5rem;
   align-items: start;
+}
+
+.about-kicker {
+  font: var(--folio-font);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--laton-oscuro);
+  margin-bottom: 0.6rem;
+}
+
+.about-lede::first-letter {
+  float: left;
+  font-family: var(--serif);
+  font-size: 3.4rem;
+  line-height: 0.9;
+  font-weight: 700;
+  color: var(--verde);
+  padding: 0.3rem 0.5rem 0 0;
+}
+
+.about-signature {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-secondary);
+  padding-top: 0.75rem;
+  border-top: var(--hairline);
+  max-width: 62ch;
 }
 
 .about-title {
@@ -1546,6 +1756,19 @@ button {
   }
   .modal-card {
     padding: 1.75rem 1.25rem 1.5rem;
+  }
+  .modal-toolbar {
+    margin: -1.75rem -1.25rem 1.25rem;
+    padding: 0.5rem 0.75rem 0.5rem 1.25rem;
+  }
+  .modal-toolbar-label {
+    display: none;
+  }
+  .modal-toolbar {
+    justify-content: flex-end;
+  }
+  .search-matches {
+    display: none;
   }
   .card--secondary {
     grid-template-columns: minmax(0, 1fr);
