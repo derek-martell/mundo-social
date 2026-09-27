@@ -59,8 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================================================
   // 1. TEMA CLARO / OSCURO (Sincronizado y persistente)
   // ==========================================================================
-  const savedTheme = localStorage.getItem("mundo-social-theme") ||
-    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const savedTheme = localStorage.getItem("mundo-social-theme") || "light";
   document.documentElement.setAttribute("data-theme", savedTheme);
 
   themeToggle?.addEventListener("click", () => {

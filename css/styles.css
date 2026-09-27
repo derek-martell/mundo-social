@@ -1779,8 +1779,15 @@ button {
 }
 
 @media (max-width: 820px) {
+  .nav-container {
+    justify-content: flex-start;
+  }
   .nav-menu {
-    display: none;
+    justify-content: flex-start;
+    gap: 1.3rem;
+    -webkit-mask-image: linear-gradient(to right, #000 92%, transparent);
+    mask-image: linear-gradient(to right, #000 92%, transparent);
+    padding-right: 1.5rem;
   }
   .about-grid {
     grid-template-columns: 1fr;
@@ -1812,6 +1819,39 @@ button {
   }
   .stat-item:nth-child(n + 3) {
     border-top: var(--hairline);
+  }
+
+  /* Franja superior compacta: prioriza controles (tema/redacción) sobre texto informativo */
+  .top-utility-inner {
+    gap: 0.5rem;
+  }
+  .top-edition,
+  .top-inst,
+  .top-utility-left .top-sep {
+    display: none;
+  }
+  /* La fecha es lo único que queda a la izquierda: debe poder encogerse
+     y truncarse en vez de empujar los íconos fuera de la pantalla */
+  .top-utility-left {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+  .top-date {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .top-utility-right {
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  .btn-admin-text {
+    display: none;
+  }
+  .btn-admin {
+    padding: 0 0.5rem;
   }
 
   /* Índice y fichas deslizables con desvanecido en los extremos */
