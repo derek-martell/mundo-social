@@ -289,16 +289,33 @@
         timestamp: new Date().toISOString()
       };
 
+      // El enlace al documento debe ser una URL http(s) real (no "javascript:"
+      // ni otros esquemas). El servidor también lo valida; esto solo da
+      // retroalimentación inmediata sin esperar la respuesta de red.
+      if (data.pdf && !/^https?:\/\/[^\s<>"']+$/i.test(data.pdf)) {
+        statusBox.className = "status-box error";
+        statusBox.innerHTML = `<strong>Enlace inválido:</strong> el documento debe ser una URL que empiece con http:// o https:// (por ejemplo, un enlace de Google Drive, OneDrive o Dropbox).`;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar publicación para revisión";
+        return;
+      }
+
       try {
-        if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes("URL_DE_TU")) {
-          await fetch(APPS_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-          });
+        if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("URL_DE_TU")) {
+          throw new Error("El formulario aún no está conectado a un sistema de recepción. Contacta directamente a 7073248@gmail.com");
         }
-        
+
+        const resp = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        const result = await resp.json();
+
+        if (result.status !== "success") {
+          throw new Error(result.message || "El servidor rechazó el envío.");
+        }
+
         statusBox.className = "status-box success";
         statusBox.innerHTML = `
           <strong>✓ ¡Propuesta enviada con éxito!</strong><br>

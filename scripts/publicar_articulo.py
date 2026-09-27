@@ -105,7 +105,16 @@ def publicar(payload):
     nuevo_id = max_id + 1
 
     pdf_url = str(payload.get("pdf", "")).strip()
+    if pdf_url and not re.match(r'^https?://\S+$', pdf_url):
+        raise ValueError(
+            f"El enlace del PDF debe empezar con http:// o https:// (recibido: {pdf_url!r}). "
+            "Se rechaza para evitar esquemas como 'javascript:' u otros."
+        )
     url_orig = str(payload.get("url_original", "")).strip()
+    if url_orig and not re.match(r'^https?://\S+$', url_orig):
+        raise ValueError(
+            f"La URL original debe empezar con http:// o https:// (recibido: {url_orig!r})."
+        )
 
     nuevo_articulo = {
         "id": nuevo_id,
