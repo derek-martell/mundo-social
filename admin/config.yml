@@ -1,0 +1,53 @@
+backend:
+  name: github
+  repo: derek-martell/mundo-social
+  branch: main
+
+media_folder: "documentos"
+public_folder: "documentos"
+
+site_url: https://mundo-social.com
+display_url: https://mundo-social.com
+
+collections:
+  - name: "notas"
+    label: "Notas de Coyuntura"
+    folder: "contenido/notas"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Título de la Nota", name: "title", widget: "string" }
+      - { label: "Fecha de Publicación", name: "date", widget: "datetime" }
+      - { label: "Autores", name: "authors", widget: "list", default: ["Equipo Mundo Social"] }
+      - { label: "Categoría", name: "category", widget: "select", options: ["Coyuntura", "Análisis", "Especial"], default: "Coyuntura" }
+      - { label: "Documento PDF", name: "pdf", widget: "file", required: false }
+      - { label: "Resumen Breve", name: "resumen", widget: "text" }
+      - { label: "Cuerpo del Artículo", name: "body", widget: "markdown", required: false }
+
+  - name: "apuntes"
+    label: "Apuntes y Exámenes (Docencia)"
+    folder: "contenido/apuntes"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título del Apunte / Examen", name: "title", widget: "string" }
+      - { label: "Curso", name: "curso", widget: "select", options: ["Macroeconomía", "Microeconomía", "Econometría", "Finanzas", "Matemáticas", "Estadística"] }
+      - { label: "Docente / Universidad", name: "docente", widget: "string", required: false }
+      - { label: "Fecha", name: "date", widget: "datetime" }
+      - { label: "Elaborado por", name: "authors", widget: "list" }
+      - { label: "Documento PDF", name: "pdf", widget: "file" }
+      - { label: "Resumen / Guía", name: "body", widget: "markdown", required: false }
+
+  - name: "investigaciones"
+    label: "Investigaciones & Papers"
+    folder: "contenido/investigacion"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título de la Investigación", name: "title", widget: "string" }
+      - { label: "Fecha", name: "date", widget: "datetime" }
+      - { label: "Autores", name: "authors", widget: "list" }
+      - { label: "Abstract / Resumen", name: "resumen", widget: "text" }
+      - { label: "Documento PDF / Paper", name: "pdf", widget: "file", required: false }
+      - { label: "Enlace a Datos o Tablero", name: "link_externo", widget: "string", required: false }
+      - { label: "Contenido", name: "body", widget: "markdown", required: false }
