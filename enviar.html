@@ -305,9 +305,16 @@
           throw new Error("El formulario aún no está conectado a un sistema de recepción. Contacta directamente a 7073248@gmail.com");
         }
 
+        // Importante: "text/plain" evita que el navegador dispare una petición
+        // de verificación (preflight OPTIONS) antes del POST real. Google Apps
+        // Script no responde ese preflight, así que con "application/json" el
+        // envío fallaba siempre desde un dominio distinto (derek-martell.github.io
+        // o mundo-social.com) con "Failed to fetch", sin llegar nunca al servidor.
+        // El backend igual recibe y procesa el JSON sin cambios (lee
+        // e.postData.contents y hace JSON.parse, sin mirar el Content-Type).
         const resp = await fetch(APPS_SCRIPT_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(data)
         });
         const result = await resp.json();
