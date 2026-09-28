@@ -25,7 +25,7 @@ PAGINAS_NO_ARTICULO = {
     'microeconomia', 'matematicas', 'ejercicios-de-matematicas-para-economistas',
     'finanzas', 'ejercicios-de-finanzas', 'crecimiento-economico',
     'historia-economica', 'estadistica', 'columna-de-opinion', 'noticias',
-    'proyectos',
+    'proyectos', 'peru-a-2da-vuelta',
 }
 
 def es_pagina_no_articulo(url, title, date):
