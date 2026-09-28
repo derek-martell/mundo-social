@@ -48,7 +48,7 @@
 
   --sombra-sm: 0 1px 2px rgba(27, 36, 32, 0.04);
   --sombra: 0 4px 16px rgba(27, 36, 32, 0.06), 0 1px 2px rgba(27, 36, 32, 0.04);
-  --sombra-lg: 0 14px 34px rgba(15, 76, 58, 0.1), 0 2px 6px rgba(27, 36, 32, 0.04);
+  --sombra-lg: 0 14px 34px rgba(27, 36, 32, 0.14), 0 2px 6px rgba(27, 36, 32, 0.05);
 
   /* Radios editoriales: esquinas casi rectas */
   --radio: 3px;
@@ -58,7 +58,7 @@
   /* Filetes y folios */
   --hairline: 1px solid var(--line);
   --hairline-strong: 2px solid var(--ink);
-  --folio-font: 500 0.7rem/1 var(--display);
+  --folio-font: 500 0.75rem/1 var(--display);
   --ficha-rule: rgba(158, 42, 43, 0.28);
 
   /* Textura de papel (ruido muy tenue) */
@@ -133,7 +133,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 a {
@@ -191,12 +191,28 @@ button {
   padding: 0 1.5rem;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* 03. CABECERA & MANCHETA BROADSHEET (ESTILO THE NEW YORK TIMES + ECONÓMICA) === */
 .site-header {
   background-color: var(--bg);
   background-image: var(--paper);
   border-bottom: 1px solid var(--ink);
   transition: background-color var(--trans), border-color var(--trans);
+}
+
+.site-header:has(+ .navbar) {
+  border-bottom: none;
 }
 
 /* Franja superior de utilidades (Top Bar) */
@@ -228,6 +244,7 @@ button {
 }
 
 .top-date {
+  display: inline-block;
   color: var(--ink);
   font-weight: 600;
 }
@@ -343,9 +360,17 @@ button {
   line-height: 1.4;
 }
 
+.masthead-motto {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: var(--mute);
+  max-width: 68ch;
+  line-height: 1.4;
+}
+
 .masthead-sub-tagline {
   font-family: var(--display);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -447,7 +472,7 @@ button {
 }
 
 .nav-badge-pill {
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
   background: var(--verde-suave);
   color: var(--verde);
@@ -495,31 +520,6 @@ button {
   display: none;
 }
 
-.btn-admin {
-  min-height: 2rem;
-  padding: 0 0.75rem;
-  border-radius: var(--radio-sm);
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--verde);
-  border: 1px solid var(--verde);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  transition: transform 140ms var(--ease-out), background-color var(--trans), color var(--trans);
-}
-
-.btn-admin:hover {
-  background: var(--verde);
-  color: #fff;
-}
-
-.btn-admin:active {
-  transform: scale(0.96);
-}
-
 .footer-brand-col {
   display: flex;
   flex-direction: column;
@@ -548,31 +548,6 @@ button {
 
 .hero-editorial-lead {
   margin-bottom: 1.8rem;
-}
-
-.hero-kicker-strip {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 0.8rem;
-}
-
-.hero-kicker-badge {
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  color: var(--verde);
-  text-transform: uppercase;
-  border-left: 3px solid var(--verde);
-  padding-left: 0.5rem;
-}
-
-.hero-motto {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 0.9rem;
-  color: var(--mute);
 }
 
 .hero-title {
@@ -630,7 +605,7 @@ button {
 
 .search-box:focus-within {
   border-color: var(--verde);
-  box-shadow: 0 0 0 3px var(--verde-glow);
+  box-shadow: inset 0 -1px 0 var(--verde);
 }
 
 .search-box svg {
@@ -821,7 +796,6 @@ button {
   color: var(--ink-secondary);
   background: var(--panel);
   border: 1px solid var(--line);
-  border-left: 3px solid var(--line-strong);
   transition: transform 140ms var(--ease-out), border-color var(--trans), background-color var(--trans), color var(--trans);
 }
 
@@ -836,8 +810,7 @@ button {
 }
 
 .tag-chip.active {
-  border-color: var(--laton);
-  border-left-color: var(--laton-oscuro);
+  border-color: var(--laton-oscuro);
   background: var(--laton-suave);
   color: var(--laton-oscuro);
   font-weight: 600;
@@ -977,7 +950,7 @@ button {
   background-image: var(--paper);
   border: var(--hairline);
   border-top: 4px solid var(--verde);
-  border-radius: var(--radio-sm);
+  border-radius: 0;
   transition: border-color var(--trans), box-shadow var(--trans), transform var(--trans);
 }
 
@@ -1209,7 +1182,7 @@ button {
 }
 
 .dossier-seal {
-  font-size: 0.64rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1220,7 +1193,7 @@ button {
 }
 
 .dossier-course {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1296,7 +1269,6 @@ button {
 .card--kind-analisis { border-top-color: var(--rojo); }
 .card--kind-apunte {
   border-top: 2px solid var(--laton);
-  border-left: 3px solid var(--ficha-rule);
 }
 .card--kind-apunte .card-title {
   font-family: var(--display);
@@ -1338,7 +1310,7 @@ button {
 
 /* Etiqueta de tipo: antetítulo tipográfico, no píldora */
 .card-badge {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1387,7 +1359,7 @@ button {
 }
 
 .mini-tag {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--mute);
   padding: 0.1rem 0.45rem;
   border: var(--hairline);
@@ -1463,7 +1435,7 @@ button {
 /* Micro-botón de cita APA: tipográfico, sin relleno */
 .btn-cite-mini {
   font: var(--folio-font);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--mute);
@@ -1484,10 +1456,52 @@ button {
   transform: scale(0.94);
 }
 
+.btn-cite-mini {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-cite-mini.is-swapping {
+  color: transparent;
+  filter: blur(2px);
+  transition: color 75ms var(--ease-out), filter 75ms var(--ease-out);
+}
+
+.btn-cite-mini svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
 .btn-cite-mini.is-done {
   color: var(--verde);
   border-color: var(--verde);
   border-style: solid;
+}
+
+/* Entrada escalonada al cambiar de sección (solo las primeras 8 fichas).
+   Relleno "backwards": no bloquea el transform del hover al terminar. */
+.card.is-entering {
+  animation: fichaIn 220ms var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 30ms);
+}
+
+@keyframes fichaIn {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+/* Llegada de la portada: el único momento de entrada de la página */
+.editorial-layout.is-arriving .card--lead {
+  animation: portadaIn 400ms var(--ease-out) backwards;
+}
+
+.editorial-layout.is-arriving .card--brief {
+  animation: portadaIn 300ms var(--ease-out) backwards;
+  animation-delay: calc(120ms + var(--i, 0) * 40ms);
+}
+
+@keyframes portadaIn {
+  from { opacity: 0; transform: translateY(8px); }
 }
 
 /* 10. ESTADO VACÍO ======================================================== */
@@ -1548,12 +1562,12 @@ button {
   background-image: var(--paper);
   border: 1px solid var(--line-strong);
   border-top: 4px solid var(--verde);
-  border-radius: var(--radio-sm);
+  border-radius: 0;
   max-width: 760px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: var(--sombra-lg);
+  box-shadow: var(--sombra);
   padding: 0;
   position: relative;
   transform: scale(0.96);
@@ -1760,10 +1774,23 @@ button {
 
 /* Cita APA */
 .modal-cite {
-  border-left: 3px solid var(--laton);
+  border: 1px solid var(--laton);
   background: var(--laton-suave);
   padding: 0.85rem 1rem;
   margin-bottom: 1rem;
+}
+
+.modal-cite,
+.modal-pdf-viewer {
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+
+@starting-style {
+  .modal-cite:not([hidden]),
+  .modal-pdf-viewer:not([hidden]) {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 }
 
 .modal-cite-label {
@@ -1964,8 +1991,21 @@ button {
     border-bottom: 1px solid var(--ink);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
   }
+  .nav-menu {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), display 200ms allow-discrete;
+  }
   .nav-menu.is-open {
     display: flex;
+    opacity: 1;
+    transform: none;
+  }
+  @starting-style {
+    .nav-menu.is-open {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
   }
   .nav-menu li {
     width: 100%;
@@ -2036,12 +2076,6 @@ button {
     gap: 0.5rem;
     flex-shrink: 0;
   }
-  .btn-admin-text {
-    display: none;
-  }
-  .btn-admin {
-    padding: 0 0.5rem;
-  }
 
   /* Índice y fichas deslizables con desvanecido en los extremos */
   .category-tabs,
@@ -2055,7 +2089,7 @@ button {
   }
   .cat-tab {
     padding: 0.8rem 0.8rem 0.7rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
   .cat-tab-full {
     display: none;
@@ -2076,11 +2110,36 @@ button {
   .wrap {
     padding: 0 1rem;
   }
-  .brand-sub {
-    display: none;
+  /* Portada compacta: el buscador entra en la primera pantalla del teléfono */
+  .masthead-main {
+    padding: 1rem 0 0.9rem;
   }
-  .btn-admin {
-    padding: 0 0.7rem;
+  .masthead-logo-img {
+    height: 3.4rem;
+  }
+  .masthead-titles {
+    margin-top: 0.25rem;
+  }
+  .masthead-tagline {
+    font-size: 0.92rem;
+  }
+  .masthead-motto {
+    font-size: 0.82rem;
+  }
+  .hero {
+    padding-top: 1.5rem;
+  }
+  .hero-editorial-lead {
+    margin-bottom: 1.25rem;
+  }
+  .hero-title {
+    font-size: 1.75rem;
+  }
+  .hero-desc {
+    font-size: 1rem;
+  }
+  .search-box-wrap {
+    margin-bottom: 1.75rem;
   }
   .about-pillars {
     grid-template-columns: 1fr;
@@ -2098,9 +2157,6 @@ button {
   .modal-body {
     padding: 1.25rem 1.25rem 1.75rem;
   }
-  .modal-toolbar-label {
-    font-size: 0.7rem;
-  }
   .search-matches {
     display: none;
   }
@@ -2116,9 +2172,26 @@ button {
   html {
     scroll-behavior: auto;
   }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+  @keyframes fichaIn { from { opacity: 0; } }
+  @keyframes portadaIn { from { opacity: 0; } }
+  .card.is-entering,
+  .editorial-layout.is-arriving .card--brief {
+    animation-delay: 0ms;
+  }
+  .modal-card,
+  .modal-overlay.active .modal-card,
+  .nav-menu {
+    transform: none;
+  }
+  @starting-style {
+    .modal-cite:not([hidden]),
+    .modal-pdf-viewer:not([hidden]),
+    .nav-menu.is-open {
+      transform: none;
+    }
+  }
+  .btn-cite-mini.is-swapping {
+    filter: none;
   }
   .card:hover,
   .card--lead:hover,
@@ -2135,9 +2208,35 @@ button {
   .cat-tab:active,
   .tag-chip:active,
   .theme-toggle:active,
-  .btn-admin:active,
   .gaceta-more:active,
   .search-clear:active {
     transform: none;
+  }
+}
+
+/* Pantallas táctiles: objetivos de al menos 44px */
+@media (pointer: coarse) {
+  .theme-toggle,
+  .nav-toggle,
+  .search-clear,
+  .modal-close {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+  .top-social-links a {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+  .btn-cite-mini,
+  .btn-pdf,
+  .tag-chip,
+  .modal-tool-btn {
+    min-height: 2.75rem;
+  }
+  .nav-toggle {
+    padding: 0 0.375rem;
+  }
+  .top-utility-inner {
+    height: auto;
   }
 }

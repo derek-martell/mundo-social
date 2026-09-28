@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vista Previa: Mascota SocioBot | Mundo Social</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --ms-green: #0f4c3a;
+    }
+    [data-theme="dark"] {
+      --bg: #09120e;
+      --card-bg: #12241c;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #1e3a2d;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Literata', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      transition: background 0.3s, color 0.3s;
+    }
+    .header {
+      background: var(--card-bg);
+      border-bottom: 2px solid var(--border);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Schibsted Grotesk', sans-serif;
+    }
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--ms-green);
+      letter-spacing: -0.5px;
+    }
+    .container {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1 {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-size: 32px;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .meta {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 28px;
+    }
+    .theme-btn {
+      font-family: 'Schibsted Grotesk', sans-serif;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="brand">Mundo Social</div>
+    <button class="theme-btn" onclick="toggleTheme()">Cambiar tema</button>
+  </header>
+
+  <main class="container">
+    <span style="font-family: 'Schibsted Grotesk', sans-serif; color: #0f4c3a; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">
+      Demostración de Mascota Web
+    </span>
+    <h1>Evaluación del impacto de políticas públicas en el crecimiento del sector servicios</h1>
+    <div class="meta">Por Equipo Editorial Mundo Social • Lima, Perú • Lectura estimada: 5 min</div>
+
+    <p>
+      Este es un artículo de muestra para que puedas comprobar cómo se integra <strong>SocioBot</strong> en la esquina inferior derecha mientras navegas y lees en la página.
+    </p>
+
+    <p>
+      La mascota acompaña al lector sin ser invasiva:
+    </p>
+    <ul>
+      <li><strong>Sigue el movimiento del cursor</strong> con sus ojos LED de forma suave y natural.</li>
+      <li><strong>Saluda solo en la primera visita</strong> y da un consejo cuando lo pulsas.</li>
+      <li><strong>Se puede ocultar</strong> y recuerda esa elección entre páginas.</li>
+      <li><strong>Reacciona al clic o al teclado</strong> con un saltito y ojos felices.</li>
+      <li><strong>Compatible con modo oscuro y modo claro</strong> de forma automática.</li>
+    </ul>
+
+    <p>
+      El crecimiento de la productividad multifactorial en la última década ha evidenciado discrepancias significativas entre las economías emergentes y desarrolladas...
+    </p>
+  </main>
+
+  <!-- Script de la mascota -->
+  <script src="mascota.js" defer></script>
+
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+    }
+  </script>
+</body>
+</html>

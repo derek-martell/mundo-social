@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/styles.css?v=20260927_9">
+  <link rel="stylesheet" href="css/styles.css?v=20260927_10">
   <link rel="icon" type="image/png" sizes="32x32" href="imagenes/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="imagenes/favicon-192x192.png">
   <link rel="apple-touch-icon" href="imagenes/apple-touch-icon.png">
@@ -149,7 +149,8 @@
           </div>
           <div class="masthead-titles">
             <span class="masthead-tagline">Formulario Oficial de Colaboraciones y Envíos Académicos</span>
-            <span class="masthead-sub-tagline">Facultad de Ciencias Económicas &bull; Universidad Nacional Mayor de San Marcos</span>
+            <span class="masthead-motto">&laquo;El rigor técnico de la teoría al servicio del debate público&raquo;</span>
+            <span class="masthead-sub-tagline">Lima, Perú</span>
           </div>
         </a>
       </div>
@@ -243,7 +244,7 @@
     <div class="wrap footer-container">
       <div class="footer-brand-col">
         <p><strong>Mundo Social</strong> &copy; 2026. Todos los derechos reservados.</p>
-        <p style="font-size: 0.8rem; margin-top: 0.3rem;">Facultad de Ciencias Económicas &bull; Universidad Nacional Mayor de San Marcos.</p>
+        <p style="font-size: 0.8rem; margin-top: 0.3rem;">Fundado por Derek Martell y equipo editorial &bull; Lima, Perú.</p>
       </div>
       <ul class="footer-links">
         <li><a href="index.html">Portada</a></li>
@@ -268,6 +269,52 @@
     const statusBox = document.getElementById("status-box");
     const submitBtn = document.getElementById("submit-btn");
 
+    // SocioBot explica cada error con palabras sencillas. Es un apoyo visual:
+    // el navegador y el recuadro de estado siguen mostrando el mismo aviso.
+    const EXPLICACIONES = {
+      "f-title": {
+        valueMissing: "Falta el título de tu publicación. Es lo primero que verán los lectores."
+      },
+      "f-tags": {
+        valueMissing: "Indica al menos un curso o área, por ejemplo «Macroeconomía». Así te encontrarán en el buscador."
+      },
+      "f-authors": {
+        valueMissing: "Escribe el nombre completo de cada autor, separado por comas, tal como debe aparecer en la cita."
+      },
+      "f-email": {
+        valueMissing: "Necesitamos un correo para avisarte cuando se publique o si hay que corregir algo.",
+        typeMismatch: "Ese correo parece incompleto. Revisa que tenga @ y un dominio, como nombre@correo.com."
+      },
+      "f-pdf": {
+        valueMissing: "Falta el enlace al PDF. Súbelo a Google Drive, OneDrive o Dropbox y pega aquí el enlace.",
+        typeMismatch: "El enlace debe empezar con https://. Cópialo completo desde «Compartir» en Drive o desde la barra del navegador."
+      },
+      "f-resumen": {
+        valueMissing: "Falta el resumen: uno o dos párrafos con el objetivo, el método y los hallazgos principales."
+      }
+    };
+
+    function explicar(field) {
+      const textos = EXPLICACIONES[field.id] || {};
+      const v = field.validity;
+      if (v.valueMissing && textos.valueMissing) return textos.valueMissing;
+      if (v.typeMismatch && textos.typeMismatch) return textos.typeMismatch;
+      return "Revisa el campo marcado: " + field.validationMessage;
+    }
+
+    // El navegador valida al enviar y dispara "invalid" en cada campo con error:
+    // SocioBot explica solo el primero, que es donde queda el foco.
+    let explicado = false;
+    form?.addEventListener("invalid", (e) => {
+      if (explicado) return;
+      explicado = true;
+      window.SocioBot?.explainError(explicar(e.target));
+      setTimeout(() => { explicado = false; }, 0);
+    }, true);
+
+    // Al corregir el campo, el globo se retira
+    form?.addEventListener("input", () => window.SocioBot?.hide());
+
     // URL de Apps Script Web App (configurar en scripts/google_apps_script_automatizacion.js)
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwf-FjYuyWwSAiacNtUva4vSsYHn87TfU8ShCAVsWIvv-hFn9N4ztckj-tFI-LDx3k/exec";
 
@@ -276,7 +323,7 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Enviando propuesta...";
       statusBox.className = "status-box";
-      statusBox.style.display = "none";
+      window.SocioBot?.hide();
 
       const data = {
         title: document.getElementById("f-title").value.trim(),
@@ -295,6 +342,8 @@
       if (data.pdf && !/^https?:\/\/[^\s<>"']+$/i.test(data.pdf)) {
         statusBox.className = "status-box error";
         statusBox.innerHTML = `<strong>Enlace inválido:</strong> el documento debe ser una URL que empiece con http:// o https:// (por ejemplo, un enlace de Google Drive, OneDrive o Dropbox).`;
+        window.SocioBot?.explainError(EXPLICACIONES["f-pdf"].typeMismatch);
+        document.getElementById("f-pdf").focus();
         submitBtn.disabled = false;
         submitBtn.textContent = "Enviar publicación para revisión";
         return;
@@ -329,14 +378,31 @@
           Gracias por tu aporte. La propuesta ha sido recibida correctamente por el equipo editorial de Mundo Social.
         `;
         form.reset();
+        window.SocioBot?.celebrate("¡Listo! Recibimos tu publicación. El equipo editorial la revisará y te escribirá al correo que dejaste.");
       } catch (err) {
+        // Un fallo de red llega como TypeError de fetch; el resto trae el motivo del servidor
+        const sinConexion = err instanceof TypeError;
+        const motivo = sinConexion
+          ? "no pudimos conectar con el servidor. Revisa tu conexión a internet"
+          : err.message.replace(/\.$/, "");
         statusBox.className = "status-box error";
-        statusBox.innerHTML = `<strong>Error al enviar:</strong> ${err.message}. Por favor intenta nuevamente o envía un correo directo a 7073248@gmail.com`;
+        statusBox.innerHTML = `<strong>Error al enviar:</strong> ${escapeHtml(motivo)}. Por favor intenta nuevamente o envía un correo directo a 7073248@gmail.com`;
+        window.SocioBot?.explainError(sinConexion
+          ? "No se pudo enviar: parece que no hay conexión o el servidor no respondió. Tus datos siguen en el formulario, así que puedes intentarlo otra vez."
+          : "El servidor no aceptó el envío. Tus datos siguen en el formulario: revisa el mensaje en rojo e inténtalo otra vez.");
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = "Enviar publicación para revisión";
       }
     });
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
   </script>
+
+  <!-- Mascota oficial: SocioBot -->
+  <script src="mascota/mascota.js?v=2.2" defer></script>
 </body>
 </html>

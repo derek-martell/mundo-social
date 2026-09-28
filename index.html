@@ -23,7 +23,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/styles.css?v=20260927_9">
+  <script>
+    try {
+      var t = localStorage.getItem("mundo-social-theme") ||
+        (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/styles.css?v=20260927_11">
   
   <link rel="icon" type="image/png" sizes="32x32" href="imagenes/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="imagenes/favicon-192x192.png">
@@ -38,6 +45,9 @@
     <!-- Franja Superior de Utilidades & Fecha (NYTimes Top Bar) -->
     <div class="top-utility-bar">
       <div class="wrap top-utility-inner">
+        <div class="top-utility-left">
+          <time id="hero-date" class="top-date"></time>
+        </div>
         <div class="top-utility-right">
           <div class="top-social-links">
             <a href="https://www.linkedin.com/company/mundo-social-2023/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn">
@@ -79,13 +89,15 @@
           </div>
           <div class="masthead-titles">
             <span class="masthead-tagline">Revista de Economía Política, Investigación Aplicada y Repositorio Académico</span>
-            <span class="masthead-sub-tagline">Facultad de Ciencias Económicas &bull; Universidad Nacional Mayor de San Marcos &bull; Lima, Perú</span>
+            <span class="masthead-motto">&laquo;El rigor técnico de la teoría al servicio del debate público&raquo;</span>
+            <span class="masthead-sub-tagline">Lima, Perú</span>
           </div>
         </a>
       </div>
     </div>
+  </header>
 
-    <!-- Cinta de Navegación por Secciones (Sticky Ribbon con doble filete fino) -->
+  <!-- Cinta de Navegación por Secciones (Sticky Ribbon con doble filete fino) -->
     <nav class="navbar" aria-label="Navegación principal">
       <div class="wrap nav-container">
         <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menú de navegación">
@@ -95,14 +107,13 @@
           <li><a href="#articulos" class="nav-link active" data-category="Todos">Portada y Archivo</a></li>
           <li><a href="#articulos" class="nav-link" data-category="Coyuntura">Coyuntura <span class="nav-badge-pill" data-stat="Coyuntura">33</span></a></li>
           <li><a href="#articulos" class="nav-link" data-category="Docencia">Docencia y UNMSM <span class="nav-badge-pill" data-stat="Docencia">28</span></a></li>
-          <li><a href="#articulos" class="nav-link" data-category="Investigación">Investigación <span class="nav-badge-pill" data-stat="Investigación">4</span></a></li>
-          <li><a href="#articulos" class="nav-link" data-category="Análisis">Análisis <span class="nav-badge-pill" data-stat="Análisis">31</span></a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Investigación">Investigación <span class="nav-badge-pill" data-stat="Investigación">5</span></a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Análisis">Análisis <span class="nav-badge-pill" data-stat="Análisis">8</span></a></li>
           <li><a href="#hub-apuntes" class="nav-link" data-category="Docencia">Hub de Exámenes</a></li>
           <li><a href="#nosotros" class="nav-link" data-category="Nosotros">Manifiesto</a></li>
         </ul>
       </div>
     </nav>
-  </header>
 
   <!-- ==========================================================================
        HERO PRINCIPAL / PORTADILLA EDITORIAL
@@ -110,15 +121,11 @@
   <section class="hero">
     <div class="wrap">
       <div class="hero-editorial-lead">
-        <div class="hero-kicker-strip">
-          <span class="hero-kicker-badge">PENSAMIENTO ECONÓMICO &bull; PERÚ</span>
-          <span class="hero-motto">"El rigor técnico de la teoría al servicio del debate público"</span>
-        </div>
         <h1 class="hero-title">
           Análisis económico riguroso, <em>investigación aplicada</em> y docencia universitaria.
         </h1>
         <p class="hero-desc">
-          Un espacio fundado en la Facultad de Ciencias Económicas (UNMSM) para tender puentes entre la modelación teórica, la coyuntura del país y el debate académico internacional.
+          Un espacio para tender puentes entre la modelación teórica, la coyuntura del país y el debate académico internacional.
         </p>
       </div>
 
@@ -136,7 +143,7 @@
       <!-- Métricas del acervo estilo Broadsheet -->
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-num" data-stat="total">96</span>
+          <span class="stat-num" data-stat="total">74</span>
           <span class="stat-label">Publicaciones Totales</span>
         </div>
         <div class="stat-item">
@@ -148,7 +155,7 @@
           <span class="stat-label">Apuntes y Solucionarios</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num" data-stat="pdf">76</span>
+          <span class="stat-num" data-stat="pdf">71</span>
           <span class="stat-label">Documentos en PDF</span>
         </div>
       </div>
@@ -163,19 +170,19 @@
       <!-- Pestañas de Categoría Principal -->
       <div class="category-tabs" role="tablist" aria-label="Secciones del archivo">
         <button class="cat-tab active" data-category="Todos" role="tab">
-          <span class="cat-tab-full">Todos los recursos</span><span class="cat-tab-short">Todos</span> <span class="cat-badge-count">96</span>
+          <span class="cat-tab-full">Todos los recursos</span><span class="cat-tab-short">Todos</span> <span class="cat-badge-count">74</span>
         </button>
         <button class="cat-tab" data-category="Coyuntura" role="tab">
           <span class="cat-tab-full">Notas de Coyuntura</span><span class="cat-tab-short">Coyuntura</span> <span class="cat-badge-count">33</span>
         </button>
         <button class="cat-tab" data-category="Docencia" role="tab">
-          <span class="cat-tab-full">Apuntes y Exámenes UNMSM/MIT</span><span class="cat-tab-short">Docencia</span> <span class="cat-badge-count">29</span>
+          <span class="cat-tab-full">Apuntes y Exámenes UNMSM/MIT</span><span class="cat-tab-short">Docencia</span> <span class="cat-badge-count">28</span>
         </button>
         <button class="cat-tab" data-category="Investigación" role="tab">
-          <span class="cat-tab-full">Investigaciones y Papers</span><span class="cat-tab-short">Investigación</span> <span class="cat-badge-count">6</span>
+          <span class="cat-tab-full">Investigaciones y Papers</span><span class="cat-tab-short">Investigación</span> <span class="cat-badge-count">5</span>
         </button>
         <button class="cat-tab" data-category="Análisis" role="tab">
-          <span class="cat-tab-full">Artículos y Columnas</span><span class="cat-tab-short">Análisis</span> <span class="cat-badge-count">28</span>
+          <span class="cat-tab-full">Artículos y Columnas</span><span class="cat-tab-short">Análisis</span> <span class="cat-badge-count">8</span>
         </button>
       </div>
 
@@ -314,7 +321,7 @@
         <p class="about-kicker">Manifiesto editorial</p>
         <h2 class="about-title">Sobre Mundo Social</h2>
         <p class="about-p about-lede">
-          <strong>Mundo Social</strong> es una iniciativa académica y de divulgación nacida en la Facultad de Ciencias Económicas de la Universidad Nacional Mayor de San Marcos (UNMSM), impulsada junto a estudiantes y asistentes de cátedra comprometidos con el rigor técnico y la difusión accesible del conocimiento económico.
+          <strong>Mundo Social</strong> es una iniciativa académica y de divulgación fundada por estudiantes de economía de la Universidad Nacional Mayor de San Marcos (UNMSM) e impulsada junto a asistentes de cátedra comprometidos con el rigor técnico y la difusión accesible del conocimiento económico.
         </p>
         <p class="about-p">
           Nuestra misión es divulgar el pensamiento económico y social en el Perú: acercar la teoría a la coyuntura, explicar con datos oficiales lo que ocurre en la economía del país y sostener un debate público informado, plural e independiente.
@@ -371,6 +378,9 @@
 
   <!-- Datos y Lógica de la Aplicación -->
   <script src="js/articulos-data.js?v=20260927_6"></script>
-  <script src="js/app.js?v=20260927_9"></script>
+  <script src="js/app.js?v=20260927_11"></script>
+
+  <!-- Mascota oficial: SocioBot -->
+  <script src="mascota/mascota.js?v=2.2" defer></script>
 </body>
 </html>

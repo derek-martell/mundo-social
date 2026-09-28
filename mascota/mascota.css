@@ -1,0 +1,348 @@
+/* ==========================================================================
+   MASCOTA OFICIAL MUNDO SOCIAL - "SOCIOBOT"
+   Estilos encapsulados. Paleta y curvas de Mundo Social; sin degradados,
+   resplandores ni emojis. Queda por debajo del lector de fichas (z-index 1000).
+   ========================================================================== */
+
+#sociobot-container {
+  --sb-verde: #0f4c3a;
+  --sb-laton: #c9a24a;
+  --sb-papel: #fbf9f4;
+  --sb-panel: #ffffff;
+  --sb-ink: #1b2420;
+  --sb-mute: #5a6660;
+  --sb-line: #c2ccc4;
+  --sb-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --sb-ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+  font-family: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+[data-theme="dark"] #sociobot-container {
+  --sb-panel: #1a2224;
+  --sb-ink: #e6ece7;
+  --sb-mute: #93a39b;
+  --sb-line: #3a474a;
+}
+
+/* Mascota: es un botón (clic o teclado) */
+.sociobot-stage {
+  position: relative;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 180ms var(--sb-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sociobot-stage:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.sociobot-stage:active {
+  transform: scale(0.97);
+}
+
+.sociobot-stage:focus-visible {
+  outline: 2px solid var(--sb-laton);
+  outline-offset: 2px;
+}
+
+.sociobot-body {
+  display: block;
+}
+
+.sociobot-body svg {
+  display: block;
+  overflow: visible;
+}
+
+/* Piezas articuladas del SVG */
+#sb-head {
+  transform-box: view-box;
+  transform-origin: 70px 43px;
+  transition: transform 120ms var(--sb-ease-out);
+}
+
+#sb-arm-right {
+  transform-box: view-box;
+  transform-origin: 96px 74px;
+}
+
+#sb-eyes rect {
+  transition: height 150ms var(--sb-ease-out), y 150ms var(--sb-ease-out);
+}
+
+/* Flotación: lenta y corta, sin giro */
+@keyframes sociobotFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes sociobotBounce {
+  0% { transform: scale(1, 1) translateY(0); }
+  25% { transform: scale(1.06, 0.94) translateY(2px); }
+  55% { transform: scale(0.97, 1.05) translateY(-12px); }
+  100% { transform: scale(1, 1) translateY(0); }
+}
+
+@keyframes sociobotWave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-30deg); }
+  50% { transform: rotate(-8deg); }
+  75% { transform: rotate(-30deg); }
+}
+
+.sociobot-floating {
+  animation: sociobotFloat 4s ease-in-out infinite;
+}
+
+.sociobot-jumping {
+  animation: sociobotBounce 480ms var(--sb-ease-spring);
+}
+
+.sociobot-arm-waving {
+  animation: sociobotWave 800ms var(--sb-ease-out);
+}
+
+/* Negar con la cabeza al explicar un error */
+@keyframes sociobotShake {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-5deg); }
+  45% { transform: rotate(4deg); }
+  70% { transform: rotate(-3deg); }
+}
+
+#sb-head.sociobot-shaking {
+  animation: sociobotShake 460ms var(--sb-ease-out);
+}
+
+/* Sombra en el suelo */
+.sociobot-shadow {
+  display: block;
+  width: 58px;
+  height: 9px;
+  margin-top: 3px;
+  border-radius: 50%;
+  background: rgba(27, 36, 32, 0.14);
+  transition: transform 240ms var(--sb-ease-out);
+}
+
+.sociobot-shadow.is-jumping {
+  transform: scale(0.6);
+}
+
+[data-theme="dark"] .sociobot-shadow {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* Globo de diálogo */
+.sociobot-bubble {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  width: max-content;
+  max-width: min(260px, calc(100vw - 32px));
+  padding: 0.65rem 0.85rem;
+  background: var(--sb-panel);
+  color: var(--sb-ink);
+  border: 1px solid var(--sb-line);
+  border-top: 2px solid var(--sb-verde);
+  border-radius: 0;
+  box-shadow: 0 6px 18px rgba(27, 36, 32, 0.1);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 200ms var(--sb-ease-out), transform 200ms var(--sb-ease-out);
+}
+
+[data-theme="dark"] .sociobot-bubble {
+  border-top-color: #60c99a;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Tono del mensaje: error (rojo) o logro (verde vivo) */
+.sociobot-bubble[data-tone="error"] {
+  border-top-color: #9e2a2b;
+}
+
+.sociobot-bubble[data-tone="ok"] {
+  border-top-color: #1a7a5a;
+}
+
+[data-theme="dark"] .sociobot-bubble[data-tone="error"] {
+  border-top-color: #e58b85;
+}
+
+.sociobot-bubble.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Pico del globo */
+.sociobot-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  right: 50px;
+  width: 10px;
+  height: 10px;
+  background: var(--sb-panel);
+  border-right: 1px solid var(--sb-line);
+  border-bottom: 1px solid var(--sb-line);
+  transform: rotate(45deg);
+}
+
+.sociobot-bubble-text {
+  display: block;
+}
+
+/* Botón de ocultar: visible al pasar el mouse o con el foco; siempre en táctil */
+.sociobot-close-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--sb-panel);
+  color: var(--sb-mute);
+  border: 1px solid var(--sb-line);
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 180ms var(--sb-ease-out), color 180ms var(--sb-ease-out), border-color 180ms var(--sb-ease-out);
+}
+
+/* Área táctil de 44px sin agrandar el círculo */
+.sociobot-close-btn::before {
+  content: "";
+  position: absolute;
+  inset: -9px;
+}
+
+.sociobot-close-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+#sociobot-container:hover .sociobot-close-btn,
+#sociobot-container:focus-within .sociobot-close-btn {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .sociobot-close-btn {
+    opacity: 1;
+  }
+}
+
+.sociobot-close-btn:hover {
+  color: var(--sb-ink);
+  border-color: var(--sb-ink);
+}
+
+.sociobot-close-btn:focus-visible,
+.sociobot-minimized-btn:focus-visible {
+  outline: 2px solid var(--sb-laton);
+  outline-offset: 2px;
+}
+
+/* Botón para volver a mostrarlo */
+.sociobot-minimized-btn {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--sb-verde);
+  border: 2px solid var(--sb-laton);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 4px 12px rgba(27, 36, 32, 0.18);
+  transition: transform 160ms var(--sb-ease-out);
+}
+
+.sociobot-minimized-btn svg {
+  width: 26px;
+  height: 26px;
+}
+
+.sociobot-minimized-btn:active {
+  transform: scale(0.95);
+}
+
+#sociobot-container.minimized .sociobot-stage,
+#sociobot-container.minimized .sociobot-bubble,
+#sociobot-container.minimized .sociobot-close-btn {
+  display: none;
+}
+
+#sociobot-container.minimized .sociobot-minimized-btn {
+  display: grid;
+}
+
+/* Pantallas pequeñas: más chico y pegado a la esquina */
+@media (max-width: 640px) {
+  #sociobot-container {
+    bottom: 12px;
+    right: 10px;
+  }
+  .sociobot-body svg {
+    width: 84px;
+    height: 88px;
+  }
+  .sociobot-shadow {
+    width: 42px;
+    height: 7px;
+  }
+}
+
+/* Movimiento reducido: quieto, solo cambios de opacidad */
+@media (prefers-reduced-motion: reduce) {
+  .sociobot-floating,
+  .sociobot-jumping,
+  .sociobot-arm-waving,
+  #sb-head.sociobot-shaking {
+    animation: none;
+  }
+  .sociobot-stage,
+  .sociobot-stage:hover,
+  .sociobot-stage:active,
+  .sociobot-bubble,
+  .sociobot-bubble.visible {
+    transform: none;
+  }
+  #sb-head {
+    transition: none;
+  }
+}
+
+@media print {
+  #sociobot-container {
+    display: none;
+  }
+}

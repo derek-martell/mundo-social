@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchQuery = "";
   let activeModalItem = null;
   let lastFocused = null;
+  let animateGrid = false;   // entrada escalonada solo al cambiar de sección
+  let firstArrival = true;   // la portada "llega" una sola vez por visita
 
   // Elementos del DOM
   const grid = document.getElementById("articles-grid");
@@ -56,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const MESES_LARGOS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
   const INSTITUCIONES = { "UNMSM": "UNMSM", "MIT": "MIT" };
   const CURSOS = ["Macroeconomía", "Microeconomía", "Econometría", "Matemáticas", "Finanzas"];
+  const ICON_CHECK = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
   const ICON_PDF = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>`;
   const ICON_LINK = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
 
@@ -68,14 +71,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================================================
   // 1. TEMA CLARO / OSCURO (Sincronizado y persistente)
   // ==========================================================================
-  const savedTheme = localStorage.getItem("mundo-social-theme") || "light";
-  document.documentElement.setAttribute("data-theme", savedTheme);
+  // El tema inicial ya lo fija el script del <head>; aquí solo se respalda
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem("mundo-social-theme"); } catch { /* almacenamiento bloqueado */ }
+  if (!document.documentElement.hasAttribute("data-theme") || savedTheme) {
+    document.documentElement.setAttribute("data-theme", savedTheme ||
+      (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  }
 
   themeToggle?.addEventListener("click", () => {
     const current = document.documentElement.getAttribute("data-theme");
     const next = current === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("mundo-social-theme", next);
+    try { localStorage.setItem("mundo-social-theme", next); } catch { /* sin persistencia */ }
   });
 
   // ==========================================================================
@@ -111,9 +119,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (heroDate) {
     const today = new Date();
     heroDate.dateTime = today.toISOString().slice(0, 10);
-    heroDate.textContent = "Edición del " + new Intl.DateTimeFormat("es-PE", {
-      weekday: "long", day: "numeric", month: "long", year: "numeric"
-    }).format(today);
+    const compact = matchMedia("(max-width: 480px)").matches;
+    heroDate.textContent = "Edición del " + new Intl.DateTimeFormat("es-PE", compact
+      ? { day: "numeric", month: "long", year: "numeric" }
+      : { weekday: "long", day: "numeric", month: "long", year: "numeric" }
+    ).format(today);
   }
 
   function render() {
@@ -173,6 +183,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     grid.innerHTML = gridItems.map(cardHtml).join("");
+
+    // Al cambiar de sección, las primeras fichas entran escalonadas
+    if (animateGrid) {
+      [...grid.children].slice(0, 8).forEach((card, i) => {
+        card.style.setProperty("--i", i);
+        card.classList.add("is-entering");
+      });
+      animateGrid = false;
+    }
   }
 
   function toggleEditorialView(active, count) {
@@ -222,6 +241,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (leadSlot) leadSlot.innerHTML = lead ? leadHtml(lead) : "";
     if (secondaryGrid) secondaryGrid.innerHTML = secondary.map(secondaryHtml).join("");
     if (gacetaList) gacetaList.innerHTML = gaceta.map(briefHtml).join("");
+
+    // Llegada de la portada: una sola vez, en la primera carga
+    if (firstArrival && editorialLayout) {
+      firstArrival = false;
+      editorialLayout.classList.add("is-arriving");
+      setTimeout(() => editorialLayout.classList.remove("is-arriving"), 1000);
+    }
 
     renderHubApuntes(data).forEach(id => shown.add(id));
     return shown;
@@ -343,10 +369,10 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function briefHtml(item) {
+  function briefHtml(item, index) {
     const dateFormatted = formatDate(item.date);
     return `
-      <li class="card--brief" ${openAttrs(item)}>
+      <li class="card--brief" style="--i: ${index}" ${openAttrs(item)}>
         <span class="brief-folio">${getFolio(item.id)}</span>
         <div>
           <h3 class="brief-title">${escapeHtml(item.title)}</h3>
@@ -384,12 +410,18 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
       const item = ARTICULOS_DATA.find(x => x.id === Number(citeBtn.dataset.citeId));
       if (!item) return;
+      if (citeBtn.dataset.busy) return;
+      citeBtn.dataset.busy = "1";
       const ok = await copyText(formatAPA(item));
-      citeBtn.textContent = ok ? "Copiada" : "Sin copiar";
-      citeBtn.classList.toggle("is-done", ok);
-      setTimeout(() => {
-        citeBtn.textContent = "Citar";
-        citeBtn.classList.remove("is-done");
+      citeBtn.style.width = `${citeBtn.offsetWidth}px`;
+      await swapLabel(citeBtn, ok
+        ? `${ICON_CHECK}<span class="sr-only">Cita copiada</span>`
+        : "Sin copiar", ok);
+      if (!ok) citeBtn.style.width = "";
+      setTimeout(async () => {
+        await swapLabel(citeBtn, "Citar", false);
+        citeBtn.style.width = "";
+        delete citeBtn.dataset.busy;
       }, 1800);
       return;
     }
@@ -483,6 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentCategory = foundTab.dataset.category || "Todos";
       updateNavActive(currentCategory);
       renderTagChips(currentCategory);
+      animateGrid = true;
       render();
 
       if (shouldScroll) {
@@ -608,6 +641,7 @@ document.addEventListener("DOMContentLoaded", () => {
           btn.setAttribute("aria-pressed", "true");
           currentTag = item.tag;
         }
+        animateGrid = true;
         render();
       });
 
@@ -628,6 +662,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentCategory = tab.dataset.category || "Todos";
       updateNavActive(currentCategory);
       renderTagChips(currentCategory);
+      animateGrid = true;
       render();
     });
   });
@@ -775,6 +810,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+
+  // Fundido corto entre dos rótulos de un botón (75ms de salida + 75ms de entrada)
+  function swapLabel(btn, html, done) {
+    return new Promise(resolve => {
+      btn.classList.add("is-swapping");
+      setTimeout(() => {
+        btn.innerHTML = html;
+        btn.classList.toggle("is-done", done);
+        btn.classList.remove("is-swapping");
+        resolve();
+      }, 75);
+    });
+  }
 
   async function copyText(text) {
     try {
