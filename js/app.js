@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalAuthors = document.getElementById("modal-authors");
   const modalResumen = document.getElementById("modal-resumen");
   const modalPdfBtn = document.getElementById("modal-pdf-btn");
+  const modalPdfBtnLabel = document.getElementById("modal-pdf-btn-label");
   const modalPreviewBtn = document.getElementById("modal-preview-btn");
   const modalCiteBtn = document.getElementById("modal-cite-btn");
   const modalShareBtn = document.getElementById("modal-share-btn");
@@ -56,6 +57,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const INSTITUCIONES = { "UNMSM": "UNMSM", "MIT": "MIT" };
   const CURSOS = ["Macroeconomía", "Microeconomía", "Econometría", "Matemáticas", "Finanzas"];
   const ICON_PDF = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>`;
+  const ICON_LINK = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+
+  // Algunos "documentos" en realidad son enlaces a un recurso externo interactivo
+  // (por ejemplo un tablero de Tableau Public) en vez de un PDF descargable.
+  function isPdfUrl(url) {
+    return /\.pdf(?:[?#]|$)/i.test(url || "");
+  }
 
   // ==========================================================================
   // 1. TEMA CLARO / OSCURO (Sincronizado y persistente)
@@ -251,10 +259,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return `<div class="card-meta-strip">${parts.map(p => `<span>${escapeHtml(p)}</span>`).join("")}</div>`;
   }
 
-  function pdfLink(item, label = "PDF") {
-    return item.pdf
-      ? `<a href="${escapeHtml(item.pdf)}" target="_blank" rel="noopener noreferrer" class="btn-pdf" title="Descargar o ver documento PDF">${ICON_PDF}${label}</a>`
-      : "";
+  function pdfLink(item, label) {
+    if (!item.pdf) return "";
+    const esPdf = isPdfUrl(item.pdf);
+    const texto = label || (esPdf ? "PDF" : "Ver recurso");
+    const titulo = esPdf ? "Descargar o ver documento PDF" : "Abrir recurso externo en una pestaña nueva";
+    const icono = esPdf ? ICON_PDF : ICON_LINK;
+    return `<a href="${escapeHtml(item.pdf)}" target="_blank" rel="noopener noreferrer" class="btn-pdf" title="${titulo}">${icono}${texto}</a>`;
   }
 
   function openAttrs(item) {
@@ -311,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ${metaStrip(item)}
         <div class="lead-actions">
           <span class="btn-read">Leer ficha completa <span aria-hidden="true">&rarr;</span></span>
-          ${pdfLink(item, "Documento PDF")}
+          ${pdfLink(item, isPdfUrl(item.pdf) ? "Documento PDF" : "Ver recurso")}
         </div>
       </article>
     `;
@@ -638,9 +649,14 @@ document.addEventListener("DOMContentLoaded", () => {
     modalResumen.textContent = item.resumen;
 
     if (item.pdf) {
+      const esPdf = isPdfUrl(item.pdf);
       modalPdfBtn.style.display = "inline-flex";
       modalPdfBtn.href = item.pdf;
-      modalPreviewBtn.style.display = "inline-flex";
+      if (modalPdfBtnLabel) modalPdfBtnLabel.textContent = esPdf ? "Descargar PDF" : "Abrir recurso externo";
+      // La vista previa embebida es solo para PDFs propios; un recurso externo
+      // (ej. un tablero de Tableau) puede bloquear su inserción en iframe, así
+      // que para esos casos ofrecemos directamente el enlace de salida.
+      modalPreviewBtn.style.display = esPdf ? "inline-flex" : "none";
       modalPdfFallback.href = item.pdf;
     } else {
       modalPdfBtn.style.display = "none";

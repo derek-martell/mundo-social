@@ -329,7 +329,7 @@ const ARTICULOS_DATA = [
       "Tablero de Datos"
     ],
     "resumen": "Estudio técnico y cuantitativo sobre tablero interactivo: fallecimientos registrados sinadef (perú hasta 2025) › con evidencia empírica.",
-    "pdf": "",
+    "pdf": "https://public.tableau.com/views/DashboardfallecimientosPer/Dashboard1",
     "url_original": "https://mundo-social.com/investigacion/tablero-interactivo-fallecimientos-registrados-sinadef-peru-hasta-2025/"
   },
   {
