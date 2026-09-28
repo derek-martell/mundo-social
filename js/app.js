@@ -948,7 +948,50 @@ document.addEventListener("DOMContentLoaded", () => {
               .replaceAll("'", "&#039;");
   }
 
+  // ==========================================================================
+  // 7. CINTA "LO ÚLTIMO" (titulares recientes en la portadilla)
+  // ==========================================================================
+  function renderTicker() {
+    const ticker = document.getElementById("hero-ticker");
+    const track = document.getElementById("ticker-track");
+    const toggle = document.getElementById("ticker-toggle");
+    if (!ticker || !track) return;
+
+    const recientes = sortByRecency(ARTICULOS_DATA.filter(item => item.type !== "Página Temática")).slice(0, 8);
+    if (!recientes.length) return;
+
+    const itemsHtml = (copia) => recientes.map(item => {
+      const fecha = formatDate(item.date);
+      return `
+        <li class="ticker-item"${copia ? ' aria-hidden="true"' : ""}>
+          <button type="button" class="ticker-link" data-ticker-id="${item.id}"${copia ? ' tabindex="-1"' : ""}>
+            ${fecha ? `<span class="ticker-date">${escapeHtml(fecha)}</span>` : ""}${escapeHtml(item.title)}
+          </button>
+        </li>`;
+    }).join("");
+
+    // La lista va duplicada para que el desplazamiento sea continuo
+    track.innerHTML = itemsHtml(false) + itemsHtml(true);
+    ticker.hidden = false;
+
+    // Velocidad constante de lectura (~45 px/s) sin importar el largo de los titulares
+    const ancho = track.scrollWidth / 2;
+    track.style.setProperty("--ticker-dur", `${Math.max(30, Math.round(ancho / 45))}s`);
+
+    track.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-ticker-id]");
+      if (btn) window.openModal(Number(btn.dataset.tickerId));
+    });
+
+    toggle?.addEventListener("click", () => {
+      const pausada = ticker.classList.toggle("is-paused");
+      toggle.setAttribute("aria-pressed", String(pausada));
+      toggle.setAttribute("aria-label", pausada ? "Reanudar la cinta de titulares" : "Pausar la cinta de titulares");
+    });
+  }
+
   // Render inicial
+  renderTicker();
   renderCounts();
   renderTagChips(currentCategory);
   render();

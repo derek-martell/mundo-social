@@ -361,8 +361,11 @@
       if (e.key === 'Escape') hideBubble();
     });
 
-    // Estado recordado entre páginas y visitas
-    if (leer(STORAGE_MINIMIZADA) === '1') {
+    // Estado recordado entre páginas y visitas. En pantallas pequeñas, si el
+    // lector no eligió nada, empieza compacta para no tapar el buscador.
+    const preferencia = leer(STORAGE_MINIMIZADA);
+    const pantallaChica = window.matchMedia('(max-width: 640px)').matches;
+    if (preferencia === '1' || (preferencia === null && pantallaChica)) {
       isMinimized = true;
       container.classList.add('minimized');
       return;
