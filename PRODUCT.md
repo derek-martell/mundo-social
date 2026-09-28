@@ -37,7 +37,7 @@ What Mundo Social offers together, and neighbours rarely do:
 ## Capabilities and Constraints
 
 - Categories (exact strings, accents required for filtering): `Coyuntura`, `Docencia`, `Análisis`, `Investigación`. Types: `Nota Informativa`, `Apunte Académico`, `Artículo`, `Investigación`.
-- Current catalogue (2026-09-27): 74 publications (33 Coyuntura, 28 Docencia, 8 Análisis, 5 Investigación), 71 with PDF. Counts shown in the page must come from the data, not be hard-coded; the page currently shows stale figures (96 total, 76 PDFs).
+- Current catalogue (2026-09-27): 73 publications (33 Coyuntura, 28 Docencia, 7 Análisis, 5 Investigación), 72 with a document link (PDF or external resource such as a Tableau dashboard). Counts shown in the page must come from the data, not be hard-coded; the page currently shows stale figures (96 total, 76 PDFs).
 - Catalogue data must not be altered or reduced during design work.
 - All files UTF-8 without BOM; Spanish accents must survive every edit.
 - `js/app.js` depends on `#articles-grid`, `#search-input`, `#category-tabs`, `.cat-tab`, `.nav-link`, `#article-modal`, `#total-count`.
@@ -52,7 +52,7 @@ What Mundo Social offers together, and neighbours rarely do:
 
 ## Evidence on Hand
 
-- 74 real publications with authors, dates, summaries and PDFs (`data/articulos.json`).
+- 73 real publications with authors, dates, summaries and PDFs (`data/articulos.json`).
 - Named contributors, e.g. Equipo Editorial Mundo Social, Erick Salgado, Anjaly Daniela Arcos Huamán, Sebastián Calle, Jorge Tume, Víctor Calle Ríos.
 - Course material including MIT (Ricardo Caballero) macroeconomics exams and UNMSM course notes.
 - No testimonials, readership numbers, press coverage or institutional endorsements exist; do not fabricate them.
