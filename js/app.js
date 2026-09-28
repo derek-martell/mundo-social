@@ -190,12 +190,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderEditorialLayout(data) {
     const shown = new Set();
 
-    const pool = sortByRecency(data.filter(item =>
-      (item.category === "Investigación" || item.category === "Análisis") &&
-      item.type !== "Página Temática"
-    ));
-    const lead = pool[0];
+    // La portada siempre muestra la última publicación real, sin importar su
+    // categoría (antes solo miraba Investigación/Análisis y podía dejar en
+    // portada un artículo más viejo que notas de Coyuntura más recientes).
+    const contenido = data.filter(item => item.type !== "Página Temática");
+    const lead = sortByRecency(contenido)[0];
     if (lead) shown.add(lead.id);
+
+    const pool = sortByRecency(contenido.filter(item =>
+      (item.category === "Investigación" || item.category === "Análisis") &&
+      !shown.has(item.id)
+    ));
 
     const secondary = [
       ...pool.filter(item => item.category === "Investigación" && !shown.has(item.id)),
@@ -203,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ].slice(0, 2);
     secondary.forEach(item => shown.add(item.id));
 
-    const gaceta = data.filter(item => item.category === "Coyuntura").slice(0, 7);
+    const gaceta = data.filter(item => item.category === "Coyuntura" && !shown.has(item.id)).slice(0, 7);
     gaceta.forEach(item => shown.add(item.id));
 
     if (leadSlot) leadSlot.innerHTML = lead ? leadHtml(lead) : "";
