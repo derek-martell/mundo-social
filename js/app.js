@@ -2,6 +2,19 @@
 // MUNDO SOCIAL - Lógica de Interacción, Búsqueda y Filtros
 // ==========================================================================
 
+// Títulos importados de WordPress con un "›" sobrante al final: se limpian solo
+// para mostrarlos (y citarlos); los archivos de datos no se modifican.
+if (typeof ARTICULOS_DATA !== "undefined") {
+  ARTICULOS_DATA.forEach(item => {
+    if (typeof item.title === "string") item.title = item.title.replace(/\s*›\s*$/, "");
+  });
+}
+
+// Avisos internos para los módulos opcionales (compartir, analítica, interacciones, chat)
+function emitirEvento(nombre, detalle) {
+  document.dispatchEvent(new CustomEvent(nombre, { detail: detalle }));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Estado de la aplicación
   let currentCategory = "Todos";
@@ -131,6 +144,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const q = searchQuery.toLowerCase().trim();
 
+    // Limpiar cache de palabras si la query cambió
+    if (q !== lastSearchQuery) {
+      queryWordCache.clear();
+      lastSearchQuery = q;
+    }
+
+    const fuzzyMatchInfo = new Map(); // Palabra query -> palabra de vocabulario encontrada
+    const queryWords = q ? extractWords(q).filter(w => w.length >= 2) : [];
+
+    // Construir vocabulario de todos los items para correccion
+    const allVocabulary = new Set();
+    if (q && queryWords.length > 0) {
+      ARTICULOS_DATA.forEach(item => {
+        getItemMetadata(item).words.forEach(w => allVocabulary.add(w));
+      });
+    }
+
     // Filtrar publicaciones
     const filtered = ARTICULOS_DATA.filter(item => {
       const matchesCategory = inCategory(item, currentCategory);
@@ -138,12 +168,45 @@ document.addEventListener("DOMContentLoaded", () => {
       // Filtro de Etiqueta Secundaria
       const matchesTag = !currentTag || (item.tags && item.tags.includes(currentTag));
 
-      // Filtro de Búsqueda de Texto
-      const matchesSearch = !q ||
-        item.title.toLowerCase().includes(q) ||
-        item.authors.some(a => a.toLowerCase().includes(q)) ||
-        (item.tags && item.tags.some(t => t.toLowerCase().includes(q))) ||
-        item.category.toLowerCase().includes(q);
+      // Filtro de Búsqueda de Texto: todos los words deben coincidir
+      let matchesSearch = !q;
+      if (q && queryWords.length > 0) {
+        matchesSearch = true;
+        const metadata = getItemMetadata(item);
+        for (const qWord of queryWords) {
+          let found = false;
+          let bestMatch = null;
+          let bestDistance = Infinity;
+          for (const textWord of metadata.words) {
+            if (textWord.includes(qWord)) {
+              found = true;
+              break;
+            }
+            const threshold = getFuzzyThreshold(qWord.length);
+            if (threshold >= 0) {
+              const lenDiff = Math.abs(qWord.length - textWord.length);
+              if (lenDiff <= threshold) {
+                const distance = damerauLevenshteinDistance(qWord, textWord);
+                if (distance <= threshold) {
+                  found = true;
+                  if (distance < bestDistance) {
+                    bestDistance = distance;
+                    bestMatch = textWord;
+                  }
+                }
+              }
+            }
+          }
+          if (!found) {
+            matchesSearch = false;
+            break;
+          }
+          // Si fue fuzzy (bestMatch encontrado), registrar el match más cercano
+          if (bestMatch && !fuzzyMatchInfo.has(qWord)) {
+            fuzzyMatchInfo.set(qWord, bestMatch);
+          }
+        }
+      }
 
       return matchesCategory && matchesTag && matchesSearch;
     });
@@ -158,11 +221,20 @@ document.addEventListener("DOMContentLoaded", () => {
       gridItems = filtered.filter(item => !shownIds.has(item.id));
     }
 
-    // Actualizar contador
+    // Actualizar contador + hint de búsqueda fuzzy
     if (resultsCount) {
-      resultsCount.innerHTML = editorialActive
+      let baseHtml = editorialActive
         ? `Archivo de <strong>${ARTICULOS_DATA.length}</strong> publicaciones &middot; portada, gaceta, fichero y archivo completo`
         : `Mostrando <strong>${filtered.length}</strong> de ${ARTICULOS_DATA.length} publicaciones en <em>${escapeHtml(currentCategory)}</em>`;
+
+      // Agregar hint si hubo matches fuzzy
+      if (fuzzyMatchInfo.size > 0) {
+        const firstFuzzyWord = Array.from(fuzzyMatchInfo.keys())[0];
+        const correctedWord = fuzzyMatchInfo.get(firstFuzzyWord);
+        baseHtml += ` · también busqué «${escapeHtml(correctedWord)}»`;
+      }
+
+      resultsCount.innerHTML = baseHtml;
       resultsCount.classList.remove("is-updating");
       void resultsCount.offsetWidth; // reinicia la transición
       resultsCount.classList.add("is-updating");
@@ -204,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         const labels = {
           "Coyuntura": "Notas de Coyuntura Económica",
-          "Docencia": "Hub de Apuntes y Exámenes UNMSM · MIT",
+          "Docencia": "Apuntes y Exámenes",
           "Investigación": "Investigaciones y Papers Académicos",
           "Análisis": "Artículos y Columnas de Opinión"
         };
@@ -516,6 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
       updateNavActive(currentCategory);
       renderTagChips(currentCategory);
       animateGrid = true;
+      emitirEvento("ms:seccion", { categoria: currentCategory, etiqueta: currentTag });
       render();
 
       if (shouldScroll) {
@@ -642,6 +715,7 @@ document.addEventListener("DOMContentLoaded", () => {
           currentTag = item.tag;
         }
         animateGrid = true;
+        emitirEvento("ms:seccion", { categoria: currentCategory, etiqueta: currentTag });
         render();
       });
 
@@ -663,6 +737,7 @@ document.addEventListener("DOMContentLoaded", () => {
       updateNavActive(currentCategory);
       renderTagChips(currentCategory);
       animateGrid = true;
+      emitirEvento("ms:seccion", { categoria: currentCategory, etiqueta: currentTag });
       render();
     });
   });
@@ -680,7 +755,9 @@ document.addEventListener("DOMContentLoaded", () => {
     modalBadge.textContent = item.type;
     modalBadge.className = `card-badge ${badgeClassFor(item.type)}`;
     modalDate.textContent = formatDate(item.date);
-    modalAuthors.innerHTML = `<strong>Autores:</strong> ${escapeHtml(item.authors.join(", "))}`;
+    modalAuthors.innerHTML = `<strong>Autores:</strong> ` + (item.authors || []).map(a =>
+      `<button type="button" class="author-link" data-author="${escapeHtml(a)}" title="Ver todas las publicaciones de ${escapeHtml(a)}">${escapeHtml(a)}</button>`
+    ).join(", ");
     modalResumen.textContent = item.resumen;
 
     if (item.pdf) {
@@ -713,6 +790,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (modalCard) modalCard.scrollTop = 0;
     document.body.style.overflow = "hidden";
     modalClose?.focus();
+
+    // La dirección refleja la ficha abierta, para poder copiarla o recargarla
+    const hash = `#articulo-${item.id}`;
+    if (location.hash !== hash) history.replaceState(null, "", hash);
+    emitirEvento("ms:ficha-abierta", { item });
   };
 
   function closeModal() {
@@ -720,6 +802,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalOverlay.classList.remove("active");
     document.body.style.overflow = "";
     hidePdfViewer();
+    if (activeModalItem) emitirEvento("ms:ficha-cerrada", { item: activeModalItem });
     activeModalItem = null;
     if (/^#articulo-\d+$/.test(location.hash)) {
       history.replaceState(null, "", location.pathname + location.search);
@@ -777,6 +860,30 @@ document.addEventListener("DOMContentLoaded", () => {
   function articleUrl(item) {
     return `${location.origin}${location.pathname}#articulo-${item.id}`;
   }
+
+  // Filtrar por autor desde la ficha
+  modalAuthors?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-author]");
+    if (!btn) return;
+    closeModal();
+    if (searchInput) {
+      searchInput.value = btn.dataset.author;
+      searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    document.getElementById("articulos")?.scrollIntoView({ behavior: "smooth" });
+  });
+
+  // API mínima para los módulos opcionales
+  window.MS = {
+    datos: ARTICULOS_DATA,
+    abrirFicha: (id) => window.openModal(id),
+    // Página propia de cada artículo (generada por scripts/generar_paginas.py);
+    // es la que muestra vista previa al compartir en redes.
+    urlPagina: (item) => new URL(`a/${item.id}/`, location.origin + location.pathname).href,
+    urlFicha: (item) => articleUrl(item),
+    fecha: (item) => formatDate(item.date),
+    citaAPA: (item) => formatAPA(item)
+  };
 
   // Enlace directo: index.html#articulo-12 abre la ficha correspondiente
   function openFromHash() {
@@ -850,6 +957,107 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================================================
   // 6. HELPERS DE FORMATO Y DATOS DERIVADOS
   // ==========================================================================
+  // Cache de metadatos normalizados por item y de resultados por palabra de búsqueda
+  const itemMetadataCache = new Map();
+  let queryWordCache = new Map();
+  let lastSearchQuery = "";
+
+  // Normaliza texto: minúsculas + elimina tildes
+  function normalizeText(text) {
+    return (text || "").toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
+  }
+
+  // Extrae palabras ≥2 caracteres del texto normalizado
+  function extractWords(text) {
+    const normalized = normalizeText(text);
+    // Solo letras y números: la puntuación pegada ("bangladesh:") no forma parte de la palabra
+    return normalized.split(/[^\p{L}\p{N}]+/u).filter(w => w.length >= 2);
+  }
+
+  // Distancia Damerau–Levenshtein (alineación óptima)
+  function damerauLevenshteinDistance(a, b) {
+    const lenA = a.length;
+    const lenB = b.length;
+    if (lenA === 0) return lenB;
+    if (lenB === 0) return lenA;
+    const d = Array(lenA + 1).fill(null).map(() => Array(lenB + 1).fill(0));
+    for (let i = 0; i <= lenA; i++) d[i][0] = i;
+    for (let j = 0; j <= lenB; j++) d[0][j] = j;
+    for (let i = 1; i <= lenA; i++) {
+      for (let j = 1; j <= lenB; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        d[i][j] = Math.min(
+          d[i - 1][j] + 1,
+          d[i][j - 1] + 1,
+          d[i - 1][j - 1] + cost
+        );
+        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+          d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + cost);
+        }
+      }
+    }
+    return d[lenA][lenB];
+  }
+
+  // Umbral de distancia según longitud: ≤4 sin fuzzy, 5–7 ≤1, ≥8 ≤2
+  function getFuzzyThreshold(wordLen) {
+    if (wordLen <= 4) return -1;
+    if (wordLen <= 7) return 1;
+    return 2;
+  }
+
+  // Verifica si una palabra coincide: substring o fuzzy con registro de coincidencias
+  function wordMatches(queryWord, textWord, fuzzyMatches) {
+    if (textWord.includes(queryWord)) return true;
+    const threshold = getFuzzyThreshold(queryWord.length);
+    if (threshold < 0) return false;
+    const lenDiff = Math.abs(queryWord.length - textWord.length);
+    if (lenDiff > threshold) return false;
+    const distance = damerauLevenshteinDistance(queryWord, textWord);
+    if (distance <= threshold) {
+      fuzzyMatches.add(queryWord);
+      return true;
+    }
+    return false;
+  }
+
+  // Obtiene metadatos normalizados y cacheados para un item
+  function getItemMetadata(item) {
+    if (!itemMetadataCache.has(item.id)) {
+      const fullText = [
+        item.title,
+        ...(item.authors || []),
+        ...(item.tags || []),
+        item.category,
+        item.type,
+        item.resumen
+      ].join(" ");
+      itemMetadataCache.set(item.id, {
+        normalizedText: normalizeText(fullText),
+        words: new Set(extractWords(fullText))
+      });
+    }
+    return itemMetadataCache.get(item.id);
+  }
+
+  // Verifica si todos los words de la query coinciden en el item
+  function itemMatchesQuery(item, queryWords, allFuzzyMatches) {
+    const metadata = getItemMetadata(item);
+    for (const qWord of queryWords) {
+      const fuzzyMatches = new Set();
+      let found = false;
+      for (const textWord of metadata.words) {
+        if (wordMatches(qWord, textWord, fuzzyMatches)) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) return false;
+      fuzzyMatches.forEach(m => allFuzzyMatches.add(m));
+    }
+    return true;
+  }
+
   function formatDate(isoStr) {
     if (!isoStr) return "";
     try {
@@ -995,5 +1203,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCounts();
   renderTagChips(currentCategory);
   render();
-  openFromHash();
+  // Se abre después de que los módulos opcionales (compartir, interacciones,
+  // analítica) terminen de inicializarse, para que también reciban la ficha
+  setTimeout(openFromHash, 0);
 });

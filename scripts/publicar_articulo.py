@@ -146,6 +146,14 @@ def publicar(payload):
     with open(JS_DATA_PATH, "w", encoding="utf-8") as f:
         f.write(js_content)
 
+    # Generar página estática (a/<id>/), sitemap y feed para redes y SEO
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import generar_paginas
+        generar_paginas.main([])
+    except Exception as e:
+        print(f"[AVISO] No se pudieron generar las páginas estáticas: {e}")
+
     print(f"[OK] Publicación agregada exitosamente!")
     print(f"     ID: {nuevo_id}")
     print(f"     Título: {title}")

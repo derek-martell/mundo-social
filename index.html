@@ -6,7 +6,7 @@
   <title>Mundo Social | Divulgación económica, investigación y docencia</title>
   
   <meta name="description" content="Mundo Social: Portal de divulgación económica, investigación aplicada y material de docencia universitaria (UNMSM, MIT). Notas, exámenes resueltos y papers.">
-  <link rel="canonical" href="https://mundo-social.com/">
+  <link rel="canonical" href="https://derek-martell.github.io/mundo-social/">
   
   <!-- Open Graph / Redes Sociales -->
   <meta property="og:type" content="website">
@@ -14,7 +14,16 @@
   <meta property="og:site_name" content="Mundo Social">
   <meta property="og:title" content="Mundo Social | Divulgación económica, investigación y docencia">
   <meta property="og:description" content="Portal de divulgación económica, análisis de coyuntura y repositorio de apuntes académicos de economía.">
-  <meta property="og:url" content="https://mundo-social.com/">
+  <meta property="og:url" content="https://derek-martell.github.io/mundo-social/">
+  <meta property="og:image" content="https://derek-martell.github.io/mundo-social/imagenes/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mundo Social: economía, investigación y docencia">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mundo Social | Divulgación económica, investigación y docencia">
+  <meta name="twitter:description" content="Portal de divulgación económica, análisis de coyuntura y repositorio de apuntes académicos de economía.">
+  <meta name="twitter:image" content="https://derek-martell.github.io/mundo-social/imagenes/og-default.png">
+  <link rel="alternate" type="application/rss+xml" title="Mundo Social" href="feed.xml">
   
   <meta name="theme-color" content="#0f4c3a">
   
@@ -30,7 +39,10 @@
       document.documentElement.setAttribute("data-theme", t);
     } catch (e) {}
   </script>
-  <link rel="stylesheet" href="css/styles.css?v=20260927_12">
+  <link rel="stylesheet" href="css/styles.css?v=20260927_14">
+  <link rel="stylesheet" href="css/compartir.css?v=1">
+  <link rel="stylesheet" href="css/suscripcion.css?v=1">
+  <link rel="stylesheet" href="css/interacciones.css?v=1">
   
   <link rel="icon" type="image/png" sizes="32x32" href="imagenes/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="imagenes/favicon-192x192.png">
@@ -106,9 +118,9 @@
         <ul class="nav-menu" id="nav-menu">
           <li><a href="#articulos" class="nav-link active" data-category="Todos">Portada y Archivo</a></li>
           <li><a href="#articulos" class="nav-link" data-category="Coyuntura">Coyuntura <span class="nav-badge-pill" data-stat="Coyuntura">33</span></a></li>
-          <li><a href="#articulos" class="nav-link" data-category="Docencia">Docencia y UNMSM <span class="nav-badge-pill" data-stat="Docencia">28</span></a></li>
           <li><a href="#articulos" class="nav-link" data-category="Investigación">Investigación <span class="nav-badge-pill" data-stat="Investigación">5</span></a></li>
           <li><a href="#articulos" class="nav-link" data-category="Análisis">Análisis <span class="nav-badge-pill" data-stat="Análisis">7</span></a></li>
+          <li><a href="#articulos" class="nav-link" data-category="Docencia">Apuntes y Exámenes <span class="nav-badge-pill" data-stat="Docencia">28</span></a></li>
           <li><a href="#hub-apuntes" class="nav-link" data-category="Docencia">Hub de Exámenes</a></li>
           <li><a href="#nosotros" class="nav-link" data-category="Nosotros">Manifiesto</a></li>
         </ul>
@@ -194,14 +206,14 @@
         <button class="cat-tab" data-category="Coyuntura" role="tab">
           <span class="cat-tab-full">Notas de Coyuntura</span><span class="cat-tab-short">Coyuntura</span> <span class="cat-badge-count">33</span>
         </button>
-        <button class="cat-tab" data-category="Docencia" role="tab">
-          <span class="cat-tab-full">Apuntes y Exámenes UNMSM/MIT</span><span class="cat-tab-short">Docencia</span> <span class="cat-badge-count">28</span>
-        </button>
         <button class="cat-tab" data-category="Investigación" role="tab">
           <span class="cat-tab-full">Investigaciones y Papers</span><span class="cat-tab-short">Investigación</span> <span class="cat-badge-count">5</span>
         </button>
         <button class="cat-tab" data-category="Análisis" role="tab">
           <span class="cat-tab-full">Artículos y Columnas</span><span class="cat-tab-short">Análisis</span> <span class="cat-badge-count">7</span>
+        </button>
+        <button class="cat-tab" data-category="Docencia" role="tab">
+          <span class="cat-tab-full">Apuntes y Exámenes</span><span class="cat-tab-short">Apuntes</span> <span class="cat-badge-count">28</span>
         </button>
       </div>
 
@@ -248,7 +260,7 @@
     <!-- Hub de Apuntes y Exámenes (fichero académico) -->
     <section id="hub-apuntes" class="hub-apuntes" aria-labelledby="hub-heading">
       <header class="hub-header">
-        <h2 id="hub-heading" class="section-heading">Hub de Apuntes y Exámenes <span class="section-heading-sub">UNMSM · MIT</span></h2>
+        <h2 id="hub-heading" class="section-heading">Hub de Apuntes y Exámenes</h2>
         <p class="hub-desc">Fichero abierto de notas académicas, solucionarios y exámenes resueltos, catalogado por curso.</p>
       </header>
       <div id="hub-grid" class="hub-grid"></div>
@@ -317,6 +329,9 @@
           </div>
         </div>
 
+        <!-- Compartir (js/compartir.js) -->
+        <div id="modal-compartir" class="modal-compartir"></div>
+
         <div id="modal-cite" class="modal-cite" hidden>
           <span class="modal-cite-label">Cita sugerida (APA 7)</span>
           <p id="modal-cite-text" class="modal-cite-text"></p>
@@ -327,6 +342,9 @@
           <iframe id="modal-pdf-frame" title="Vista previa del documento PDF" loading="lazy"></iframe>
           <p class="modal-pdf-note">¿La vista previa no carga? Algunos repositorios externos bloquean la inserción. <a id="modal-pdf-fallback" href="#" target="_blank" rel="noopener noreferrer">Abre el PDF en una pestaña nueva</a>.</p>
         </div>
+
+        <!-- Me gusta, comentarios y escribir al autor (js/interacciones.js) -->
+        <div id="modal-interacciones" class="modal-interacciones"></div>
       </div>
     </div>
   </div>
@@ -334,6 +352,9 @@
   <!-- ==========================================================================
        SECCIÓN NOSOTROS (ABOUT)
        ========================================================================== -->
+  <!-- Suscripción por correo (js/suscripcion.js); oculta hasta configurarla -->
+  <section id="suscripcion" class="suscripcion" aria-labelledby="suscripcion-titulo" hidden></section>
+
   <section id="nosotros" class="about-section">
     <div class="wrap about-grid">
       <div>
@@ -396,10 +417,17 @@
   </footer>
 
   <!-- Datos y Lógica de la Aplicación -->
+  <script src="js/config.js?v=1"></script>
   <script src="js/articulos-data.js?v=20260927_6"></script>
-  <script src="js/app.js?v=20260927_12"></script>
+  <script src="js/app.js?v=20261003_3"></script>
+
+  <!-- Módulos opcionales: cada uno se apaga solo si su servicio no está configurado -->
+  <script src="js/compartir.js?v=1" defer></script>
+  <script src="js/analitica.js?v=1" defer></script>
+  <script src="js/suscripcion.js?v=1" defer></script>
+  <script src="js/interacciones.js?v=1" defer></script>
 
   <!-- Mascota oficial: SocioBot -->
-  <script src="mascota/mascota.js?v=2.3" defer></script>
+  <script src="mascota/mascota.js?v=3.1" defer></script>
 </body>
 </html>

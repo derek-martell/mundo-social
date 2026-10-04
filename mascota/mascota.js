@@ -30,13 +30,26 @@
   //    (currentScript solo existe durante la ejecución inicial del script)
   const scriptSrc = document.currentScript && document.currentScript.src;
 
+  const basePath = scriptSrc ? scriptSrc.substring(0, scriptSrc.lastIndexOf('/') + 1) : 'mascota/';
+  // La versión del script (?v=...) se reutiliza para que chat.js y el CSS no queden en caché viejos
+  const version = scriptSrc && scriptSrc.indexOf('?') !== -1 ? scriptSrc.substring(scriptSrc.indexOf('?')) : '';
+
+  // El panel de chat vive en chat.js; se carga aparte para no frenar la página
+  function ensureChatScript() {
+    if (window.SocioBotChat || document.getElementById('sociobot-chat-js')) return;
+    const s = document.createElement('script');
+    s.id = 'sociobot-chat-js';
+    s.src = basePath + 'chat.js' + version;
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+
   function ensureStylesheet() {
     if (document.getElementById('sociobot-styles')) return;
     const link = document.createElement('link');
     link.id = 'sociobot-styles';
     link.rel = 'stylesheet';
-    const basePath = scriptSrc ? scriptSrc.substring(0, scriptSrc.lastIndexOf('/') + 1) : 'mascota/';
-    link.href = basePath + 'mascota.css';
+    link.href = basePath + 'mascota.css' + version;
     document.head.appendChild(link);
   }
 
@@ -117,6 +130,7 @@
     if (document.getElementById('sociobot-container')) return;
 
     ensureStylesheet();
+    ensureChatScript();
 
     const container = document.createElement('div');
     container.id = 'sociobot-container';
@@ -125,7 +139,7 @@
         <span id="sociobot-text" class="sociobot-bubble-text"></span>
       </div>
 
-      <button id="sociobot-stage" class="sociobot-stage" type="button" aria-label="SocioBot, la mascota de Mundo Social. Pulsa para un consejo">
+      <button id="sociobot-stage" class="sociobot-stage" type="button" aria-label="Abrir el chat de SocioBot" aria-haspopup="dialog" aria-expanded="false" aria-controls="sociobot-chat">
         <span id="sociobot-body-wrap" class="sociobot-body sociobot-floating">${ROBOT_SVG}</span>
         <span id="sociobot-shadow" class="sociobot-shadow"></span>
       </button>
@@ -164,9 +178,22 @@
     let faceTimer = null;
     let isSleeping = false;
     let lastMessage = -1;
+    let chat = null;
+
+    // Crea el panel la primera vez que hace falta (chat.js llega de forma diferida)
+    function obtenerChat() {
+      if (chat) return chat;
+      if (!window.SocioBotChat) return null;
+      chat = window.SocioBotChat.crear({
+        container,
+        stage
+      });
+      return chat;
+    }
     let pendingMove = null;
 
-    // Mensajes con la voz de Mundo Social: útiles, sobrios, sin emojis
+    // Consejos de respaldo, solo si el chat no pudo cargarse
+    // (voz de Mundo Social: útiles, sobrios, sin emojis)
     const MESSAGES = [
       'Aquí encontrarás notas de coyuntura, apuntes y papers de economía.',
       '¿Buscas un curso? Prueba «Econometría» o «MIT» en el buscador.',
@@ -302,8 +329,16 @@
       });
     }, { passive: true });
 
-    // Clic o teclado sobre la mascota: salto, saludo y un consejo
+    // Clic o teclado sobre la mascota: abre o cierra el chat
     stage.addEventListener('click', () => {
+      const c = obtenerChat();
+      if (c) {
+        hideBubble();
+        if (!c.abierto()) { bounce(); wave(); happyFace(); }
+        c.alternar();
+        return;
+      }
+
       bounce();
       wave();
       happyFace();
@@ -317,6 +352,7 @@
     function minimize() {
       isMinimized = true;
       hideBubble();
+      if (chat && chat.abierto()) chat.cerrar(false);
       container.classList.add('minimized');
       guardar(STORAGE_MINIMIZADA, '1');
     }
@@ -341,6 +377,7 @@
     // El globo es decorativo: la página debe mostrar el mismo mensaje de forma accesible.
     window.SocioBot = {
       say(text, { duration = 6000 } = {}) {
+        if (chat && chat.abierto()) { chat.nota(text); return; }
         showBubble(text, duration, 'info');
       },
       explainError(text, { duration = 9000 } = {}) {
@@ -356,9 +393,11 @@
       hide: hideBubble
     };
 
-    // Escape cierra el globo de diálogo
+    // Escape cierra el globo de diálogo y, si está abierto, el chat
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') hideBubble();
+      if (e.key !== 'Escape') return;
+      hideBubble();
+      if (chat && chat.abierto()) chat.cerrar(true);
     });
 
     // Estado recordado entre páginas y visitas. En pantallas pequeñas, si el
@@ -375,7 +414,7 @@
     if (!leer(STORAGE_SALUDO)) {
       guardar(STORAGE_SALUDO, '1');
       setTimeout(() => {
-        showBubble('Hola, soy SocioBot. Pulsa sobre mí cuando quieras un consejo para explorar Mundo Social.', 7000);
+        showBubble('Hola, soy SocioBot. Pulsa sobre mí y pregúntame por temas, autores o cursos de Mundo Social.', 7000);
         wave();
       }, 1500);
     }
